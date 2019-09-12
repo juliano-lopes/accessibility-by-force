@@ -162,8 +162,8 @@
     function addAtachOptionButtonLabel() {
         let buttonToAtachFile = document.querySelector('[data-icon="clip"]');
         if (buttonToAtachFile) {
-            document.querySelector('[data-icon="image"]').setAttribute("aria-label", "Fotos e V�deos");
-            document.querySelector('[data-icon="camera"]').setAttribute("aria-label", "C�mera");
+            document.querySelector('[data-icon="image"]').setAttribute("aria-label", "Fotos e V&iacute;deos");
+            document.querySelector('[data-icon="camera"]').setAttribute("aria-label", "C&acirc;mera");
             document.querySelector('[data-icon="document"]').setAttribute("aria-label", "Documento");
             document.querySelector('[data-icon="contact"]').setAttribute("aria-label", "Contato");
         }
@@ -182,7 +182,7 @@
             let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
             buttonToSendRecordedAudio ? buttonToSendRecordedAudio.setAttribute("aria-label", "Enviar") : "";
             let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
-            buttonToCancelRecord ? buttonToCancelRecord.setAttribute("aria-label", "Cancelar grava��o") : "";
+            buttonToCancelRecord ? buttonToCancelRecord.setAttribute("aria-label", "Cancelar grava&ccedil;&atilde;o") : "";
         }
     }
 
