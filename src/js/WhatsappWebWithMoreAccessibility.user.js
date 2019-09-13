@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  It inserts accessibility on WhatsappWeb
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
-// @include        *://web.whatsapp.*
+// @include        *://web.whatsapp.com
 // @downloadURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
 // @updateURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
 // @grant        none
