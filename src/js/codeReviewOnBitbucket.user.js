@@ -4,6 +4,7 @@
 // @version      0.1
 // @description  It inserts accessibility on bitbucket pull requests
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
+// @include        *://git.it.lan.com/projects/*/repos/*/pull-requests/*/*
 // @match        *://git.it.lan.com/projects/*/repos/*/pull-requests/*/*
 // @downloadURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/codeReviewOnBitbucket.user.js
 // @updateURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/codeReviewOnBitbucket.user.js
