@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WhatsappWithMoreAccessibility
 // @namespace    https://github.com/juliano-lopes/accessibility-by-force/
-// @version      0.1
+// @version      1.0
 // @description  It inserts accessibility on WhatsappWeb
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
 // @match        *://web.whatsapp.com
