@@ -14,7 +14,7 @@
     'use strict';
     var atachInterval;
     var messageInterval;
-
+    var roleGroupAttributesInterval;
     initialButton();
     function initialButton() {
         let initialButton = document.createElement("button");
@@ -31,6 +31,7 @@
                     atachInterval = setInterval(updateAtachLabel, 1500);
                     buttonAccessibility.setAttribute("data-status", "on");
                     buttonAccessibility.setAttribute("aria-label", "Desativar script de acessibilidade");
+                    roleGroupAttributesInterval = setInterval(removeAttributeRoleWithGroup, 1000);
                     alert('Script de acessibilidade ativado!');
                 }
                 else {
@@ -40,6 +41,7 @@
             else {
                 clearInterval(messageInterval);
                 clearInterval(atachInterval);
+                clearInterval(roleGroupAttributesInterval);
                 removeAccessibilityElements();
                 buttonAccessibility.setAttribute("data-status", "off");
                 buttonAccessibility.setAttribute("aria-label", "Ativar script de acessibilidade");
@@ -49,6 +51,14 @@
         document.body.insertBefore(initialButton, document.body.firstChild);
     }
 
+    function removeAttributeRoleWithGroup() {
+        let roleGroupAttributes = document.querySelectorAll('[role="group"]');
+        if (roleGroupAttributes.length > 0) {
+            roleGroupAttributes.forEach(function (el) {
+                el.removeAttribute("role");
+            });
+        }
+    }
     function updateMessage() {
         setMessageTitle();
         addPlayButtonLabel();
@@ -124,11 +134,11 @@
                     let elSrOnly = message.querySelector('[data-sr-only]');
                     if (elSrOnly)
                         elSrOnly.parentNode.removeChild(elSrOnly);
-                    let h4 = document.createElement("h4");
-                    let h4Text = document.createTextNode("Mensagem enviada:");
-                    h4.appendChild(h4Text);
-                    h4.setAttribute("data-sr-only", "msg-out");
-                    message.insertBefore(h4, message.firstChild);
+                    let h5 = document.createElement("h5");
+                    let h5Text = document.createTextNode("Mensagem enviada:");
+                    h5.appendChild(h5Text);
+                    h5.setAttribute("data-sr-only", "msg-out");
+                    message.insertBefore(h5, message.firstChild);
                 });
             }
 
