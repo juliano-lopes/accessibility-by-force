@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WhatsappWithMoreAccessibility
 // @namespace    https://github.com/juliano-lopes/accessibility-by-force/
-// @version      1.0
+// @version      1.1
 // @description  It inserts accessibility on WhatsappWeb
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
 // @match        *://web.whatsapp.com
@@ -14,7 +14,7 @@
     'use strict';
     var atachInterval;
     var messageInterval;
-    var roleGroupAttributesInterval;
+    var removeAttributesWithoutAccessibilityInterval;
     initialButton();
     function initialButton() {
         let initialButton = document.createElement("button");
@@ -31,7 +31,7 @@
                     atachInterval = setInterval(updateAtachLabel, 1500);
                     buttonAccessibility.setAttribute("data-status", "on");
                     buttonAccessibility.setAttribute("aria-label", "Desativar script de acessibilidade");
-                    roleGroupAttributesInterval = setInterval(removeAttributeRoleWithGroup, 1000);
+                    removeAttributesWithoutAccessibilityInterval = setInterval(removeAttributesWithoutAccessibility, 1000);
                     alert('Script de acessibilidade ativado!');
                 }
                 else {
@@ -41,7 +41,7 @@
             else {
                 clearInterval(messageInterval);
                 clearInterval(atachInterval);
-                clearInterval(roleGroupAttributesInterval);
+                clearInterval(removeAttributesWithoutAccessibilityInterval);
                 removeAccessibilityElements();
                 buttonAccessibility.setAttribute("data-status", "off");
                 buttonAccessibility.setAttribute("aria-label", "Ativar script de acessibilidade");
@@ -49,6 +49,18 @@
             }
         }, false);
         document.body.insertBefore(initialButton, document.body.firstChild);
+    }
+    function removeAttributesWithoutAccessibility() {
+        removeAttributeRoleWithText();
+        removeAttributeRoleWithGroup();
+    }
+    function removeAttributeRoleWithText() {
+        let roleTextAttributes = document.querySelectorAll('[role="text"]');
+        if (roleTextAttributes.length > 0) {
+            roleTextAttributes.forEach(function (el) {
+                el.removeAttribute("role");
+            });
+        }
     }
 
     function removeAttributeRoleWithGroup() {
