@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WhatsappWithMoreAccessibility
 // @namespace    https://github.com/juliano-lopes/accessibility-by-force/
-// @version      1.1
+// @version      2.0
 // @description  It inserts accessibility on WhatsappWeb
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
 // @match        *://web.whatsapp.com
@@ -12,26 +12,24 @@
 
 (function () {
     'use strict';
-    var atachInterval;
-    var messageInterval;
-    var removeAttributesWithoutAccessibilityInterval;
+    var activeConversationTitle = "";
+    var buttonAccessibility = null;
+    var listeners = [];
     initialButton();
     function initialButton() {
         let initialButton = document.createElement("button");
         initialButton.setAttribute("aria-label", "Ativar script de acessibilidade");
         initialButton.setAttribute("data-status", "off");
         initialButton.addEventListener("click", function () {
-            let buttonAccessibility = document.querySelector('[data-status]');
+            buttonAccessibility = document.querySelector('[data-status]');
             if (buttonAccessibility.getAttribute("data-status") === "off") {
-                if (document.getElementById("pane-side").querySelectorAll('[data-icon="default-user"]').length > 0) {
-                    addSearchButton();
+                if (document.getElementById("pane-side")) {
+                    //.querySelectorAll('[data-icon="default-user"]').length > 0
                     setMainPanelTitle();
-                    cleanSearchButton();
-                    messageInterval = setInterval(updateMessage, 1000);
-                    atachInterval = setInterval(updateAtachLabel, 1500);
                     buttonAccessibility.setAttribute("data-status", "on");
                     buttonAccessibility.setAttribute("aria-label", "Desativar script de acessibilidade");
-                    removeAttributesWithoutAccessibilityInterval = setInterval(removeAttributesWithoutAccessibility, 1000);
+                    activeEvents();
+                    spanToAriaLive();
                     alert('Script de acessibilidade ativado!');
                 }
                 else {
@@ -39,10 +37,8 @@
                 }
             }
             else {
-                clearInterval(messageInterval);
-                clearInterval(atachInterval);
-                clearInterval(removeAttributesWithoutAccessibilityInterval);
                 removeAccessibilityElements();
+                removeAccessibilityListenerEvents();
                 buttonAccessibility.setAttribute("data-status", "off");
                 buttonAccessibility.setAttribute("aria-label", "Ativar script de acessibilidade");
                 alert("Script de acessibilidade desativado!");
@@ -50,43 +46,17 @@
         }, false);
         document.body.insertBefore(initialButton, document.body.firstChild);
     }
-    function removeAttributesWithoutAccessibility() {
-        removeAttributeRoleWithText();
-        removeAttributeRoleWithGroup();
-    }
-    function removeAttributeRoleWithText() {
-        let roleTextAttributes = document.querySelectorAll('[role="text"]');
-        if (roleTextAttributes.length > 0) {
-            roleTextAttributes.forEach(function (el) {
-                el.removeAttribute("role");
+
+    function removeAccessibilityListenerEvents() {
+        if (listeners && listeners.length > 0) {
+            listeners.forEach(function (listener) {
+                listener.element.removeEventListener(listener.listenerType, listener.listener, false);
             });
         }
     }
 
-    function removeAttributeRoleWithGroup() {
-        let roleGroupAttributes = document.querySelectorAll('[role="group"]');
-        if (roleGroupAttributes.length > 0) {
-            roleGroupAttributes.forEach(function (el) {
-                el.removeAttribute("role");
-            });
-        }
-    }
     function updateMessage() {
-        setMessageTitle();
-        addPlayButtonLabel();
         setConversationTitle();
-    }
-
-    function updateAtachLabel() {
-        addFooterButtonLabels();
-        addButtonSendFileLabel();
-        addAtachOptionButtonLabel();
-    }
-
-    function cleanSearchButton() {
-        const backButton = document.querySelector('[data-icon="back-blue"]');
-        if (backButton)
-            backButton.setAttribute("aria-label", "Limpar e voltar para procura");
     }
 
     function setMainPanelTitle() {
@@ -94,21 +64,14 @@
         const mainPanelTitle = document.querySelector('[data-main-panel]');
         if (panel) {
             if (!mainPanelTitle) {
-                let h2 = document.createElement("h2");
-                let h2Text = document.createTextNode("Painel principal");
-                h2.appendChild(h2Text);
-                h2.setAttribute("data-sr-only", "pane-side");
-                h2.setAttribute("data-main-panel", "pane-side");
-                panel.insertBefore(h2, panel.firstChild);
+                let heading = document.createElement("h1");
+                let headingText = document.createTextNode("Painel principal");
+                heading.appendChild(headingText);
+                heading.setAttribute("data-sr-only", "pane-side");
+                heading.setAttribute("data-main-panel", "pane-side");
+                panel.insertBefore(heading, panel.firstChild);
             }
         }
-    }
-
-    function addButtonSendFileLabel() {
-        let originalSendFile = document.querySelector('[data-icon="send-light"]');
-        let cancelSendFile = document.querySelector('[data-icon="x-light"]');
-        originalSendFile ? originalSendFile.setAttribute("aria-label", "Enviar arquivo") : "";
-        cancelSendFile ? cancelSendFile.setAttribute("aria-label", "Cancelar Envio do arquivo") : "";
     }
 
     function removeAccessibilityElements() {
@@ -123,131 +86,140 @@
             let conversation = main.querySelector('[data-sr-only="conversation-title"]');
             let conversationTitle = main.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute("title");
             if (!conversation) {
-                if (conversationTitle)
+                if (conversationTitle) {
+                    activeConversationTitle = conversationTitle;
                     conversationTitle = "Conversa ativa com " + conversationTitle;
-                else
+                } else {
                     conversationTitle = "Conversa ativa";
-                let h3 = document.createElement("h3");
-                let h3Text = document.createTextNode(conversationTitle);
-                h3.appendChild(h3Text);
-                h3.setAttribute("data-sr-only", "conversation-title");
-                main.insertBefore(h3, main.firstChild);
-            }
-        }
-    }
+                }
 
-    function setMessageTitle() {
-        let main = document.getElementById('main');
-        if (main) {
-            let msgIn = main.querySelectorAll('div[class*="message-in"]');
-            let msgOut = main.querySelectorAll('div[class*="message-out"]');
-            if (msgOut.length > 0) {
-                msgOut.forEach(function (message) {
-                    let elSrOnly = message.querySelector('[data-sr-only]');
-                    if (elSrOnly)
-                        elSrOnly.parentNode.removeChild(elSrOnly);
-                    let h5 = document.createElement("h5");
-                    let h5Text = document.createTextNode("Mensagem enviada:");
-                    h5.appendChild(h5Text);
-                    h5.setAttribute("data-sr-only", "msg-out");
-                    message.insertBefore(h5, message.firstChild);
-                });
+                let heading = document.createElement("h2");
+                let headingText = document.createTextNode(conversationTitle);
+                heading.appendChild(headingText);
+                heading.setAttribute("data-sr-only", "conversation-title");
+                main.insertBefore(heading, main.firstChild);
             }
-
-            if (msgIn.length > 0) {
-                msgIn.forEach(function (message) {
-                    let elSrOnly = message.querySelector('[data-sr-only]');
-                    if (elSrOnly)
-                        elSrOnly.parentNode.removeChild(elSrOnly);
-                    let h4 = document.createElement("h4");
-                    let h4Text = document.createTextNode("Mensagem recebida:");
-                    h4.appendChild(h4Text);
-                    h4.setAttribute("data-sr-only", "msg-in");
-                    message.insertBefore(h4, message.firstChild);
-                });
-            }
-        }
-    }
-
-    function addPlayButtonLabel() {
-        let main = document.getElementById('main');
-        if (main) {
-            let playButtons = main.querySelectorAll('[data-icon="audio-play"]');
-            if (playButtons.length > 0) {
-                playButtons.forEach(function (playButton) {
-                    playButton.setAttribute("aria-label", "Play");
-                });
-            }
-        }
-    }
-
-    function addAtachOptionButtonLabel() {
-        let buttonToAtachFile = document.querySelector('[data-icon="clip"]');
-        if (buttonToAtachFile) {
-            document.querySelector('[data-icon="image"]').setAttribute("aria-label", "Fotos e V&iacute;deos");
-            document.querySelector('[data-icon="camera"]').setAttribute("aria-label", "C&acirc;mera");
-            document.querySelector('[data-icon="document"]').setAttribute("aria-label", "Documento");
-            document.querySelector('[data-icon="contact"]').setAttribute("aria-label", "Contato");
         }
     }
 
     function addFooterButtonLabels() {
         let footer = document.querySelector('footer');
         if (footer) {
-            document.querySelector('[data-icon="smiley"]').setAttribute("aria-label", "Smiley");
-            document.querySelector('[data-icon="gif"]').setAttribute("aria-label", "GIF");
-            document.querySelector('[data-icon="sticker"]').setAttribute("aria-label", "Sticker");
-            let buttonToRecord = document.querySelector('[data-icon="ptt"]');
-            buttonToRecord ? buttonToRecord.setAttribute("aria-label", "Gravar") : "";
+            document.querySelector('[data-icon="smiley"]') ? document.querySelector('[data-icon="smiley"]').setAttribute("aria-label", "Smiley") : false;
+            document.querySelector('[data-icon="gif"]') ? document.querySelector('[data-icon="gif"]').setAttribute("aria-label", "GIF") : false;
+            document.querySelector('[data-icon="sticker"]') ? document.querySelector('[data-icon="sticker"]').setAttribute("aria-label", "Sticker") : false;
+            activeButtonToRecordEvent();
             let buttonToSendText = document.querySelector('[data-icon="send"]');
-            buttonToSendText ? buttonToSendText.setAttribute("aria-label", "Enviar") : "";
-            let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
-            buttonToSendRecordedAudio ? buttonToSendRecordedAudio.setAttribute("aria-label", "Enviar") : "";
-            let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
-            buttonToCancelRecord ? buttonToCancelRecord.setAttribute("aria-label", "Cancelar grava&ccedil;&atilde;o") : "";
+            buttonToSendText ? buttonToSendText.setAttribute("aria-label", "Enviar mensagem de texto") : "";
         }
     }
 
-    function addSearchButton() {
-        let buttonToSetSearchedTitle = document.createElement("button");
-        buttonToSetSearchedTitle.setAttribute("aria-label", "Procurar");
-        buttonToSetSearchedTitle.setAttribute("data-sr-only", "search");
-        buttonToSetSearchedTitle.addEventListener("click", search, false);
-        let mySearch = document.getElementsByTagName("input")[0];
-        mySearch.parentNode.insertBefore(buttonToSetSearchedTitle, mySearch.nextSibling);
+    function activeButtonToRecordEvent() {
+        let buttonToRecord = document.querySelector('[data-icon="ptt"]');
+        if (buttonToRecord) {
+            buttonToRecord.setAttribute("aria-label", "Gravar mensagem de voz");
+
+            const buttonToRecordListener = function (e) {
+                console.log("gravação clicada");
+                setTimeout(function () {
+                    let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
+                    buttonToSendRecordedAudio ? buttonToSendRecordedAudio.setAttribute("aria-label", "Enviar mensagem de voz") : "";
+                    let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
+                    buttonToCancelRecord ? buttonToCancelRecord.setAttribute("aria-label", "Cancelar gravação") : "";
+
+                }, 1000);
+
+            };
+            buttonToRecord.addEventListener("click", buttonToRecordListener, false);
+            listeners.push({ element: buttonToRecord, listener: buttonToRecordListener, listenerType: "click" });
+        }
+
     }
 
-    function search() {
-        let mySearch = document.getElementsByTagName("input")[0];
-        if (mySearch.value === "") {
-            alert('A busca est� vazia...');
-            return;
-        }
-        setTitleInSearchedResult();
+    function activeEvents() {
+
+        const documentListener = function (e) {
+            let el;
+
+            if (e.altKey && e.keyCode == 67) {
+                e.preventDefault();
+                el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
+            }
+            else if (e.altKey && e.keyCode == 77) {
+                e.preventDefault();
+                el = document.getElementById('main').querySelector('[role="region"]');
+            }
+            else if (e.altKey && e.keyCode == 69) {
+                e.preventDefault();
+                el = document.querySelector('footer').querySelector('[contenteditable="true"]');
+                if (el) {
+                    activeConversationTitle ? el.setAttribute("aria-label", "Escreva uma mensagem para " + activeConversationTitle) : el.setAttribute("aria-label", "Escreva uma mensagem");
+
+                    const footerMessageBoxListener = function (e) {
+                        console.log("mudou! " + e.target);
+                        let buttonToSendText = document.querySelector('[data-icon="send"]');
+                        buttonToSendText ? buttonToSendText.setAttribute("aria-label", "Enviar mensagem de texto") : "";
+                        activeButtonToRecordEvent();
+                    };
+                    el.addEventListener("keyup", footerMessageBoxListener, false);
+                    el.addEventListener("focus", activeButtonToRecordEvent);
+                    listeners.push({ element: el, listener: footerMessageBoxListener, listenerType: "keyup" });
+                    listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
+                }
+            }
+            else if (e.altKey && e.keyCode == 65) {
+                e.preventDefault();
+                let attachShadow = document.querySelector('[data-icon="attach-shadow"]');
+
+                if (!attachShadow) {
+                    el = document.querySelector('[data-icon="clip"]');
+                    el ? el.click() : false;
+                }
+
+                el = attachShadow;
+                if (el) {
+                    el.parentNode.setAttribute("aria-label", "Selecione o que deseja anexar...");
+                    el.parentNode.setAttribute("id", "container-attach-shadow");
+                    el.parentNode.querySelector('ul').setAttribute("aria-labelledby", "container-attach-shadow");
+                    el = el.parentNode.querySelector('ul li');
+                }
+
+            }
+            else if (e.altKey && e.keyCode == 66) {
+                e.preventDefault();
+                el = document.querySelector('[contenteditable="true"]');
+                el ? el.setAttribute("aria-label", "Buscar nas conversas e nos contatos...") : false;
+            }
+            else if (e.altKey && e.keyCode == 84) {
+                e.preventDefault();
+                document.getElementById("span-to-aria-live").textContent = activeConversationTitle;
+                setTimeout(function () {
+                    document.getElementById("span-to-aria-live").textContent = "";
+                }, 1000);
+            }
+
+            console.log("Tecla: " + e.keyCode);
+
+            el ? el.focus() : false;
+
+            if (document.getElementById('main')) {
+                updateMessage();
+                addFooterButtonLabels();
+            }
+
+        };
+        document.addEventListener("keydown", documentListener, false);
+        listeners.push({ element: document, listener: documentListener, listenerType: "keydown" });
     }
 
-    function setTitleInSearchedResult() {
-        let panel = document.getElementById('pane-side');
-        let matchedResults = panel.querySelectorAll('.matched-text');
-        if (matchedResults.length > 0) {
-            matchedResults.forEach(function (match) {
-                let message = match.parentNode;
-                let title;
-                if (message.getAttribute("title"))
-                    title = "Conversa de " + message.getAttribute("title") + ":";
-                else
-                    title = "Mensagem:";
-                if (message.querySelector('[data-sr-only]'))
-                    message.querySelector('[data-sr-only]').parentNode.removeChild(message.querySelector('[data-sr-only]'));
-                let h3 = document.createElement("h3");
-                let h3Text = document.createTextNode(title);
-                h3.appendChild(h3Text);
-                h3.setAttribute("data-sr-only", "title");
-                message.insertBefore(h3, match);
-            });
-        }
-        else {
-            alert('Nenhum resultado encontrado.');
+    function spanToAriaLive() {
+        let spanToAriaLive = document.getElementById("span-to-aria-live");
+        if (!spanToAriaLive) {
+            spanToAriaLive = document.createElement("span");
+            spanToAriaLive.setAttribute("aria-live", "polite");
+            spanToAriaLive.setAttribute("id", "span-to-aria-live");
+            document.body.appendChild(spanToAriaLive);
         }
     }
+
 })()
