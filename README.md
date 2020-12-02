@@ -2,9 +2,9 @@
 Scripts para colocar melhor acessibilidade e usabilidade em algumas páginas WEB.
 
 ### Scripts disponíveis: 
-* WhatsappWebWithMoreAccessibility.user.js https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
+* [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
-Para utilização dos scripts, é necessário ter instalada a extensção Tampermonkey, que pode ser instalada pela Chrome Webstore.
+Para utilização dos scripts, é necessário ter instalada a extensção [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR), que pode ser instalada pela Chrome Webstore.
 Após isso, basta acessar o script, que será reconhecido pelo Tampermonkey, e clicar em instalar.
 
 ### WhatsappWebWithMoreAccessibility
