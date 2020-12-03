@@ -4,12 +4,14 @@ Scripts para colocar melhor acessibilidade e usabilidade em algumas páginas WEB
 ### Scripts disponíveis: 
 * [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
-Para utilização dos scripts, é necessário ter instalada a extensção [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR), que pode ser instalada pela Chrome Webstore.
+Para utilização dos scripts, é necessário ter instalada a extensção [Tampermonkey para o Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) ou [Tampermonkey para Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
 Após isso, basta acessar o script, que será reconhecido pelo Tampermonkey, e clicar em instalar.
 
 ### WhatsappWebWithMoreAccessibility
 
-Depois de instalar o script para o Whatsapp Web (WhatsappWebWithMoreAccessibility), ao acessar o app, haverá um botão no topo da tela "Ativar script de acessibilidade". Deve-se aguardar o carregamento do sistema e então clicar no botão, que exibirá uma mensagem de script ativado e o botão mudará o texto para "Desativar script de acessibilidade", que executará a desativação do script, realizando a remoção das  funcionalidades criadas por ele.
+Depois de instalar o script para o Whatsapp Web (WhatsappWebWithMoreAccessibility), ao acessar o app,  Deve-se aguardar o carregamento da aplicação e então utilizar o atalho ALT + S.
+Caso o script esteja desativado, será exibida a mmensagem:  "Script ativado com sucesso"; se o script já estiver ativado, será dado um alerta com a mensagem "Script desativado".
+Ao desativá-lo, todos os elementos e atalhos criados por ele serão removidos, exceto o atalho de ativação e desativação.
 
 #### Elementos e rótulos adicionados
 Com o WhatsappWebWithMoreAccessibility ativado, serão aplicadas as seguintes modificações:
@@ -23,12 +25,13 @@ Com o WhatsappWebWithMoreAccessibility ativado, serão aplicadas as seguintes mo
 #### Teclas de atalho
 Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atalho estarão disponíveis:
 
-* Alt + a: coloca o foco nas opções para escolher o tipo de anexo a ser enviado na conversa ativa;
-* Alt + B: coloca o foco no campo de busca e o rotula como "Buscar nas conversas e nos contatos...";
-* Alt + C: coloca o foco na lista de conversas;
-* Alt + E: coloca o foco no campo de escrita de mensagem e o rotula como "Escreva uma mensagem (nome da conversa ativa)";
-* Alt + M: coloca o foco na lista de mensagens da conversa ativa;
-* Alt + T: fala o título da conversa ativa.
+* ALT + a: coloca o foco nas opções para escolher o tipo de anexo a ser enviado na conversa ativa;
+* ALT + B: coloca o foco no campo de busca e o rotula como "Buscar nas conversas e nos contatos...";
+* ALT + C: coloca o foco na lista de conversas;
+* ALT + E: coloca o foco no campo de escrita de mensagem e o rotula como "Escreva uma mensagem (nome da conversa ativa)";
+* ALT + M: coloca o foco na lista de mensagens da conversa ativa;
+* ALT + S: ativa e desativa o script;
+* ALT + T: fala o título da conversa ativa.
 
 OBS.: as vezes o NVDA não entra em modo de foco automaticamente ao utilizar os atalhos, Então talvez seja necessário colocá-lo em modo de foco com o atalho NVDA + barra de espaço. Outras teclas podem ser configuradas como tecla NVDA, mas por padrão é o 'Insert'.
 
