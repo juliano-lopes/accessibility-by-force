@@ -4,7 +4,7 @@
 // @version      2.0
 // @description  Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas.
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
-// @match        *://web.whatsapp.com
+// @match        https://web.whatsapp.com
 // @downloadURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
 // @updateURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
 // @grant        none
@@ -13,39 +13,41 @@
 (function () {
     'use strict';
     var activeConversationTitle = "";
-    var buttonAccessibility = null;
     var listeners = [];
-    initialButton();
-    function initialButton() {
-        let initialButton = document.createElement("button");
-        initialButton.setAttribute("aria-label", "Ativar script de acessibilidade");
-        initialButton.setAttribute("data-status", "off");
-        initialButton.addEventListener("click", function () {
-            buttonAccessibility = document.querySelector('[data-status]');
-            if (buttonAccessibility.getAttribute("data-status") === "off") {
-                if (document.getElementById("pane-side")) {
-                    //.querySelectorAll('[data-icon="default-user"]').length > 0
-                    setMainPanelTitle();
-                    buttonAccessibility.setAttribute("data-status", "on");
-                    buttonAccessibility.setAttribute("aria-label", "Desativar script de acessibilidade");
-                    activeEvents();
-                    spanToAriaLive();
-                    alert('Script de acessibilidade ativado!');
+    var activated = false;
+    initial();
+
+    function initial() {
+
+        document.addEventListener("keydown", function (e) {
+            if (e.altKey && e.keyCode == 83) {
+
+                if (!activated) {
+
+                    if (document.getElementById("pane-side")) {
+                        setMainPanelTitle();
+                        activeEvents();
+                        spanToAriaLive();
+                        alert('Script de acessibilidade ativado com sucesso!');
+                        activated = true;
+                    }
+                    else {
+                        alert('Documento ainda sendo carregado...');
+                    }
+
                 }
                 else {
-                    alert('Documento ainda sendo carregado...');
+                    removeAccessibilityElements();
+                    removeAccessibilityListenerEvents();
+                    alert("Script de acessibilidade desativado!");
+                    activated = false;
+
                 }
             }
-            else {
-                removeAccessibilityElements();
-                removeAccessibilityListenerEvents();
-                buttonAccessibility.setAttribute("data-status", "off");
-                buttonAccessibility.setAttribute("aria-label", "Ativar script de acessibilidade");
-                alert("Script de acessibilidade desativado!");
-            }
         }, false);
-        document.body.insertBefore(initialButton, document.body.firstChild);
+
     }
+
 
     function removeAccessibilityListenerEvents() {
         if (listeners && listeners.length > 0) {
@@ -57,6 +59,7 @@
 
     function updateMessage() {
         setConversationTitle();
+        setAccessibilityAttributeToFirefox();
     }
 
     function setMainPanelTitle() {
@@ -69,6 +72,7 @@
                 heading.appendChild(headingText);
                 heading.setAttribute("data-sr-only", "pane-side");
                 heading.setAttribute("data-main-panel", "pane-side");
+                heading = setClassSROnly(heading);
                 panel.insertBefore(heading, panel.firstChild);
             }
         }
@@ -97,6 +101,7 @@
                 let headingText = document.createTextNode(conversationTitle);
                 heading.appendChild(headingText);
                 heading.setAttribute("data-sr-only", "conversation-title");
+                heading = setClassSROnly(heading);
                 main.insertBefore(heading, main.firstChild);
             }
         }
@@ -123,9 +128,17 @@
                 console.log("gravação clicada");
                 setTimeout(function () {
                     let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
-                    buttonToSendRecordedAudio ? buttonToSendRecordedAudio.setAttribute("aria-label", "Enviar mensagem de voz") : "";
+                    if (buttonToSendRecordedAudio) {
+                        buttonToSendRecordedAudio.parentNode.setAttribute("aria-label", "Enviar mensagem de voz");
+
+                    }
+
                     let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
-                    buttonToCancelRecord ? buttonToCancelRecord.setAttribute("aria-label", "Cancelar gravação") : "";
+                    if (buttonToCancelRecord) {
+                        buttonToCancelRecord.parentNode.setAttribute("aria-label", "Cancelar gravação");
+
+                    }
+
 
                 }, 1000);
 
@@ -135,6 +148,25 @@
         }
 
     }
+
+    const footerMessageBoxListener = function (e) {
+        let buttonToSendText = document.querySelector('[data-icon="send"]');
+        if (buttonToSendText) {
+            //buttonToSendText.textContent="Enviar mensagem de texto";
+            /*
+            let label = document.createElement("span");
+            label.setAttribute("data-sr-only", "child");
+            label.id = "send-text-message";
+            label = setClassSROnly(label, "Enviar mensagem");
+            appendChildSROnly(buttonToSendText, label);
+            */
+            //console.log("botton to send text exists");
+            buttonToSendText.parentNode.setAttribute("aria-label", "Enviar mensagem de texto");
+        }
+        else {
+            activeButtonToRecordEvent();
+        }
+    };
 
     function activeEvents() {
 
@@ -155,12 +187,6 @@
                 if (el) {
                     activeConversationTitle ? el.setAttribute("aria-label", "Escreva uma mensagem para " + activeConversationTitle) : el.setAttribute("aria-label", "Escreva uma mensagem");
 
-                    const footerMessageBoxListener = function (e) {
-                        console.log("mudou! " + e.target);
-                        let buttonToSendText = document.querySelector('[data-icon="send"]');
-                        buttonToSendText ? buttonToSendText.setAttribute("aria-label", "Enviar mensagem de texto") : "";
-                        activeButtonToRecordEvent();
-                    };
                     el.addEventListener("keyup", footerMessageBoxListener, false);
                     el.addEventListener("focus", activeButtonToRecordEvent);
                     listeners.push({ element: el, listener: footerMessageBoxListener, listenerType: "keyup" });
@@ -198,7 +224,7 @@
                 }, 1000);
             }
 
-            console.log("Tecla: " + e.keyCode);
+            //            console.log("Tecla: " + e.keyCode);
 
             el ? el.focus() : false;
 
@@ -221,5 +247,41 @@
             document.body.appendChild(spanToAriaLive);
         }
     }
+    const getClassSROnly = function () {
+
+        return (`
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+    `);
+    };
+
+    const setClassSROnly = function (element, label = "") {
+        element.setAttribute("style", getClassSROnly());
+        label ? element.setAttribute("aria-label", label) : "";
+        return element;
+    };
+
+    const setAccessibilityAttributeToFirefox = function () {
+        let main = document.getElementById("main");
+        if (main) {
+            let messageRegion = main.querySelector('[role="region"]');
+            if (messageRegion) {
+                let messageContainers = messageRegion.querySelectorAll('[class*="focusable-list-item"]');
+                if (messageContainers.length > 0) {
+                    messageContainers.forEach(function (messageContainer) {
+                        messageContainer.setAttribute("role", "option");
+                    });
+                }
+            }
+        }
+    };
 
 })()
