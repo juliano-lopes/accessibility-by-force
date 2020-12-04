@@ -2,7 +2,7 @@
 // @name         WhatsappWithMoreAccessibility
 // @namespace    https://github.com/juliano-lopes/accessibility-by-force/
 // @version      2.0
-// @description  Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas.
+// @description  Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users.
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
 // @match        https://web.whatsapp.com
 // @downloadURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
@@ -15,6 +15,8 @@
     var activeConversationTitle = "";
     var listeners = [];
     var activated = false;
+    var phrases = null;
+
     initial();
 
     function initial() {
@@ -25,21 +27,23 @@
                 if (!activated) {
 
                     if (document.getElementById("pane-side")) {
+                        phrases = getPhrasesWithCorrectLanguage();
                         setMainPanelTitle();
                         activeEvents();
                         spanToAriaLive();
-                        alert('Script de acessibilidade ativado com sucesso!');
+                        alert(phrases.SCRIPT_ACTIVATED);
                         activated = true;
+                        document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
                     }
                     else {
-                        alert('Documento ainda sendo carregado...');
+                        alert(phrases.LOADING_PAGE);
                     }
 
                 }
                 else {
                     removeAccessibilityElements();
                     removeAccessibilityListenerEvents();
-                    alert("Script de acessibilidade desativado!");
+                    alert(phrases.SCRIPT_DESACTIVATED);
                     activated = false;
 
                 }
@@ -68,7 +72,7 @@
         if (panel) {
             if (!mainPanelTitle) {
                 let heading = document.createElement("h1");
-                let headingText = document.createTextNode("Painel principal");
+                let headingText = document.createTextNode(phrases.MAIN_PANE_HEADING);
                 heading.appendChild(headingText);
                 heading.setAttribute("data-sr-only", "pane-side");
                 heading.setAttribute("data-main-panel", "pane-side");
@@ -92,9 +96,9 @@
             if (!conversation) {
                 if (conversationTitle) {
                     activeConversationTitle = conversationTitle;
-                    conversationTitle = "Conversa ativa com " + conversationTitle;
+                    conversationTitle = phrases.CURRENT_CONVERSATION + conversationTitle;
                 } else {
-                    conversationTitle = "Conversa ativa";
+                    conversationTitle = phrases.CONVERSATION_TITLE_WITHOUT_CONTACT_NAME;
                 }
 
                 let heading = document.createElement("h2");
@@ -115,27 +119,26 @@
             document.querySelector('[data-icon="sticker"]') ? document.querySelector('[data-icon="sticker"]').setAttribute("aria-label", "Sticker") : false;
             activeButtonToRecordEvent();
             let buttonToSendText = document.querySelector('[data-icon="send"]');
-            buttonToSendText ? buttonToSendText.setAttribute("aria-label", "Enviar mensagem de texto") : "";
+            buttonToSendText ? buttonToSendText.setAttribute("aria-label", phrases.BUTTON_SEND_TEXT_MESSAGE) : "";
         }
     }
 
     function activeButtonToRecordEvent() {
         let buttonToRecord = document.querySelector('[data-icon="ptt"]');
         if (buttonToRecord) {
-            buttonToRecord.setAttribute("aria-label", "Gravar mensagem de voz");
+            buttonToRecord.setAttribute("aria-label", phrases.BUTTON_RECORD_VOICE_MESSAGE);
 
             const buttonToRecordListener = function (e) {
-                console.log("gravação clicada");
                 setTimeout(function () {
                     let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
                     if (buttonToSendRecordedAudio) {
-                        buttonToSendRecordedAudio.parentNode.setAttribute("aria-label", "Enviar mensagem de voz");
+                        buttonToSendRecordedAudio.parentNode.setAttribute("aria-label", phrases.BUTTON_SEND_VOICE_MESSAGE);
 
                     }
 
                     let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
                     if (buttonToCancelRecord) {
-                        buttonToCancelRecord.parentNode.setAttribute("aria-label", "Cancelar gravação");
+                        buttonToCancelRecord.parentNode.setAttribute("aria-label", phrases.BUTTON_CANCEL_RECORDING);
 
                     }
 
@@ -152,16 +155,7 @@
     const footerMessageBoxListener = function (e) {
         let buttonToSendText = document.querySelector('[data-icon="send"]');
         if (buttonToSendText) {
-            //buttonToSendText.textContent="Enviar mensagem de texto";
-            /*
-            let label = document.createElement("span");
-            label.setAttribute("data-sr-only", "child");
-            label.id = "send-text-message";
-            label = setClassSROnly(label, "Enviar mensagem");
-            appendChildSROnly(buttonToSendText, label);
-            */
-            //console.log("botton to send text exists");
-            buttonToSendText.parentNode.setAttribute("aria-label", "Enviar mensagem de texto");
+            buttonToSendText.parentNode.setAttribute("aria-label", phrases.BUTTON_SEND_TEXT_MESSAGE);
         }
         else {
             activeButtonToRecordEvent();
@@ -173,7 +167,14 @@
         const documentListener = function (e) {
             let el;
 
-            if (e.altKey && e.keyCode == 67) {
+            if (e.altKey && e.keyCode == 76) {
+                e.preventDefault();
+                selectLanguage();
+                setTimeout(function () {
+                    el = document.getElementById("select-language").focus();
+                }, 100);
+
+            } else if (e.altKey && e.keyCode == 67) {
                 e.preventDefault();
                 el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             }
@@ -185,7 +186,7 @@
                 e.preventDefault();
                 el = document.querySelector('footer').querySelector('[contenteditable="true"]');
                 if (el) {
-                    activeConversationTitle ? el.setAttribute("aria-label", "Escreva uma mensagem para " + activeConversationTitle) : el.setAttribute("aria-label", "Escreva uma mensagem");
+                    activeConversationTitle ? el.setAttribute("aria-label", phrases.WRITE_MESSAGE + activeConversationTitle) : el.setAttribute("aria-label", phrases.WRITE_MESSAGE_WITHOUT_CONTACT_NAME);
 
                     el.addEventListener("keyup", footerMessageBoxListener, false);
                     el.addEventListener("focus", activeButtonToRecordEvent);
@@ -204,7 +205,7 @@
 
                 el = attachShadow;
                 if (el) {
-                    el.parentNode.setAttribute("aria-label", "Selecione o que deseja anexar...");
+                    el.parentNode.setAttribute("aria-label", phrases.ATTACH_CONTAINER_MESSAGE);
                     el.parentNode.setAttribute("id", "container-attach-shadow");
                     el.parentNode.querySelector('ul').setAttribute("aria-labelledby", "container-attach-shadow");
                     el = el.parentNode.querySelector('ul li');
@@ -214,7 +215,7 @@
             else if (e.altKey && e.keyCode == 66) {
                 e.preventDefault();
                 el = document.querySelector('[contenteditable="true"]');
-                el ? el.setAttribute("aria-label", "Buscar nas conversas e nos contatos...") : false;
+                el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
             }
             else if (e.altKey && e.keyCode == 84) {
                 e.preventDefault();
@@ -223,8 +224,6 @@
                     document.getElementById("span-to-aria-live").textContent = "";
                 }, 1000);
             }
-
-            //            console.log("Tecla: " + e.keyCode);
 
             el ? el.focus() : false;
 
@@ -247,6 +246,35 @@
             document.body.appendChild(spanToAriaLive);
         }
     }
+    function selectLanguage() {
+        if (!document.getElementById("select-language-container")) {
+            let selectLanguageContainer = document.createElement("div");
+            let select = document.createElement("select");
+            selectLanguageContainer.id = "select-language-container";
+            select.id = "select-language";
+            select.setAttribute("aria-label", phrases.SELECT_LANGUAGE);
+            let languages = JSON.parse(PHRASES_JSON);
+            languages.forEach(function (p) {
+                let option = document.createElement("option");
+                option.value = p.language;
+                option.textContent = p.description;
+                select.appendChild(option);
+            });
+            select.addEventListener("keydown", function (e) {
+                if (e.keyCode == 13) {
+                    phrases = getPhrases(select.options[select.selectedIndex].value);
+                    localStorage.setItem("language", phrases.language);
+                    alert(phrases.LANGUAGE_SELECTED);
+                    document.body.removeChild(selectLanguageContainer);
+                    document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+                }
+            }, false);
+            selectLanguageContainer.appendChild(select);
+            selectLanguageContainer = setClassSROnly(selectLanguageContainer);
+            document.body.insertBefore(selectLanguageContainer, document.body.firstChild);
+        }
+    }
+
     const getClassSROnly = function () {
 
         return (`
@@ -283,5 +311,105 @@
             }
         }
     };
+
+    const getPhrasesWithCorrectLanguage = function () {
+        return (localStorage.getItem("language") ? getPhrases(localStorage.getItem("language")) : getPhrases(window.navigator.language));
+    };
+
+    const getScriptLanguage = function (myLanguage) {
+        if (isEnglish(myLanguage)) {
+            return "en-us";
+        } else if (isSpanish(myLanguage)) {
+            return "es-es";
+        } else {
+            return "pt-br";
+        }
+
+    };
+
+    const isEnglish = function (language) {
+        const languages = ["en-us", "en-au", "en-nz", "en-za", "en", "en-tt", "en-gb", "en-ca", "en-ie", "en-jm", "en-bz"];
+        return languages.indexOf(language) != -1;
+    };
+    const isSpanish = function (language) {
+        const languages = ["es", "es-es", "es-gt", "es-mx", "es-cr", "es-pa", "es-do", "es-ve", "es-co", "es-pe", "es-ar", "es-ec", "es-cl", "es-uy", "es-py", "es-bo", "es-sv", "es-hn", "es-ni", "es-pr"];
+        return languages.indexOf(language) != -1;
+    };
+
+    const getPhrases = function (myLanguage) {
+        const allPhrases = JSON.parse(PHRASES_JSON);
+        let phrases = null;
+
+        allPhrases.forEach(function (p) {
+            if (p.language.toLowerCase().trim() == getScriptLanguage(myLanguage).toLowerCase().trim())
+                phrases = p;
+        });
+        return phrases;
+    };
+
+    const PHRASES_JSON = `
+            [
+                {
+                    "language":"pt-br",
+                    "description":"Português (Portuguese)",
+                    "SCRIPT_ACTIVATED":"Script de acessibilidade ativado com sucesso!",
+                    "LOADING_PAGE":"Documento ainda sendo carregado...", 
+                    "SCRIPT_DESACTIVATED":"Script de acessibilidade desativado!",
+"MAIN_PANE_HEADING":"Painel principal",
+"CURRENT_CONVERSATION":"Conversa ativa com ",
+"CONVERSATION_TITLE_WITHOUT_CONTACT_NAME":"Conversa ativa",
+"BUTTON_SEND_TEXT_MESSAGE":"Enviar mensagem de texto",
+"BUTTON_RECORD_VOICE_MESSAGE":"Gravar mensagem de voz",
+"BUTTON_SEND_VOICE_MESSAGE":"Enviar mensagem de voz",
+"BUTTON_CANCEL_RECORDING":"Cancelar gravação",
+"WRITE_MESSAGE":"Escreva uma mensagem para ",
+"WRITE_MESSAGE_WITHOUT_CONTACT_NAME":"Escreva uma mensagem",
+"ATTACH_CONTAINER_MESSAGE":"Selecione o que deseja anexar...",
+"SEARCH_LABEL":"Buscar nas conversas e nos contatos...",
+"SELECT_LANGUAGE":"Selecione o idioma do script: ",
+"LANGUAGE_SELECTED":"O idioma do script foi alterado com sucesso!"
+                    },
+                    {
+                        "language": "en-us",
+                        "description":"Inglês (English)",
+                        "SCRIPT_ACTIVATED": "Accessibility script activated successfully!",
+                        "LOADING_PAGE": "Document is still being loaded ...",
+                        "SCRIPT_DESACTIVATED": "Accessibility script disabled!",
+   "MAIN_PANE_HEADING": "Main panel",
+   "CURRENT_CONVERSATION": "Active conversation with ",
+   "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Active conversation",
+   "BUTTON_SEND_TEXT_MESSAGE": "Send text message",
+   "BUTTON_RECORD_VOICE_MESSAGE": "Record voice message",
+   "BUTTON_SEND_VOICE_MESSAGE": "Send voice message",
+   "BUTTON_CANCEL_RECORDING": "Cancel recording",
+   "WRITE_MESSAGE": "Write a message to ",
+   "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Write a message",
+   "ATTACH_CONTAINER_MESSAGE": "Select what you want to attach ...",
+   "SEARCH_LABEL": "Search conversations and contacts ...",
+   "SELECT_LANGUAGE":"Select the script language: ",
+   "LANGUAGE_SELECTED":"The script language has been successfully changed!"
+                        },
+                        {
+                            "language": "es-es",
+                            "description":"Espanhol (Spanish)",
+                            "SCRIPT_ACTIVATED": "¡El script de accesibilidad se activó correctamente!",
+                            "LOADING_PAGE": "El documento aún se está cargando ...",
+                            "SCRIPT_DESACTIVATED": "¡Secuencia de comandos de accesibilidad inhabilitada!",
+       "MAIN_PANE_HEADING": "Panel principal",
+       "CURRENT_CONVERSATION": "Conversación activa con ",
+       "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Conversación activa",
+       "BUTTON_SEND_TEXT_MESSAGE": "Enviar mensaje de texto",
+       "BUTTON_RECORD_VOICE_MESSAGE": "Grabar mensaje de voz",
+       "BUTTON_SEND_VOICE_MESSAGE": "Enviar mensaje de voz",
+       "BUTTON_CANCEL_RECORDING": "Cancelar grabación",
+       "WRITE_MESSAGE": "Escribir un mensaje a ",
+       "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Escribe un mensaje",
+       "ATTACH_CONTAINER_MESSAGE": "Seleccione lo que desea adjuntar ...",
+       "SEARCH_LABEL": "Buscar conversaciones y contactos ...",
+       "SELECT_LANGUAGE": "Seleccione el idioma del script:",
+       "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!"
+                            }
+            ]
+        `;
 
 })()
