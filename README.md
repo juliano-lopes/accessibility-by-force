@@ -44,9 +44,10 @@ Qualquer contribuição que queira realizar pode ser feita por meio do endereço
 Scripts to put better accessibility and usability on some WEB pages.
 
 ### Available scripts:
-* [WhatsappWeb With More Accessibility] (https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
-To use the scripts, it is necessary to have the extension [Tampermonkey for Google Chrome] installed (https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Tampermonkey for Mozilla Firefox] (https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
+To use the scripts, it is necessary to have the extension [Tampermonkey for Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
+installed or [Tampermonkey for Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
 After that, just access the script, which will be recognized by Tampermonkey, and click on install.
 
 ### WhatsappWebWithMoreAccessibility
@@ -86,9 +87,10 @@ Any contribution you want to make can be made through julopeson@gmail.com
 Scripts para mejorar la accesibilidad y usabilidad de algunas páginas WEB.
 
 ### Scripts disponibles:
-* [WhatsappWeb con más accesibilidad] (https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb con más accesibilidad](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
-Para utilizar los scripts, es necesario tener instalada la extensión [Tampermonkey para Google Chrome] (https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) o [Tampermonkey para Mozilla Firefox] (https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
+Para utilizar los scripts, es necesario tener instalada la extensión [Tampermonkey para Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
+o [Tampermonkey para Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
 Después de eso, simplemente acceda al script, que será reconocido por Tampermonkey, y haga clic en instalar.
 
 ### WhatsappWebWithMoreAccessibility
