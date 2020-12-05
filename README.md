@@ -59,8 +59,8 @@ When you deactivate it, all elements and shortcuts created by it will be removed
 #### Added elements and labels
 With WhatsappWebWithMoreAccessibility enabled, the following modifications will be applied:
 
-* Before the panel with the conversation list there will be a level 1 header (H1) to facilitate navigation via the screen reader, by pressing the 'h' key or the number '1' in the navigation mode;
-* After opening a conversation, at the beginning of the contact / group area there will be a level 2 (H2) header, with the label "Active conversation + <CONTACT / GROUP NAME>", which can be accessed by pressing the 'h' key or number 2 in navigation mode;
+* Before the panel with the chat list there will be a level 1 header (H1) to facilitate navigation via the screen reader, by pressing the 'h' key or the number '1' in the navigation mode;
+* After opening a chat, at the beginning of the contact / group area there will be a level 2 (H2) header, with the label "Active chat + <CONTACT / GROUP NAME>", which can be accessed by pressing the 'h' key or number 2 in browse mode;
 * The emogi buttons will be labeled above the message writing field in the footer;
 * After the message writing field, there will be a button with the label "Record voice message" if the text field is clear, or "Send text message" if it is filled;
 * When you click on the "Record Voice Message" button, a "Cancel recording" button, the recording time and another button with the label "Send voice message" will appear below the message field;
@@ -68,14 +68,14 @@ With WhatsappWebWithMoreAccessibility enabled, the following modifications will 
 #### Hotkeys
 After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are available:
 
-* ALT + a: focus on the options for choosing the type of attachment to be sent in the active conversation;
-* ALT + B: focus on the search field and label it as "Search conversations and contacts ...";
-* ALT + C: focus on the conversation list;
-* ALT + E: puts the focus on the message writing field and labels it "Write a message (name of the active conversation)";
+* ALT + a: focus on the options for choosing the type of attachment to be sent in the active chat;
+* ALT + B: focus on the search field and label it as "Search chat and contacts ...";
+* ALT + C: focus on the chat list;
+* ALT + E: puts the focus on the message writing field and labels it "Write a message (name of the active chat)";
 * ALT + L: opens an options box to select the language of the script (Portuguese, English or Spanish), after pressing the 'enter' key in the desired option, the script messages will be in that language;
-* ALT + M: puts the focus on the message list of the active conversation;
+* ALT + M: puts the focus on the message list of the active chat;
 * ALT + S: activate and deactivate the script;
-* ALT + T: speak the title of the active conversation.
+* ALT + T: speak the title of the active chat.
 
 NOTE: sometimes NVDA does not go into focus mode automatically when using shortcuts, so you may need to put it in focus mode with the shortcut NVDA + space bar. Other keys can be configured as the NVDA key, but by default it is 'Insert'.
 
