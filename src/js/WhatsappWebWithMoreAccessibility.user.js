@@ -124,21 +124,23 @@
     }
 
     function activeButtonToRecordEvent() {
-        let buttonToRecord = document.querySelector('[data-icon="ptt"]');
+        let buttonToRecord = document.querySelector('[data-icon="ptt"]').parentNode;
         if (buttonToRecord) {
             buttonToRecord.setAttribute("aria-label", phrases.BUTTON_RECORD_VOICE_MESSAGE);
-
+            buttonToRecord.setAttribute("tabindex", "-1");
             const buttonToRecordListener = function (e) {
                 setTimeout(function () {
                     let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
                     if (buttonToSendRecordedAudio) {
-                        buttonToSendRecordedAudio.parentNode.setAttribute("aria-label", phrases.BUTTON_SEND_VOICE_MESSAGE);
+                        buttonToSendRecordedAudio.parentNode.parentNode.setAttribute("aria-label", phrases.BUTTON_SEND_VOICE_MESSAGE);
+                        buttonToSendRecordedAudio.parentNode.parentNode.setAttribute("tabindex", "-1");
 
                     }
 
                     let buttonToCancelRecord = document.querySelector('[data-icon="round-x-inv"]');
                     if (buttonToCancelRecord) {
-                        buttonToCancelRecord.parentNode.setAttribute("aria-label", phrases.BUTTON_CANCEL_RECORDING);
+                        buttonToCancelRecord.parentNode.parentNode.setAttribute("aria-label", phrases.BUTTON_CANCEL_RECORDING);
+                        buttonToCancelRecord.parentNode.parentNode.setAttribute("tabindex", "-1");
 
                     }
 
