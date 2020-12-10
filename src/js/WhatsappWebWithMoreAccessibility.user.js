@@ -144,6 +144,27 @@
                         buttonToCancelRecord.parentNode.parentNode.setAttribute("tabindex", "-1");
 
                     }
+                    let recordingDialog = buttonToSendRecordedAudio.parentNode.parentNode.parentNode;
+                    recordingDialog.setAttribute("role", "dialog");
+                    recordingDialog.setAttribute("tabindex", "-1");
+                    recordingDialog.setAttribute("aria-labelledby", "recording-dialog-heading");
+                    if (!recordingDialog.querySelector("#recording-dialog-heading")) {
+
+                        let recordingDialogHeading = document.createElement("h3");
+                        recordingDialogHeading.id = "recording-dialog-heading";
+                        recordingDialogHeading.textContent = "Gravação de mensagem de voz. Utilize as setas para navegar.";
+                        recordingDialog.insertBefore(recordingDialogHeading, recordingDialog.firstChild);
+                    }
+                    recordingDialog.focus();
+                    let isRecording = buttonToSendRecordedAudio && buttonToCancelRecord;
+                    recordingDialog.addEventListener("keydown", function (e) {
+
+                        let allowedKeys = [13, 38, 39, 40, 41];
+                        if (isRecording && allowedKeys.indexOf(e.keyCode) == -1) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    }, false);
 
 
                 }, 1000);
