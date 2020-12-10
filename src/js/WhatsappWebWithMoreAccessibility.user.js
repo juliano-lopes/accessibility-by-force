@@ -17,7 +17,7 @@
     var listeners = [];
     var activated = false;
     var phrases = null;
-
+    var intervalReplaceContactPhone = null;
     initial();
 
     function initial() {
@@ -32,6 +32,7 @@
                         setMainPanelTitle();
                         activeEvents();
                         spanToAriaLive();
+                        replaceContactPhone();
                         alert(phrases.SCRIPT_ACTIVATED);
                         activated = true;
                         document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
@@ -44,6 +45,7 @@
                 else {
                     removeAccessibilityElements();
                     removeAccessibilityListenerEvents();
+                    clearInterval(intervalReplaceContactPhone);
                     alert(phrases.SCRIPT_DESACTIVATED);
                     activated = false;
 
@@ -280,13 +282,33 @@
             if (document.getElementById('main')) {
                 updateMessage();
                 addFooterButtonLabels();
+                replaceContactPhone();
             }
 
         };
         document.addEventListener("keydown", documentListener, false);
         listeners.push({ element: document, listener: documentListener, listenerType: "keydown" });
     }
-
+    function replaceContactPhone() {
+        if (document.getElementById("main")) {
+            intervalReplaceContactPhone = setInterval(function () {
+                document.querySelectorAll('[class*="message-in"]').forEach(function (el) {
+                    if (el.querySelector('span[dir="auto"]') && el.querySelector('span[dir="auto"]').textContent != "") {
+                        if (el.querySelector('span[role="button"]')) {
+                            let contactPhone = el.querySelector('span[role="button"]');
+                            if (!contactPhone.parentNode.querySelector('[data-sr-only="replace-contact-phone"]')) {
+                                let span = document.createElement("span");
+                                span.setAttribute("data-sr-only", "replace-contact-phone");
+                                span.textContent = phrases.REPLACE_CONTACT_PHONE_MESSAGE;
+                                contactPhone.parentNode.insertBefore(span, contactPhone.parentNode.firstChild);
+                                contactPhone.setAttribute("aria-hidden", "true");
+                            }
+                        }
+                    }
+                });
+            }, 1000);
+        }
+    }
     function spanToAriaLive() {
         let spanToAriaLive = document.getElementById("span-to-aria-live");
         if (!spanToAriaLive) {
@@ -500,7 +522,8 @@
 "NEW_CHAT_INPUT_INCORRECT":"Esse número está num formato inválido. Deve conter somente números, o código do país (Brasil = 55), o DDD da cidade (Belo Horizonte = 31) e o 9 antes do número.",
 "NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
-"RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar."
+"RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Mensagem de"
                     },
                     {
                         "language": "en-us",
@@ -525,7 +548,8 @@
 "NEW_CHAT_INPUT_INCORRECT": "This number is in an invalid format. It must contain only numbers, the country code and the city code before the phone number.",
 "NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
-"RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate."
+"RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Message from"
                         },
                         {
                             "language": "es-es",
@@ -550,7 +574,8 @@
 "NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
 "NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
-"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar."
+"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de"
                             }
             ]
         `;
