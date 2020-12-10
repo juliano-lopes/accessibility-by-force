@@ -29,7 +29,9 @@ Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atal
 * ALT + B: coloca o foco no campo de busca e o rotula como "Buscar nas conversas e nos contatos...";
 * ALT + C: coloca o foco na lista de conversas;
 * ALT + E: coloca o foco no campo de escrita de mensagem e o rotula como "Escreva uma mensagem (nome da conversa ativa)";
+* ALT + G: coloca o foco na caixa de diálogo  que contém o botão para iniciar a mensagem de voz;
 * ALT + L: abre uma caixa de opções para selecionar o idioma do script (Português, Inglês ou Espanhol), após precionar a tecla 'enter' na opção desejada as mensagens do script passam a estar naquele idioma;
+* ALT + N: abre uma caixa de texto para ser inserido um número de telefone. Ao teclar 'enter', caso seja um número válido, o chat com esse número será iniciado. Um número válido deve conter: código do país (Brasil = 55), código da cidade (Belo Horizonte 31) e o número propriamente dito;
 * ALT + M: coloca o foco na lista de mensagens da conversa ativa;
 * ALT + S: ativa e desativa o script;
 * ALT + T: fala o título da conversa ativa.
@@ -72,7 +74,9 @@ After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are
 * ALT + B: focus on the search field and label it as "Search chat and contacts ...";
 * ALT + C: focus on the chat list;
 * ALT + E: puts the focus on the message writing field and labels it "Write a message (name of the active chat)";
+* ALT + G: focus on the dialog box that contains the button to start the voice message;
 * ALT + L: opens an options box to select the language of the script (Portuguese, English or Spanish), after pressing the 'enter' key in the desired option, the script messages will be in that language;
+* ALT + N: opens a text box for entering a phone number. By pressing 'enter', if it is a valid number, the chat with that number will start. A valid number must contain: country code (Brazil = 55), city code (Belo Horizonte 31) and the number itself;
 * ALT + M: puts the focus on the message list of the active chat;
 * ALT + S: activate and deactivate the script;
 * ALT + T: speak the title of the active chat.
@@ -115,7 +119,9 @@ Después de habilitar WhatsappWebWithMoreAccessibility, están disponibles las s
 * ALT + B: centrarse en el campo de búsqueda y etiquetarlo como "Buscar conversaciones y contactos ...";
 * ALT + C: centrarse en la lista de conversaciones;
 * ALT + E: pone el foco en el campo de escritura del mensaje y lo etiqueta "Escribe un mensaje (nombre de la conversación activa)";
+* ALT + G: enfoque en el cuadro de diálogo que contiene el botón para iniciar el mensaje de voz;
 * ALT + L: abre un cuadro de opciones para seleccionar el idioma del guión (portugués, inglés o español), luego de presionar la tecla 'enter' en la opción deseada, los mensajes del guión estarán en ese idioma;
+* ALT + N: abre un cuadro de texto para ingresar un número de teléfono. Pulsando 'enter', si es un número válido, se iniciará el chat con ese número. Un número válido debe contener: código de país (Brasil = 55), código de ciudad (Belo Horizonte 31) y el número en sí;
 * ALT + M: pone el foco en la lista de mensajes de la conversación activa;
 * ALT + S: activar y desactivar el script;
 * ALT + T: dice el título de la conversación activa.
