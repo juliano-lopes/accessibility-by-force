@@ -21,7 +21,7 @@ Com o WhatsappWebWithMoreAccessibility ativado, serão aplicadas as seguintes mo
 * Os botões de emogi estarão etiquetados acima do campo de escrita de mensagem no rodapé;
 * Após o campo de escrita de mensagem haverá um botão que estará com o rótulo "Gravar mensagem de voz" caso o campo de texto esteja limpo, ou "Enviar mensagem de texto" caso esteja preenchido;
 * Ao clicar no botão "Gravar Mensagem de Voz", irá surgir abaixo do campo de mensagem um botão "Cancelar gravação", o tempo da gravação e um outro botão com o rótulo "Enviar mensagem de voz";
-
+* O número de telefone dos contatos não salvos serão substituídos por "Mensagem de" nas conversas em grupo para facilitar a leitura das mensagens;
 #### Teclas de atalho
 Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atalho estarão disponíveis:
 
@@ -66,6 +66,7 @@ With WhatsappWebWithMoreAccessibility enabled, the following modifications will 
 * The emogi buttons will be labeled above the message writing field in the footer;
 * After the message writing field, there will be a button with the label "Record voice message" if the text field is clear, or "Send text message" if it is filled;
 * When you click on the "Record Voice Message" button, a "Cancel recording" button, the recording time and another button with the label "Send voice message" will appear below the message field;
+* The phone number of unsaved contacts will be replaced by "Message from" in group conversations to make it easier to read the messages;
 
 #### Hotkeys
 After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are available:
@@ -111,6 +112,7 @@ Con WhatsappWebWithMoreAccessibility habilitado, se aplicarán las siguientes mo
 * Los botones emogi estarán etiquetados sobre el campo de escritura del mensaje en el pie de página;
 * Después del campo de escritura del mensaje, habrá un botón con la etiqueta "Grabar mensaje de voz" si el campo de texto está limpio, o "Enviar mensaje de texto" si está lleno;
 * Al hacer clic en el botón "Grabar mensaje de voz", aparecerá un botón "Cancelar grabación", el tiempo de grabación y otro botón con la etiqueta "Enviar mensaje de voz" debajo del campo del mensaje;
+* El número de teléfono de los contactos no guardados será reemplazado por "Mensaje de" en las conversaciones grupales para que sea más fácil leer los mensajes;
 
 #### Teclas de acceso rápido
 Después de habilitar WhatsappWebWithMoreAccessibility, están disponibles las siguientes teclas de acceso directo:
