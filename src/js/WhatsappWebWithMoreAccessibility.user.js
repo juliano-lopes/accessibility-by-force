@@ -129,6 +129,11 @@
         if (buttonToRecord) {
             buttonToRecord.setAttribute("aria-label", phrases.BUTTON_RECORD_VOICE_MESSAGE);
             buttonToRecord.setAttribute("tabindex", "-1");
+            if (buttonToRecord.parentNode.parentNode.getAttribute("role")) {
+                buttonToRecord.parentNode.parentNode.removeAttribute("role");
+                buttonToRecord.parentNode.parentNode.removeChild(document.getElementById("dialog-heading"));
+            }
+
             const buttonToRecordListener = function (e) {
                 setTimeout(function () {
                     let buttonToSendRecordedAudio = document.querySelector('[data-icon="round-send-inv"]');
@@ -152,7 +157,8 @@
 
                         let recordingDialogHeading = document.createElement("h3");
                         recordingDialogHeading.id = "recording-dialog-heading";
-                        recordingDialogHeading.textContent = "Gravação de mensagem de voz. Utilize as setas para navegar.";
+                        recordingDialogHeading.textContent = phrases.RECORDING_DIALOG_HEADING;
+                        recordingDialogHeading = setClassSROnly(recordingDialogHeading);
                         recordingDialog.insertBefore(recordingDialogHeading, recordingDialog.firstChild);
                     }
                     recordingDialog.focus();
@@ -252,7 +258,23 @@
             else if (e.altKey && e.keyCode == 78) {
                 newChatWithNumberNotSaved();
             }
+            else if (e.altKey && e.keyCode == 71) {
 
+                let buttonToRecord = document.querySelector('[data-icon="ptt"]').parentNode;
+                if (buttonToRecord) {
+                    let dialogButtonToRecord = buttonToRecord.parentNode.parentNode;
+                    dialogButtonToRecord.setAttribute("role", "dialog");
+                    dialogButtonToRecord.setAttribute("tabindex", "-1");
+                    if (!dialogButtonToRecord.querySelector("#dialog-heading")) {
+                        let dialogHeading = document.createElement("h3");
+                        dialogHeading.id = "dialog-heading";
+                        dialogHeading.textContent = phrases.DIALOG_HEADING_TO_RECORD_BUTTON;
+                        dialogHeading = setClassSROnly(dialogHeading);
+                        dialogButtonToRecord.insertBefore(dialogHeading, dialogButtonToRecord.firstChild);
+                    }
+                    dialogButtonToRecord.focus();
+                }
+            }
             el ? el.focus() : false;
 
             if (document.getElementById('main')) {
@@ -476,8 +498,9 @@
 "LANGUAGE_SELECTED":"O idioma do script foi alterado com sucesso!",
 "LABEL_NEW_CHAT_INPUT":"Digite o número para o qual deseja enviar mensagem: ",
 "NEW_CHAT_INPUT_INCORRECT":"Esse número está num formato inválido. Deve conter somente números, o código do país (Brasil = 55), o DDD da cidade (Belo Horizonte = 31) e o 9 antes do número.",
-"NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp."
-
+"NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
+"RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar."
                     },
                     {
                         "language": "en-us",
@@ -500,7 +523,9 @@
    "LANGUAGE_SELECTED":"The script language has been successfully changed!",
    "LABEL_NEW_CHAT_INPUT": "Enter the number you want to send a message to:",
 "NEW_CHAT_INPUT_INCORRECT": "This number is in an invalid format. It must contain only numbers, the country code and the city code before the phone number.",
-"NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp."
+"NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
+"RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate."
                         },
                         {
                             "language": "es-es",
@@ -523,7 +548,9 @@
        "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
        "LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
 "NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
-"NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp."
+"NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
+"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar."
                             }
             ]
         `;
