@@ -201,6 +201,7 @@
 
             if (e.altKey && e.keyCode == 76) {
                 e.preventDefault();
+                e.stopPropagation();
                 selectLanguage();
                 setTimeout(function () {
                     el = document.getElementById("select-language").focus();
@@ -208,14 +209,17 @@
 
             } else if (e.altKey && e.keyCode == 67) {
                 e.preventDefault();
+                e.stopPropagation();
                 el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             }
             else if (e.altKey && e.keyCode == 77) {
                 e.preventDefault();
+                e.stopPropagation();
                 el = document.getElementById('main').querySelector('[role="region"]');
             }
             else if (e.altKey && e.keyCode == 69) {
                 e.preventDefault();
+                e.stopPropagation();
                 el = document.querySelector('footer').querySelector('[contenteditable="true"]');
                 if (el) {
 
@@ -229,6 +233,7 @@
             }
             else if (e.altKey && e.keyCode == 65) {
                 e.preventDefault();
+                e.stopPropagation();
                 let attachShadow = document.querySelector('[data-icon="attach-shadow"]');
 
                 if (!attachShadow) {
@@ -247,11 +252,13 @@
             }
             else if (e.altKey && e.keyCode == 66) {
                 e.preventDefault();
+                e.stopPropagation();
                 el = document.querySelector('[contenteditable="true"]');
                 el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
             }
             else if (e.altKey && e.keyCode == 84) {
                 e.preventDefault();
+                e.stopPropagation();
                 document.getElementById("span-to-aria-live").textContent = activeConversationTitle;
                 setTimeout(function () {
                     document.getElementById("span-to-aria-live").textContent = "";
@@ -289,10 +296,21 @@
         document.addEventListener("keydown", documentListener, false);
         listeners.push({ element: document, listener: documentListener, listenerType: "keydown" });
     }
+    function addLabelVideoAndImage(element) {
+        element.querySelector('img') && element.querySelector('img').parentNode.parentNode.parentNode.getAttribute("role") == "button" ? element.querySelector('img').setAttribute("alt", "Image") : false;
+        if (element.querySelector('span[data-icon="video-pip"]')) {
+            element.querySelector('span[data-icon="video-pip"]').setAttribute("aria-label", "Video");
+            element.addEventListener("keydown", function (e) {
+                if (e.keyCode == 13)
+                    element.querySelector('span[data-icon="video-pip"]').click();
+            }, false);
+        }
+    }
+
     function replaceContactPhone() {
         if (document.getElementById("main")) {
             intervalReplaceContactPhone = setInterval(function () {
-                document.querySelectorAll('[class*="message-in"]').forEach(function (el) {
+                document.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (el) {
                     if (el.querySelector('span[dir="auto"]') && el.querySelector('span[dir="auto"]').textContent != "") {
                         if (el.querySelector('span[role="button"]')) {
                             let contactPhone = el.querySelector('span[role="button"]');
@@ -305,6 +323,7 @@
                             }
                         }
                     }
+                    addLabelVideoAndImage(el);
                 });
             }, 1000);
         }
@@ -409,6 +428,7 @@
                 }
                 if (e.keyCode == 27) {
                     e.preventDefault();
+                    e.stopPropagation();
                     newChatContainer.parentNode.removeChild(newChatContainer);
                 }
             }, false);
