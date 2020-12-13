@@ -200,36 +200,43 @@
         }
     };
     function updateCheckedMessage() {
+        if (document.querySelector('[data-dialog-sr-only]')) {
+            if (document.querySelector('[role="checkbox"]')) {
 
-        if (document.querySelector('[role="checkbox"]')) {
+                let messages = document.getElementById("main") ? document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]') : [];
+                if (messages.length > 0) {
+                    messages.forEach(function (msg) {
+                        let tb = msg.querySelector('[role="checkbox"]');
+                        msg.addEventListener("keydown", function (ekm) {
+                            if (tb && ekm.keyCode == 32) {
 
-            let messages = document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]');
-            if (messages.length > 0) {
-                messages.forEach(function (msg) {
-                    let tb = msg.querySelector('[role="checkbox"]');
-                    msg.addEventListener("keydown", function (ekm) {
-                        if (tb && ekm.keyCode == 32) {
+                                tb.click();
 
-                            tb.click();
-
+                            }
+                        }, false);
+                        let cbText = tb.getAttribute("aria-checked") == "true" ? phrases.CHECKED : phrases.UNCHECKED;
+                        let span = msg.querySelector('[data-sr-only="msg-checkbox"]');
+                        if (!span) {
+                            span = document.createElement("span");
+                            span.setAttribute("data-sr-only", "msg-checkbox");
+                            span.setAttribute("aria-label", cbText);
+                            span.setAttribute("aria-live", "polite");
+                            msg.insertBefore(span, msg.firstChild);
                         }
-                    }, false);
-                    let cbText = tb.getAttribute("aria-checked") == "true" ? phrases.CHECKED : phrases.UNCHECKED;
-                    let span = msg.querySelector('[data-sr-only="msg-checkbox"]');
-                    if (!span) {
-                        span = document.createElement("span");
-                        span.setAttribute("data-sr-only", "msg-checkbox");
-                        span.setAttribute("aria-label", cbText);
-                        span.setAttribute("aria-live", "polite");
-                        msg.insertBefore(span, msg.firstChild);
-                    }
-                    else {
-                        span.setAttribute("aria-label", cbText);
-                    }
+                        else {
+                            span.setAttribute("aria-label", cbText);
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            if (document.querySelectorAll('[data-sr-only="msg-checkbox"]').length > 0) {
+                document.querySelectorAll('[data-sr-only="msg-checkbox"]').forEach(function (msgCheckbox) {
+                    msgCheckbox.parentNode.removeChild(msgCheckbox);
                 });
             }
         }
-
     }
 
     function updateCheckedContact(ek) {
@@ -308,7 +315,7 @@
 
                                                     if (document.querySelector('[data-icon="star-btn"]')) {
                                                         let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
-                                                        container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE);
+                                                        container.querySelector('[data-icon="x"]') ? container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE) : false;
                                                         container.setAttribute("tabindex", "-1");
                                                         container.setAttribute("role", "dialog");
                                                         container.setAttribute("aria-label", phrases.CONTAINER_HEADING);
