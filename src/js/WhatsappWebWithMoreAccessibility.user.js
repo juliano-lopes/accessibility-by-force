@@ -277,6 +277,16 @@
             selectedMessages.textContent = selectedMessagesText ? selectedMessagesText : selectedMessages.textContent;
         }
     }
+    function dialogToDeleteMessage() {
+        if (document.querySelector('[data-animate-modal-body="true"]')) {
+            document.querySelector('[data-animate-modal-body="true"]').setAttribute("tabindex", "-1");
+            document.querySelector('[data-animate-modal-body="true"]').setAttribute("role", "dialog");
+            document.querySelector('[data-animate-modal-body="true"]').focus();
+            return true;
+        }
+        return false;
+
+    }
 
     function activeEvents() {
 
@@ -312,7 +322,7 @@
                                         elem.parentNode.addEventListener("keydown", function (e2) {
                                             if (e2.keyCode == 13) {
                                                 setTimeout(function () {
-
+                                                    dialogToDeleteMessage();
                                                     if (document.querySelector('[data-icon="star-btn"]')) {
                                                         let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
                                                         container.querySelector('[data-icon="x"]') ? container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE) : false;
@@ -337,10 +347,11 @@
                                                         }, false);
                                                         container.focus();
                                                         updateCheckedMessage();
-                                                        document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false);
+                                                        document.getElementById("main") ? document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false) : false;
                                                         container.addEventListener("click", function (ec) {
                                                             setTimeout(function () {
                                                                 document.addEventListener("keydown", updateCheckedContact, false);
+                                                                dialogToDeleteMessage();
                                                                 document.querySelector('button, [role="button"]').focus();
                                                             }, 1000);
 
