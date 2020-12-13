@@ -247,8 +247,9 @@
             let checkBoxes = document.querySelectorAll('[role="checkbox"]');
 
             checkBoxes.forEach(function (cb) {
-
+                cb.parentNode.nextSibling ? cb.parentNode.nextSibling.setAttribute("role", "option") : false;
                 if (cb.parentNode.parentNode.querySelector('[dir="auto"]')) {
+
                     let titles = cb.parentNode.parentNode.querySelector('[dir="auto"]').parentNode.parentNode.parentNode.parentNode.querySelectorAll('[title]');
                     titles[1] ? titles[1].setAttribute("aria-hidden", "true") : false;
                     let cbText = cb.getAttribute("aria-checked") == "true" ? phrases.CHECKED : phrases.UNCHECKED;
