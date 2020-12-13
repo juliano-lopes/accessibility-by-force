@@ -30,15 +30,37 @@ Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atal
 * ALT + a: coloca o foco nas opções para escolher o tipo de anexo a ser enviado na conversa ativa;
 * ALT + B: coloca o foco no campo de busca e o rotula como "Buscar nas conversas e nos contatos...";
 * ALT + C: coloca o foco na lista de conversas;
+* ALT + D: Coloca o foco na janela que contém os botões para favoritar, deletar, encaminhar ou baixar uma mensagem.
 * ALT + E: coloca o foco no campo de escrita de mensagem e o rotula como "Escreva uma mensagem (nome da conversa ativa)";
 * ALT + G: coloca o foco na caixa de diálogo  que contém o botão para iniciar a mensagem de voz;
 * ALT + L: abre uma caixa de opções para selecionar o idioma do script (Português, Inglês ou Espanhol), após precionar a tecla 'enter' na opção desejada as mensagens do script passam a estar naquele idioma;
 * ALT + N: abre uma caixa de texto para ser inserido um número de telefone. Ao teclar 'enter', caso seja um número válido, o chat com esse número será iniciado. Um número válido deve conter: código do país (Brasil = 55), código da cidade (Belo Horizonte 31) e o número propriamente dito;
 * ALT + M: coloca o foco na lista de mensagens da conversa ativa;
 * ALT + S: ativa e desativa o script;
-* ALT + T: fala o título da conversa ativa.
+* ALT + T: fala o título da conversa ativa;
+* ALT + V: envia as mensagens que foram selecionadas para serem encaminhadas.
 
 OBS.: as vezes o NVDA não entra em modo de foco automaticamente ao utilizar os atalhos, Então talvez seja necessário colocá-lo em modo de foco com o atalho NVDA + barra de espaço. Outras teclas podem ser configuradas como tecla NVDA, mas por padrão é o 'Insert'.
+
+#### Passos para Favoritar, deletar, encaminhar ou baixar mensagens:
+
+A janela que o atalho ALT + D se refere, só será exibida depois que os seguintes passos forem realizados:
+1. Utilizar o atalho ALT + M para ir para lista de mensagens;
+2. Se certificar de que o NVDA está no modo de foco (no Jaws é o cursor virtual desativado);
+3. Ao chegar sobre a mensagem que deseja encaminhar, apertar seta para direita;
+4. Clicar no botão encaminhar. Assim será aberta a janela com as opções.
+
+Se nessa janela você escolher realmente encaminhar, então ao clicar o foco irá para uma lista para você selecionar o contato para o qual deseja encaminhar aquela mensagem. Escolha o contato utilizando a seta para baixo ou para cima e precionando 'enter'.
+Caso deseje escolher mais contatos, caminhe com setas novamente e aperte 'enter' no outro contato.
+Quando quiser enviar, utilize o atalho ALT + V.
+Dessa forma, somente aquela mensagem será encaminhada.
+Para selecionar mais mensagens, depois que a janela com as opções for aberta, não clique no botão 'encaminhar'.
+Utilize o atalho ALT + M para retornar à lista de mensagens, e utilize a 'barra de espaço' para selecionar outras mensagens.
+Depois de selecioná-las, utilize o atalho ALT + D para retornar para a janela com as opções, clique no botão 'encaminhar' e selecione os contatos e depois envie com ALT + V.
+Caso não queira encaminhar, você pode clicar nos outros botões:
+* Se clicar em 'favoritar' aquelas mensagens ficarão como favoritas;
+* caso clique em 'deletar' outra janela entrará em foco, então você confirma se deseja realmente deletar ou cancelar;
+* ou se clicar em 'baixar' o download será realizado. Caso mais de uma mensagem esteja selecionada, o arquivo baixado estará no formato.zip, que você pode utilizar programas como WINRAR ou WINZIP para descompactá-lo.
 
 ### Contato
 
@@ -77,15 +99,37 @@ After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are
 * ALT + a: focus on the options for choosing the type of attachment to be sent in the active chat;
 * ALT + B: focus on the search field and label it as "Search chat and contacts ...";
 * ALT + C: focus on the chat list;
+* ALT + D: Place the focus on the window that contains the buttons to bookmark, delete, forward or download a message.
 * ALT + E: puts the focus on the message writing field and labels it "Write a message (name of the active chat)";
 * ALT + G: focus on the dialog box that contains the button to start the voice message;
 * ALT + L: opens an options box to select the language of the script (Portuguese, English or Spanish), after pressing the 'enter' key in the desired option, the script messages will be in that language;
 * ALT + N: opens a text box for entering a phone number. By pressing 'enter', if it is a valid number, the chat with that number will start. A valid number must contain: country code (Brazil = 55), city code (Belo Horizonte 31) and the number itself;
 * ALT + M: puts the focus on the message list of the active chat;
 * ALT + S: activate and deactivate the script;
-* ALT + T: speak the title of the active chat.
+* ALT + T: speak the title of the active chat;
+* ALT + V: sends the messages that have been selected to be forwarded.
 
 NOTE: sometimes NVDA does not go into focus mode automatically when using shortcuts, so you may need to put it in focus mode with the shortcut NVDA + space bar. Other keys can be configured as the NVDA key, but by default it is 'Insert'.
+
+#### Steps to Favorite, delete, forward or download messages:
+
+The window that the ALT + D shortcut refers to will only be displayed after the following steps are taken:
+1. Use the ALT + M shortcut to go to the message list;
+2. Make sure that NVDA is in focus mode (in Jaws, the virtual cursor is disabled);
+3. When you reach the message you want to forward, press the right arrow;
+4. Click the forward button. This will open the window with the options.
+
+If in this window you choose to actually forward, then when you click the focus will go to a list for you to select the contact to whom you want to forward that message. Choose the contact using the down or up arrow and pressing 'enter'.
+If you want to choose more contacts, walk with arrows again and press 'enter' on the other contact.
+When you want to send, use the ALT + V shortcut.
+That way, only that message will be forwarded.
+To select more messages, after the options window opens, do not click on the 'forward' button.
+Use the ALT + M shortcut to return to the message list, and use the 'space bar' to select other messages.
+After selecting them, use the ALT + D shortcut to return to the options window, click on the 'forward' button and select the contacts and then send with ALT + V.
+If you don't want to forward, you can click on the other buttons:
+* If you click on 'favorite' those messages will become favorites;
+* if you click on 'delete' another window will come into focus, then you confirm if you really want to delete or cancel;
+* or if you click 'download' the download will be performed. If more than one message is selected, the downloaded file will be in the .zip format, which you can use programs like WINRAR or WINZIP to unzip it.
 
 ### Contact
 
@@ -123,15 +167,37 @@ Después de habilitar WhatsappWebWithMoreAccessibility, están disponibles las s
 * ALT + a: centrarse en las opciones para elegir el tipo de archivo adjunto que se enviará en la conversación activa;
 * ALT + B: centrarse en el campo de búsqueda y etiquetarlo como "Buscar conversaciones y contactos ...";
 * ALT + C: centrarse en la lista de conversaciones;
+* ALT + D: coloca el foco en la ventana que contiene los botones para marcar, borrar, reenviar o descargar un mensaje.
 * ALT + E: pone el foco en el campo de escritura del mensaje y lo etiqueta "Escribe un mensaje (nombre de la conversación activa)";
 * ALT + G: enfoque en el cuadro de diálogo que contiene el botón para iniciar el mensaje de voz;
 * ALT + L: abre un cuadro de opciones para seleccionar el idioma del guión (portugués, inglés o español), luego de presionar la tecla 'enter' en la opción deseada, los mensajes del guión estarán en ese idioma;
 * ALT + N: abre un cuadro de texto para ingresar un número de teléfono. Pulsando 'enter', si es un número válido, se iniciará el chat con ese número. Un número válido debe contener: código de país (Brasil = 55), código de ciudad (Belo Horizonte 31) y el número en sí;
 * ALT + M: pone el foco en la lista de mensajes de la conversación activa;
 * ALT + S: activar y desactivar el script;
-* ALT + T: dice el título de la conversación activa.
+* ALT + T: dice el título de la conversación activa;
+* ALT + V: envía los mensajes que se han seleccionado para ser reenviados.
 
 NOTA: a veces NVDA no entra en modo de enfoque automáticamente cuando se utilizan atajos, por lo que es posible que debas ponerlo en modo de enfoque con el atajo NVDA + barra espaciadora. Se pueden configurar otras claves como la clave de NVDA, pero por defecto es 'Insertar'.
+
+#### Pasos para marcar como favorito, eliminar, reenviar o descargar mensajes:
+
+La ventana a la que se refiere el atajo ALT + D solo se mostrará después de que se sigan los siguientes pasos:
+1. Use el atajo ALT + M para ir a la lista de mensajes;
+2. Asegúrate de que NVDA esté en modo de enfoque (en Jaws, el cursor virtual está desactivado);
+3. Cuando llegue al mensaje que desea reenviar, presione la flecha derecha;
+4. Haga clic en el botón de avance. Esto abrirá la ventana con las opciones.
+
+Si en esta ventana elige reenviar realmente, cuando haga clic en el foco, irá a una lista para que seleccione el contacto al que desea reenviar ese mensaje. Elija el contacto usando la flecha hacia abajo o hacia arriba y presionando 'enter'
+Si desea elegir más contactos, camine con flechas nuevamente y presione 'enter' en el otro contacto.
+Cuando desee enviar, use el atajo ALT + V.
+De esa forma, solo se reenviará ese mensaje.
+Para seleccionar más mensajes, después de que se abra la ventana de opciones, no haga clic en el botón "Reenviar".
+Use el atajo ALT + M para regresar a la lista de mensajes y use la 'barra espaciadora' para seleccionar otros mensajes.
+Después de seleccionarlos, use el atajo ALT + D para regresar a la ventana de opciones, haga clic en el botón 'adelante' y seleccione los contactos y luego envíe con ALT + V.
+Si no desea reenviar, puede hacer clic en los otros botones:
+* Si hace clic en "favorito", esos mensajes se convertirán en favoritos;
+* si hace clic en 'eliminar', otra ventana se activará, luego confirme si realmente desea eliminar o cancelar;
+* o si hace clic en 'descargar' se realizará la descarga. Si se selecciona más de un mensaje, el archivo descargado estará en formato .zip, que puede usar programas como WINRAR o WINZIP para descomprimirlo.
 
 ### Contacto
 
