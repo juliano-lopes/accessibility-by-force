@@ -296,7 +296,7 @@
                 el = el ? el.querySelector('[role="region"]') : null;
                 if (el) {
                     el.addEventListener("keydown", function (e) {
-                        updateMessage();
+
                         if (e.keyCode == 39) {
                             setTimeout(function () {
                                 if (document.querySelector('[data-animate-dropdown-item="true"]')) {
@@ -349,6 +349,8 @@
                             }, 200);
 
                         }
+
+                        updateMessage();
                     }, false);
 
                 }
@@ -419,7 +421,7 @@
                 let buttonToRecord = document.querySelector('[data-icon="ptt"]');
                 buttonToRecord = buttonToRecord ? buttonToRecord.parentNode : null;
                 if (buttonToRecord) {
-                    let dialogButtonToRecord = buttonToRecord.parentNode.parentNode;
+                    let dialogButtonToRecord = buttonToRecord.parentNode;
                     dialogButtonToRecord.setAttribute("role", "dialog");
                     dialogButtonToRecord.setAttribute("tabindex", "-1");
                     if (!dialogButtonToRecord.querySelector("#dialog-heading")) {
