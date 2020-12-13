@@ -35,7 +35,9 @@
                         replaceContactPhone();
                         alert(phrases.SCRIPT_ACTIVATED);
                         activated = true;
+
                         document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+
                     }
                     else {
                         alert(phrases.LOADING_PAGE);
@@ -95,8 +97,12 @@
         let main = document.getElementById('main');
         if (main) {
             let conversation = main.querySelector('[data-sr-only="conversation-title"]');
-            let conversationTitle = main.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute("title");
+
             if (!conversation) {
+                let conversationTitle = main.querySelector("header");
+                conversationTitle = conversationTitle ? conversationTitle.querySelector('[dir="auto"]') : "";
+                conversationTitle = conversationTitle ? conversationTitle.getAttribute("title") : "";
+
                 if (conversationTitle) {
                     activeConversationTitle = conversationTitle;
                     conversationTitle = phrases.CURRENT_CONVERSATION + conversationTitle;
@@ -193,6 +199,76 @@
             activeButtonToRecordEvent();
         }
     };
+    function updateCheckedMessage() {
+
+        if (document.querySelector('[role="checkbox"]')) {
+
+            let messages = document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]');
+            if (messages.length > 0) {
+                messages.forEach(function (msg) {
+                    let tb = msg.querySelector('[role="checkbox"]');
+                    msg.addEventListener("keydown", function (ekm) {
+                        if (tb && ekm.keyCode == 32) {
+
+                            tb.click();
+
+                        }
+                    }, false);
+                    let cbText = tb.getAttribute("aria-checked") == "true" ? phrases.CHECKED : phrases.UNCHECKED;
+                    let span = msg.querySelector('[data-sr-only="msg-checkbox"]');
+                    if (!span) {
+                        span = document.createElement("span");
+                        span.setAttribute("data-sr-only", "msg-checkbox");
+                        span.setAttribute("aria-label", cbText);
+                        span.setAttribute("aria-live", "polite");
+                        msg.insertBefore(span, msg.firstChild);
+                    }
+                    else {
+                        span.setAttribute("aria-label", cbText);
+                    }
+                });
+            }
+        }
+
+    }
+
+    function updateCheckedContact(ek) {
+        if (document.querySelector('[data-icon="x"]'))
+            document.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE);
+        if (document.querySelector('[role="checkbox"]')) {
+            if (document.querySelector('[data-icon="send"]')) {
+                document.querySelector('[data-icon="send"]').parentNode.setAttribute("aria-label", phrases.SEND);
+                if (ek.altKey && ek.keyCode == 86) {
+                    ek.preventDefault();
+                    ek.stopPropagation();
+                    document.querySelector('[data-icon="send"]').parentNode.click();
+                }
+            }
+            let checkBoxes = document.querySelectorAll('[role="checkbox"]');
+
+            checkBoxes.forEach(function (cb) {
+
+                if (cb.parentNode.parentNode.querySelector('[dir="auto"]')) {
+                    let titles = cb.parentNode.parentNode.querySelector('[dir="auto"]').parentNode.parentNode.parentNode.parentNode.querySelectorAll('[title]');
+                    titles[1] ? titles[1].setAttribute("aria-hidden", "true") : false;
+                    let cbText = cb.getAttribute("aria-checked") == "true" ? phrases.CHECKED : phrases.UNCHECKED;
+                    titles[0].setAttribute("aria-label", cbText + titles[0].getAttribute("title"));
+                    cb.setAttribute("aria-label", titles[0].getAttribute("title"));
+
+                }
+            });
+
+        }
+
+    }
+    function selectedMessages() {
+        if (document.querySelector('[data-icon="star-btn"]')) {
+            let selectedMessages = document.querySelector('[data-icon="star-btn"]').parentNode.previousSibling;
+            let selectedMessagesText = parseInt(selectedMessages.textContent);
+            selectedMessagesText = selectedMessagesText ? selectedMessagesText + phrases.SELECTED_MESSAGE : "";
+            selectedMessages.textContent = selectedMessagesText ? selectedMessagesText : selectedMessages.textContent;
+        }
+    }
 
     function activeEvents() {
 
@@ -215,12 +291,73 @@
             else if (e.altKey && e.keyCode == 77) {
                 e.preventDefault();
                 e.stopPropagation();
-                el = document.getElementById('main').querySelector('[role="region"]');
+                el = document.getElementById('main');
+                el = el ? el.querySelector('[role="region"]') : null;
+                if (el) {
+                    el.addEventListener("keydown", function (e) {
+                        updateMessage();
+                        if (e.keyCode == 39) {
+                            setTimeout(function () {
+                                if (document.querySelector('[data-animate-dropdown-item="true"]')) {
+                                    let ul = document.querySelector('[data-animate-dropdown-item="true"]').parentNode;
+                                    ul.querySelectorAll('li div[role="button"]').forEach(function (elem) {
+                                        elem.parentNode.addEventListener("keydown", function (e2) {
+                                            if (e2.keyCode == 13) {
+                                                setTimeout(function () {
+
+                                                    if (document.querySelector('[data-icon="star-btn"]')) {
+                                                        let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
+                                                        container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE);
+                                                        container.setAttribute("tabindex", "-1");
+                                                        container.setAttribute("role", "dialog");
+                                                        container.setAttribute("aria-label", phrases.CONTAINER_HEADING);
+                                                        container.setAttribute("data-dialog-sr-only", "dialog");
+                                                        let containerHeading = container.querySelector('[data-sr-only="container-heading"]');
+                                                        if (!containerHeading) {
+                                                            containerHeading = document.createElement("h3");
+                                                            containerHeading.textContent = phrases.CONTAINER_HEADING;
+                                                            containerHeading.setAttribute("data-sr-only", "container-heading");
+                                                            containerHeading = setClassSROnly(containerHeading);
+                                                            container.insertBefore(containerHeading, container.firstChild);
+                                                        }
+                                                        selectedMessages();
+                                                        container.addEventListener("keydown", function (evc) {
+                                                            if (evc.keyCode == 9) {
+                                                                evc.preventDefault();
+                                                                evc.stopPropagation();
+                                                            }
+                                                        }, false);
+                                                        container.focus();
+                                                        updateCheckedMessage();
+                                                        document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false);
+                                                        container.addEventListener("click", function (ec) {
+                                                            setTimeout(function () {
+                                                                document.addEventListener("keydown", updateCheckedContact, false);
+                                                                document.querySelector('button, [role="button"]').focus();
+                                                            }, 1000);
+
+                                                        }, false);
+
+
+                                                    }
+                                                }, 500);
+                                            }
+                                        }, false);
+                                    });
+                                }
+                            }, 200);
+
+                        }
+                    }, false);
+
+                }
+
             }
             else if (e.altKey && e.keyCode == 69) {
                 e.preventDefault();
                 e.stopPropagation();
-                el = document.querySelector('footer').querySelector('[contenteditable="true"]');
+                el = document.querySelector('footer');
+                el = el ? el.querySelector('[contenteditable="true"]') : null;
                 if (el) {
 
                     activeConversationTitle ? el.setAttribute("aria-label", phrases.WRITE_MESSAGE + activeConversationTitle) : el.setAttribute("aria-label", phrases.WRITE_MESSAGE_WITHOUT_CONTACT_NAME);
@@ -259,17 +396,27 @@
             else if (e.altKey && e.keyCode == 84) {
                 e.preventDefault();
                 e.stopPropagation();
-                document.getElementById("span-to-aria-live").textContent = activeConversationTitle;
-                setTimeout(function () {
-                    document.getElementById("span-to-aria-live").textContent = "";
-                }, 1000);
+                let spanAriaLive = document.getElementById("span-to-aria-live");
+                if (spanAriaLive) {
+                    spanAriaLive.textContent = activeConversationTitle;
+                    setTimeout(function () {
+                        spanAriaLive.textContent = "";
+                    }, 1000);
+                }
+
             }
             else if (e.altKey && e.keyCode == 78) {
+                e.preventDefault();
+                e.stopPropagation();
+
                 newChatWithNumberNotSaved();
             }
             else if (e.altKey && e.keyCode == 71) {
+                e.preventDefault();
+                e.stopPropagation();
 
-                let buttonToRecord = document.querySelector('[data-icon="ptt"]').parentNode;
+                let buttonToRecord = document.querySelector('[data-icon="ptt"]');
+                buttonToRecord = buttonToRecord ? buttonToRecord.parentNode : null;
                 if (buttonToRecord) {
                     let dialogButtonToRecord = buttonToRecord.parentNode.parentNode;
                     dialogButtonToRecord.setAttribute("role", "dialog");
@@ -282,6 +429,15 @@
                         dialogButtonToRecord.insertBefore(dialogHeading, dialogButtonToRecord.firstChild);
                     }
                     dialogButtonToRecord.focus();
+                }
+            }
+            else if (e.altKey && e.keyCode == 68) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (document.querySelector('[data-dialog-sr-only]')) {
+                    selectedMessages();
+                    document.querySelector('[data-dialog-sr-only]').focus();
                 }
             }
             el ? el.focus() : false;
@@ -473,6 +629,7 @@
             let messageRegion = main.querySelector('[role="region"]');
             if (messageRegion) {
                 let messageContainers = messageRegion.querySelectorAll('[class*="focusable-list-item"]');
+
                 if (messageContainers.length > 0) {
                     messageContainers.forEach(function (messageContainer) {
                         messageContainer.setAttribute("role", "option");
@@ -543,7 +700,13 @@
 "NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
 "RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Mensagem de"
+"REPLACE_CONTACT_PHONE_MESSAGE":"Mensagem de",
+"CLOSE":"Fechar",
+"SEND":"Enviar",
+"CHECKED":"Marcado ",
+"UNCHECKED":"Não marcado ",
+"CONTAINER_HEADING":"Selecione uma opção apertando a tecla 'enter', ou precione ALT + M para selecionar outras mensagens utilizando a 'barra de espaço'.",
+"SELECTED_MESSAGE":" mensagem(ens) selecionada(s)."
                     },
                     {
                         "language": "en-us",
@@ -569,7 +732,13 @@
 "NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
 "RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Message from"
+"REPLACE_CONTACT_PHONE_MESSAGE":"Message from",
+"CLOSE": "Close",
+"SEND": "Send",
+"CHECKED": "Checked ",
+"UNCHECKED": "Not checked ",
+"CONTAINER_HEADING": "Select an option by pressing the 'enter' key, or press ALT + M to select other messages using the 'space bar'.",
+"SELECTED_MESSAGE":" message(s) selected."
                         },
                         {
                             "language": "es-es",
@@ -595,7 +764,13 @@
 "NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
 "RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de"
+"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de",
+"CLOSE":"Cerrar",
+"SEND": "Enviar",
+"CHECKED": "Marcado ",
+"UNCHECKED": "No marcado ",
+"CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
+"SELECTED_MESSAGE":" mensaje(s) seleccionada(s)."
                             }
             ]
         `;
