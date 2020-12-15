@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WhatsappWithMoreAccessibility
 // @namespace    https://github.com/juliano-lopes/accessibility-by-force/
-// @version      3.0
+// @version      3.1
 // @description  Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users. Script para una mejor accesibilidad y usabilidad en WhatsappWeb.
 // @author       Juliano Lopes (https://github.com/juliano-lopes/)
 // @match        https://web.whatsapp.com
@@ -683,6 +683,10 @@
         const languages = ["es", "es-es", "es-gt", "es-mx", "es-cr", "es-pa", "es-do", "es-ve", "es-co", "es-pe", "es-ar", "es-ec", "es-cl", "es-uy", "es-py", "es-bo", "es-sv", "es-hn", "es-ni", "es-pr"];
         return languages.indexOf(language) != -1;
     };
+    const isRussian = function (language) {
+        const languages = ["ru-ru", "ru"];
+        return languages.indexOf(language) != -1;
+    };
 
     const getPhrases = function (myLanguage) {
         const allPhrases = JSON.parse(PHRASES_JSON);
@@ -792,7 +796,39 @@
 "UNCHECKED": "No marcado ",
 "CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
 "SELECTED_MESSAGE":" mensaje(s) seleccionada(s)."
-                            }
+                            },
+                    {
+                        "language": "ru-ru",
+                        "description":"Russian (Русский)",
+                        "SCRIPT_ACTIVATED": "Скрипт доступности успешно активирован!",
+                        "LOADING_PAGE": "Документ все еще загружается...",
+                        "SCRIPT_DESACTIVATED": "Скрипт доступности отключен!",
+   "MAIN_PANE_HEADING": "Основная панель",
+   "CURRENT_CONVERSATION": "Активный чат с ",
+   "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Активный чат",
+   "BUTTON_SEND_TEXT_MESSAGE": "Отправить текстовое сообщение",
+   "BUTTON_RECORD_VOICE_MESSAGE": "Записать голосовое сообщение",
+   "BUTTON_SEND_VOICE_MESSAGE": "Отправить голосовое сообщение",
+   "BUTTON_CANCEL_RECORDING": "Отменить запись",
+   "WRITE_MESSAGE": "Написать сообщение для ",
+   "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Написать сообщение",
+   "ATTACH_CONTAINER_MESSAGE": "Выберите, что вы хотите прикрепить...",
+   "SEARCH_LABEL": "Поиск чатов и контактов...",
+   "SELECT_LANGUAGE":"Выберите язык скрипта: ",
+   "LANGUAGE_SELECTED":"Язык скрипта был успешно изменен!",
+   "LABEL_NEW_CHAT_INPUT": "Введите номер, на который вы хотите отправить сообщение:",
+"NEW_CHAT_INPUT_INCORRECT": "Не допустимый формат номера. Он должен содержать только цифры, код страны (+7 Россия) и код оператора перед номером телефона.",
+"NEW_CHAT_INPUT_INVALID_NUMBER": "Этот номер недействителен, он не может быть зарегистрирован в Whatsapp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON": "Нажмите кнопку ниже, чтобы начать запись голосового сообщения:",
+"RECORDING_DIALOG_HEADING": "Запись голосового сообщения. Для навигации используйте стрелки.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Сообщение от",
+"CLOSE": "Закрыть",
+"SEND": "Отправить",
+"CHECKED": "Отмечено ",
+"UNCHECKED": "Не отмечено ",
+"CONTAINER_HEADING": "Выберите нужную функцию, нажав клавишу 'enter' или нажмите ALT + M, используйте 'пробел', чтобы выбрать другие сообщения.",
+"SELECTED_MESSAGE":" сообщений выбрано."
+                        }
             ]
         `;
 
