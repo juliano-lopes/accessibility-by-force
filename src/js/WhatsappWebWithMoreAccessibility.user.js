@@ -669,6 +669,8 @@
             return "en-us";
         } else if (isSpanish(myLanguage)) {
             return "es-es";
+        } else if (isRussian(myLanguage)) {
+            return "ru-ru";
         } else {
             return "pt-br";
         }
