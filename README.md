@@ -2,7 +2,7 @@
 Scripts para colocar melhor acessibilidade e usabilidade em algumas páginas WEB.
 
 ### Scripts disponíveis: 
-* [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb With More Accessibility](https://github.com/alekssamos/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
 Para utilização dos scripts, é necessário ter instalada a extensção [Tampermonkey para o Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) ou [Tampermonkey para Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
 Após isso, basta acessar o script, que será reconhecido pelo Tampermonkey, e clicar em instalar.
@@ -70,7 +70,7 @@ Qualquer contribuição que queira realizar pode ser feita por meio do endereço
 Scripts to put better accessibility and usability on some WEB pages.
 
 ### Available scripts:
-* [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb With More Accessibility](https://github.com/alekssamos/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
 To use the scripts, it is necessary to have the extension [Tampermonkey for Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
 installed or [Tampermonkey for Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
@@ -139,7 +139,7 @@ Any contribution you want to make can be made through julopeson@gmail.com
 Scripts para mejorar la accesibilidad y usabilidad de algunas páginas WEB.
 
 ### Scripts disponibles:
-* [WhatsappWeb con más accesibilidad](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb con más accesibilidad](https://github.com/alekssamos/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
 Para utilizar los scripts, es necesario tener instalada la extensión [Tampermonkey para Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
 o [Tampermonkey para Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/).
@@ -207,7 +207,7 @@ Cualquier aportación que quieras realizar la puedes realizar a través de julop
 Скрипты для улучшения доступности и удобства использования некоторых веб-страниц.
 
 ### Доступные скрипты:
-* [WhatsappWeb With More Accessibility](https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
+* [WhatsappWeb With More Accessibility](https://github.com/alekssamos/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js)
 
 Чтобы использовать скрипты, необходимо установить расширение [Tampermonkey для Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ru)
 или [Tampermonkey для Mozilla Firefox](https://addons.mozilla.org/ru-RU/firefox/addon/tampermonkey/).
