@@ -487,10 +487,14 @@
     function replaceContactPhone() {
         if (document.getElementById("main")) {
             intervalReplaceContactPhone = setInterval(function () {
-                document.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (el) {
-                    if (el.querySelector('span[dir="auto"]') && el.querySelector('span[dir="auto"]').textContent != "") {
-                        if (el.querySelector('span[role="button"]')) {
-                            let contactPhone = el.querySelector('span[role="button"]');
+                document.querySelectorAll('[class*="message-in"]').forEach(function (el) {
+                    let contactName = el.querySelector('span[dir="auto"]');
+                    if (contactName && (contactName.textContent != "") && (contactName.textContent.indexOf(":") == -1) && contactName.previousSibling && (contactName.previousSibling.getAttribute("role") == "button")) {
+
+                        let contactPhone = contactName.previousSibling;
+
+                        if (contactPhone.textContent.indexOf("+") == 0) {
+
                             if (!contactPhone.parentNode.querySelector('[data-sr-only="replace-contact-phone"]')) {
                                 let span = document.createElement("span");
                                 span.setAttribute("data-sr-only", "replace-contact-phone");
@@ -499,7 +503,9 @@
                                 contactPhone.setAttribute("aria-hidden", "true");
                             }
                         }
+
                     }
+
                     addLabelVideoAndImage(el);
                 });
             }, 1000);
