@@ -1,18 +1,22 @@
 // ==UserScript==
-// @name         WhatsappWithMoreAccessibility
-// @namespace    https://github.com/juliano-lopes/accessibility-by-force/
-// @version      3.0.1
-// @description  Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users. Script para una mejor accesibilidad y usabilidad en WhatsappWeb.
-// @author       Juliano Lopes (https://github.com/juliano-lopes/)
-// @match        https://web.whatsapp.com
+// @name WhatsappWithMoreAccessibility
+// @namespace https://github.com/juliano-lopes/accessibility-by-force/
+// @version 3.0.2
+// @description Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users. Script para una mejor accesibilidad y usabilidad en WhatsappWeb.
+// @author Juliano Lopes (https://github.com/juliano-lopes/)
+// @match https://web.whatsapp.com
 // @downloadURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
 // @updateURL https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js
-// @grant        none
+// @grant GM_xmlhttpRequest
+// @connect github.com
+// @connect githubusercontent.com
 // ==/UserScript==
 
 (function () {
     'use strict';
+    const version = "3.0.2";
     const WPPAPI = "https://api.whatsapp.com/send?phone=";
+    const scriptUrl = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js";
     var activeConversationTitle = "";
     var listeners = [];
     var activated = false;
@@ -35,9 +39,7 @@
                         replaceContactPhone();
                         alert(phrases.SCRIPT_ACTIVATED);
                         activated = true;
-
-                        document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
-
+                        checkScriptUpdate();
                     }
                     else {
                         alert(phrases.LOADING_PAGE);
@@ -57,6 +59,31 @@
 
     }
 
+    function checkScriptUpdate() {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: scriptUrl,
+            responseType: "text",
+            onload: function (res) {
+                let reg = /(\d[.]?)+/;
+                let newVersion = reg.exec(res.responseText);
+                if (newVersion) {
+                    if (newVersion[0] && newVersion[0] > version) {
+                        if (confirm(phrases.NEW_VERSION_MESSAGE + newVersion[0])) {
+                            window.open(scriptUrl);
+                        }
+                        else {
+                            document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+                        }
+                    }
+                    else
+                        document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+                }
+                else
+                    document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+            }
+        });
+    }
 
     function removeAccessibilityListenerEvents() {
         if (listeners && listeners.length > 0) {
@@ -744,7 +771,9 @@
 "CHECKED":"Marcado ",
 "UNCHECKED":"Não marcado ",
 "CONTAINER_HEADING":"Selecione uma opção apertando a tecla 'enter', ou precione ALT + M para selecionar outras mensagens utilizando a 'barra de espaço'.",
-"SELECTED_MESSAGE":" mensagem(ens) selecionada(s)."
+"SELECTED_MESSAGE":" mensagem(ens) selecionada(s).",
+"NEW_VERSION_MESSAGE":"Uma nova versão para o script 'Whatsapp Web With More Accessibility' está disponível. Caso queira atualizar, clique em 'OK' e depois em atualizar. Após isso recarregue a página do Whatsapp apertando a tecla F5 e reative o script com ALT + S. Nova versão: "
+
                     },
                     {
                         "language": "en-us",
@@ -777,7 +806,8 @@
 "CHECKED": "Checked ",
 "UNCHECKED": "Not checked ",
 "CONTAINER_HEADING": "Select an option by pressing the 'enter' key, or press ALT + M to select other messages using the 'space bar'.",
-"SELECTED_MESSAGE":" message(s) selected."
+"SELECTED_MESSAGE":" message(s) selected.",
+"NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: "
                         },
                         {
                             "language": "es-es",
@@ -810,7 +840,8 @@
 "CHECKED": "Marcado ",
 "UNCHECKED": "No marcado ",
 "CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
-"SELECTED_MESSAGE":" mensaje(s) seleccionada(s)."
+"SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
+"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: "
                             }
             ]
         `;
