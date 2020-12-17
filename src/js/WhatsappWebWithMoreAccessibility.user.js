@@ -552,15 +552,18 @@
         let newChatInput = document.getElementById("new-chat-input");
         if (!newChatInput) {
             let newChatContainer = document.createElement("div");
-            let label = document.createElement("label");
             newChatInput = document.createElement("input");
             let span = document.createElement("span");
             newChatContainer.id = "new-chat-container";
             span.setAttribute("role", "alert");
-
+            newChatInput.setAttribute("type", "tel");
             newChatInput.id = "new-chat-input";
             newChatInput.setAttribute("aria-label", phrases.LABEL_NEW_CHAT_INPUT);
+            newChatInput.setAttribute("placeholder", phrases.PLACEHOLDER_NEW_CHAT_INPUT);
+            newChatInput.setAttribute("autocomplete", "off");
+            let newChatInputStyle = "background-color: #90ee90;";
 
+            newChatInput.setAttribute("style", newChatInputStyle);
             newChatInput.addEventListener("keydown", function (e) {
                 if (e.keyCode == 13) {
                     const reg = /^\d+$/;
@@ -581,7 +584,9 @@
                                 newChatContainer.removeChild(link);
                                 newChatInput.focus();
                                 span.textContent = "";
+
                                 setTimeout(function () {
+
                                     span.textContent = phrases.NEW_CHAT_INPUT_INVALID_NUMBER;
                                 }, 1000);
 
@@ -589,7 +594,11 @@
                             else {
                                 newChatContainer.parentNode.removeChild(newChatContainer);
                                 setTimeout(function () {
-                                    activeConversationTitle = document.getElementById("main").childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute("title");
+                                    let conversationTitle = main.querySelector("header");
+                                    conversationTitle = conversationTitle ? conversationTitle.querySelector('[dir="auto"]') : "";
+                                    conversationTitle = conversationTitle ? conversationTitle.getAttribute("title") : "";
+
+                                    activeConversationTitle = conversationTitle;
                                     document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                                 }, 500);
 
@@ -602,6 +611,7 @@
 
                         span.textContent = "";
                         setTimeout(function () {
+
                             span.textContent = phrases.NEW_CHAT_INPUT_INCORRECT;
                         }, 100);
 
@@ -614,12 +624,12 @@
                     e.stopPropagation();
                     newChatContainer.parentNode.removeChild(newChatContainer);
                 }
+
             }, false);
 
             newChatContainer.appendChild(newChatInput);
             newChatContainer.appendChild(span);
-            newChatContainer = setClassSROnly(newChatContainer);
-            document.body.insertBefore(newChatContainer, document.body.firstChild);
+            document.getElementById("pane-side").insertBefore(newChatContainer, document.getElementById("pane-side").firstChild);
 
         }
         setTimeout(function () {
@@ -722,7 +732,8 @@
 "SEARCH_LABEL":"Buscar nas conversas e nos contatos...",
 "SELECT_LANGUAGE":"Selecione o idioma do script: ",
 "LANGUAGE_SELECTED":"O idioma do script foi alterado com sucesso!",
-"LABEL_NEW_CHAT_INPUT":"Digite o número para o qual deseja enviar mensagem: ",
+"LABEL_NEW_CHAT_INPUT":"Digite o número para o qual deseja enviar mensagem",
+"PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
 "NEW_CHAT_INPUT_INCORRECT":"Esse número está num formato inválido. Deve conter somente números, o código do país (Brasil = 55), o DDD da cidade (Belo Horizonte = 31) e o 9 antes do número.",
 "NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
@@ -755,6 +766,7 @@
    "SELECT_LANGUAGE":"Select the script language: ",
    "LANGUAGE_SELECTED":"The script language has been successfully changed!",
    "LABEL_NEW_CHAT_INPUT": "Enter the number you want to send a message to:",
+   "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
 "NEW_CHAT_INPUT_INCORRECT": "This number is in an invalid format. It must contain only numbers, the country code and the city code before the phone number.",
 "NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
@@ -787,6 +799,7 @@
        "SELECT_LANGUAGE": "Seleccione el idioma del script:",
        "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
        "LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
+       "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
 "NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
 "NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
 "DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
