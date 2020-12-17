@@ -62,6 +62,9 @@ Caso não queira encaminhar, você pode clicar nos outros botões:
 * caso clique em 'deletar' outra janela entrará em foco, então você confirma se deseja realmente deletar ou cancelar;
 * ou se clicar em 'baixar' o download será realizado. Caso mais de uma mensagem esteja selecionada, o arquivo baixado estará no formato.zip, que você pode utilizar programas como WINRAR ou WINZIP para descompactá-lo.
 
+#### Atualização do script
+Ao ser ativado, o script irá verificar se há uma nova versão. Caso haja, será exibido um diálogo de confirmação. Para atualizar basta clicar em 'OK' e depois em 'atualizar'. Para recusar a atualização é só clicar em 'Cancelar'.
+
 ### Contato
 
 Qualquer contribuição que queira realizar pode ser feita por meio do endereço julopeson@gmail.com
@@ -131,6 +134,9 @@ If you don't want to forward, you can click on the other buttons:
 * if you click on 'delete' another window will come into focus, then you confirm if you really want to delete or cancel;
 * or if you click 'download' the download will be performed. If more than one message is selected, the downloaded file will be in the .zip format, which you can use programs like WINRAR or WINZIP to unzip it.
 
+#### Update the script
+When activated, the script will check for a new version. If so, a confirmation dialog will be displayed. To update just click on 'OK' and then on 'update'. To refuse the update, just click on 'Cancel'.
+
 ### Contact
 
 Any contribution you want to make can be made through julopeson@gmail.com
@@ -198,6 +204,9 @@ Si no desea reenviar, puede hacer clic en los otros botones:
 * Si hace clic en "favorito", esos mensajes se convertirán en favoritos;
 * si hace clic en 'eliminar', otra ventana se activará, luego confirme si realmente desea eliminar o cancelar;
 * o si hace clic en 'descargar' se realizará la descarga. Si se selecciona más de un mensaje, el archivo descargado estará en formato .zip, que puede usar programas como WINRAR o WINZIP para descomprimirlo.
+
+#### Actualiza el script
+Cuando se activa, el script buscará una nueva versión. Si es así, se mostrará un cuadro de diálogo de confirmación. Para actualizar simplemente haga clic en 'Aceptar' y luego en 'actualizar'. Para rechazar la actualización, simplemente haga clic en "Cancelar".
 
 ### Contacto
 
