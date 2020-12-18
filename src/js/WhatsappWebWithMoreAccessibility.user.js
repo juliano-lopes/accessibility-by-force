@@ -813,40 +813,6 @@
 "SELECTED_MESSAGE":" message(s) selected.",
 "NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: "
                         },
-                        {
-                            "language": "es-es",
-                            "description":"Espanhol (Spanish)",
-                            "SCRIPT_ACTIVATED": "¡El script de accesibilidad se activó correctamente!",
-                            "LOADING_PAGE": "El documento aún se está cargando ...",
-                            "SCRIPT_DESACTIVATED": "¡Secuencia de comandos de accesibilidad inhabilitada!",
-       "MAIN_PANE_HEADING": "Panel principal",
-       "CURRENT_CONVERSATION": "Conversación activa con ",
-       "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Conversación activa",
-       "BUTTON_SEND_TEXT_MESSAGE": "Enviar mensaje de texto",
-       "BUTTON_RECORD_VOICE_MESSAGE": "Grabar mensaje de voz",
-       "BUTTON_SEND_VOICE_MESSAGE": "Enviar mensaje de voz",
-       "BUTTON_CANCEL_RECORDING": "Cancelar grabación",
-       "WRITE_MESSAGE": "Escribir un mensaje a ",
-       "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Escribe un mensaje",
-       "ATTACH_CONTAINER_MESSAGE": "Seleccione lo que desea adjuntar ...",
-       "SEARCH_LABEL": "Buscar conversaciones y contactos ...",
-       "SELECT_LANGUAGE": "Seleccione el idioma del script:",
-       "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
-       "LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
-       "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
-"NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
-"NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
-"DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
-"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de",
-"CLOSE":"Cerrar",
-"SEND": "Enviar",
-"CHECKED": "Marcado ",
-"UNCHECKED": "No marcado ",
-"CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
-"SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
-"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: "
-                            },
                     {
                         "language": "id-Indonesian",
                         "description":"Indonesian (Bahasa Indonnesia)",
@@ -881,7 +847,43 @@
 "SELECTED_MESSAGE":" Pesan(s) Dipilih.",
 "NEW_VERSION_MESSAGE": "Versi baru untuk 'Whatsapp Web With More Accessibility' script telah tersedia. Jika anda ingin memperbarui, klik 'OK' dan kemudian perbarui. Setelah itu muat ulang halaman WhatsApp dengan menekan tombol f5, dan aktifkan ulang script dengan menekan alt+s. Versi baru: "
                         }
+                        {
+                            "language": "es-es",
+                            "description":"Espanhol (Spanish)",
+                            "SCRIPT_ACTIVATED": "¡El script de accesibilidad se activó correctamente!",
+                            "LOADING_PAGE": "El documento aún se está cargando ...",
+                            "SCRIPT_DESACTIVATED": "¡Secuencia de comandos de accesibilidad inhabilitada!",
+       "MAIN_PANE_HEADING": "Panel principal",
+       "CURRENT_CONVERSATION": "Conversación activa con ",
+       "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Conversación activa",
+       "BUTTON_SEND_TEXT_MESSAGE": "Enviar mensaje de texto",
+       "BUTTON_RECORD_VOICE_MESSAGE": "Grabar mensaje de voz",
+       "BUTTON_SEND_VOICE_MESSAGE": "Enviar mensaje de voz",
+       "BUTTON_CANCEL_RECORDING": "Cancelar grabación",
+       "WRITE_MESSAGE": "Escribir un mensaje a ",
+       "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Escribe un mensaje",
+       "ATTACH_CONTAINER_MESSAGE": "Seleccione lo que desea adjuntar ...",
+       "SEARCH_LABEL": "Buscar conversaciones y contactos ...",
+       "SELECT_LANGUAGE": "Seleccione el idioma del script:",
+       "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
+       "LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
+       "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
+"NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
+"NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
+"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de",
+"CLOSE":"Cerrar",
+"SEND": "Enviar",
+"CHECKED": "Marcado ",
+"UNCHECKED": "No marcado ",
+"CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
+"SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
+"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: "
+                            }
+
             ]
         `;
 
 })()
+        
