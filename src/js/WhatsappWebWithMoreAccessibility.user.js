@@ -813,7 +813,7 @@
 "NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: "
                         },
                     {
-"language": "Indonesian",
+"language": "id",
                         "description":"Indonesian (Bahasa Indonesia)",
                         "SCRIPT_ACTIVATED": "Script aksesibilitas telah diaktifkan!",
                         "LOADING_PAGE": "Dokumen masih memuat ...",
