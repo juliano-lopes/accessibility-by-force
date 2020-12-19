@@ -712,6 +712,8 @@
             return "en-us";
         } else if (isSpanish(myLanguage)) {
             return "es-es";
+        } else if (isIndonesian(myLanguage)) {
+            return "id";
         } else {
             return "pt-br";
         }
