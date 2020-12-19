@@ -729,8 +729,9 @@
         return languages.indexOf(language) != -1;
     };
     const isIndonesian = function (language) {
-        const languages = ["id", "id-ind", "id-am", "id-ar", "id-cr", "id-it", "id-in", "id-do", "id-ja", "id-kn", "id-my", "id-ec", "id-en", "id-uy", "id-py", "id-bo", "id-sv", "id-hn", "id-ni", "id-pr"];
-};
+        const languages = ["id", "id-it", "id-en", "id-my"];
+        return languages.indexOf(language) != -1;
+    };
 
     const getPhrases = function (myLanguage) {
         const allPhrases = JSON.parse(PHRASES_JSON);
@@ -814,8 +815,8 @@
 "SELECTED_MESSAGE":" message(s) selected.",
 "NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: "
                         },
-                    {
-"language": "id",
+                        {
+                        "language": "id",
                         "description":"Indonesian (Bahasa Indonesia)",
                         "SCRIPT_ACTIVATED": "Script aksesibilitas telah diaktifkan!",
                         "LOADING_PAGE": "Dokumen masih memuat ...",
