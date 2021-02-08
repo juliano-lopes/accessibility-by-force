@@ -128,10 +128,12 @@
             if (!conversation) {
                 let conversationTitle = main.querySelector("header");
                 conversationTitle = conversationTitle ? conversationTitle.querySelector('[dir="auto"]') : "";
+
                 conversationTitle = conversationTitle ? conversationTitle.getAttribute("title") : "";
 
                 if (conversationTitle) {
                     activeConversationTitle = conversationTitle;
+
                     conversationTitle = phrases.CURRENT_CONVERSATION + conversationTitle;
                 } else {
                     conversationTitle = phrases.CONVERSATION_TITLE_WITHOUT_CONTACT_NAME;
@@ -446,7 +448,16 @@
                 e.stopPropagation();
                 let spanAriaLive = document.getElementById("span-to-aria-live");
                 if (spanAriaLive) {
-                    spanAriaLive.textContent = activeConversationTitle;
+                    let conversationStatus = document.getElementById("main") ? document.getElementById("main").querySelector("header") : null;
+                    conversationStatus = conversationStatus ? conversationStatus.querySelector('[dir="auto"]') : null;
+                    conversationStatus = conversationStatus ? conversationStatus.parentNode : null;
+                    conversationStatus = conversationStatus ? conversationStatus.parentNode : null;
+                    conversationStatus = conversationStatus ? conversationStatus.nextSibling : null;
+                    conversationStatus = conversationStatus ? conversationStatus.querySelector('span[title]') : null;
+                    conversationStatus = conversationStatus ? conversationStatus.getAttribute("title") : null;
+                    conversationStatus = conversationStatus && conversationStatus.indexOf(",") == -1 ? conversationStatus : null;
+
+                    spanAriaLive.textContent = conversationStatus ? activeConversationTitle + " (" + conversationStatus + ")" : activeConversationTitle;
                     setTimeout(function () {
                         spanAriaLive.textContent = "";
                     }, 1000);
