@@ -339,6 +339,16 @@
                 e.preventDefault();
                 e.stopPropagation();
                 el = document.getElementById('main');
+                if (el && el.querySelector('[data-icon]') && el.querySelector('[data-icon]').getAttribute("data-icon").indexOf("user") != -1) {
+                    let statusContainer = el.querySelector('header');
+                    statusContainer = statusContainer ? statusContainer.querySelector('[dir="auto"]') : null;
+                    statusContainer = statusContainer ? statusContainer.parentNode : null;
+                    statusContainer = statusContainer ? statusContainer.parentNode : null;
+                    statusContainer = statusContainer ? statusContainer.parentNode : null;
+                    statusContainer ? statusContainer.setAttribute("aria-live", "polite") : null;
+
+                }
+
                 el = el ? el.querySelector('[role="region"]') : null;
                 if (el) {
                     el.addEventListener("keydown", function (e) {
