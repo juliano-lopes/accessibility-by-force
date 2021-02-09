@@ -14,7 +14,7 @@
 
 (function () {
     'use strict';
-    const version = "3.0.2";
+    const version = "3.0.3";
     const WPPAPI = "https://api.whatsapp.com/send?phone=";
     const scriptUrl = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js";
     var activeConversationTitle = "";
