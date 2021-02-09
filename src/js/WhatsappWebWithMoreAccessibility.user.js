@@ -319,13 +319,10 @@
 
     }
     function setLabelOnAttachFiles() {
-
-        //colocando rótulo no botão de fechar e de visualizar os arquivos anexados
         filesAttachInterval ? clearInterval(filesAttachInterval) : null;
         files = [];
         filesAttachInterval = setInterval(function () {
             if (document.querySelector('header').parentNode.parentNode && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="x-alt"]') && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="x"]') && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="send"]')) {
-                console.log("existe tudo");
                 document.querySelector('header').parentNode.parentNode.setAttribute("data-sr-only", "dialog-to-atach-files");
                 document.querySelector('header').parentNode.parentNode.setAttribute("role", "dialog");
                 document.querySelector('header').parentNode.parentNode.setAttribute("tabindex", "-1");
@@ -337,47 +334,40 @@
                     files.forEach(function (el, i) {
                         if (!el.querySelector('span')) {
                             let span = document.createElement("span");
-                            span.textContent = "Remover arquivo " + (i + 1);
+                            span.textContent = phrases.REMOVE_ATTACHED_FILE + (i + 1);
                             el.appendChild(span);
                             let span2 = document.createElement("span");
-                            span2.textContent = "Visualizar arquivo " + (i + 1);
+                            span2.textContent = phrases.VIEW_ATTACHED_FILE + (i + 1);
                             el.parentNode.parentNode.appendChild(span2);
                         }
                     });
                 }
 
-                //fechar toda a pré-visualização dos arquivos
-                document.querySelector('[data-icon="x"]').parentNode.setAttribute("aria-label", "Fechar previsualização de arquivos");
+                document.querySelector('[data-icon="x"]').parentNode.setAttribute("aria-label", phrases.CLOSE_ATTACHED_FILE_PREVIEW);
                 document.querySelector('[data-icon="x"]').parentNode.addEventListener("click", function () {
                     clearInterval(filesAttachInterval);
                     files = [];
                 }, false);
 
-                //ródulo para o botão enviar arquivos anexados
-                document.querySelector('[data-icon="send"]').parentNode.setAttribute("aria-label", "Enviar");
+                document.querySelector('[data-icon="send"]').parentNode.setAttribute("aria-label", phrases.SEND_ATTACHED_FILE);
                 document.querySelector('[data-icon="send"]').parentNode.addEventListener("click", function () {
                     clearInterval(filesAttachInterval);
                     files = [];
                 }, false);
 
-                // evento que também irá fechar a janela
-
                 document.querySelector('header').parentNode.parentNode.addEventListener("keyup", function (e) {
                     if (e.keyCode == 27) {
-                        console.log("foi 27");
                         clearInterval(filesAttachInterval);
                         files = [];
                     }
-                    else
-                        console.log("nao foi 27");
+
                 }, false);
             }
-            else
-                console.log("nao existe as condições");
+
         }, 2000);
 
-
     }
+
     function activeEvents() {
 
         const documentListener = function (e) {
@@ -854,7 +844,11 @@
 "UNCHECKED":"Não marcado ",
 "CONTAINER_HEADING":"Selecione uma opção apertando a tecla 'enter', ou precione ALT + M para selecionar outras mensagens utilizando a 'barra de espaço'.",
 "SELECTED_MESSAGE":" mensagem(ens) selecionada(s).",
-"NEW_VERSION_MESSAGE":"Uma nova versão para o script 'Whatsapp Web With More Accessibility' está disponível. Caso queira atualizar, clique em 'OK' e depois em atualizar. Após isso recarregue a página do Whatsapp apertando a tecla F5 e reative o script com ALT + S. Nova versão: "
+"NEW_VERSION_MESSAGE":"Uma nova versão para o script 'Whatsapp Web With More Accessibility' está disponível. Caso queira atualizar, clique em 'OK' e depois em atualizar. Após isso recarregue a página do Whatsapp apertando a tecla F5 e reative o script com ALT + S. Nova versão: ",
+"CLOSE_ATTACHED_FILE_PREVIEW":"Fechar previsualização de arquivos",
+"REMOVE_ATTACHED_FILE":"Remover arquivo ",
+"VIEW_ATTACHED_FILE":"Visualizar arquivo ",
+"SEND_ATTACHED_FILE":"Enviar arquivos anexados"
 
                     },
                     {
@@ -889,7 +883,11 @@
 "UNCHECKED": "Not checked ",
 "CONTAINER_HEADING": "Select an option by pressing the 'enter' key, or press ALT + M to select other messages using the 'space bar'.",
 "SELECTED_MESSAGE":" message(s) selected.",
-"NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: "
+"NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: ",
+"CLOSE_ATTACHED_FILE_PREVIEW":"Close file preview",
+"REMOVE_ATTACHED_FILE":"Remove file ",
+"VIEW_ATTACHED_FILE":"View file ",
+"SEND_ATTACHED_FILE":"Send attached files"
                         },
                         {
                             "language": "es-es",
@@ -923,7 +921,11 @@
 "UNCHECKED": "No marcado ",
 "CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
 "SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
-"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: "
+"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: ",
+"CLOSE_ATTACHED_FILE_PREVIEW":"Cerrar vista previa del archivo",
+"REMOVE_ATTACHED_FILE":"Eliminar archivo ",
+"VIEW_ATTACHED_FILE":"Ver archivo ",
+"SEND_ATTACHED_FILE":"Enviar archivos adjuntos"
                             }
             ]
         `;
