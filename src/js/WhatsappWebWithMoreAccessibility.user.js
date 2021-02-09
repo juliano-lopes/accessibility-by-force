@@ -22,6 +22,8 @@
     var activated = false;
     var phrases = null;
     var intervalReplaceContactPhone = null;
+    var files = [];
+    var filesAttachInterval = null;
     initial();
 
     function initial() {
@@ -316,7 +318,66 @@
         return false;
 
     }
+    function setLabelOnAttachFiles() {
 
+        //colocando rótulo no botão de fechar e de visualizar os arquivos anexados
+        filesAttachInterval ? clearInterval(filesAttachInterval) : null;
+        files = [];
+        filesAttachInterval = setInterval(function () {
+            if (document.querySelector('header').parentNode.parentNode && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="x-alt"]') && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="x"]') && document.querySelector('header').parentNode.parentNode.querySelector('[data-icon="send"]')) {
+                console.log("existe tudo");
+                document.querySelector('header').parentNode.parentNode.setAttribute("data-sr-only", "dialog-to-atach-files");
+                document.querySelector('header').parentNode.parentNode.setAttribute("role", "dialog");
+                document.querySelector('header').parentNode.parentNode.setAttribute("tabindex", "-1");
+
+                if (document.querySelectorAll('[data-icon="x-alt"]') && document.querySelectorAll('[data-icon="x-alt"]').length > files.length) {
+                    document.querySelector('header').parentNode.parentNode.focus();
+                    files = document.querySelectorAll('[data-icon="x-alt"]');
+
+                    files.forEach(function (el, i) {
+                        if (!el.querySelector('span')) {
+                            let span = document.createElement("span");
+                            span.textContent = "Remover arquivo " + (i + 1);
+                            el.appendChild(span);
+                            let span2 = document.createElement("span");
+                            span2.textContent = "Visualizar arquivo " + (i + 1);
+                            el.parentNode.parentNode.appendChild(span2);
+                        }
+                    });
+                }
+
+                //fechar toda a pré-visualização dos arquivos
+                document.querySelector('[data-icon="x"]').parentNode.setAttribute("aria-label", "Fechar previsualização de arquivos");
+                document.querySelector('[data-icon="x"]').parentNode.addEventListener("click", function () {
+                    clearInterval(filesAttachInterval);
+                    files = [];
+                }, false);
+
+                //ródulo para o botão enviar arquivos anexados
+                document.querySelector('[data-icon="send"]').parentNode.setAttribute("aria-label", "Enviar");
+                document.querySelector('[data-icon="send"]').parentNode.addEventListener("click", function () {
+                    clearInterval(filesAttachInterval);
+                    files = [];
+                }, false);
+
+                // evento que também irá fechar a janela
+
+                document.querySelector('header').parentNode.parentNode.addEventListener("keyup", function (e) {
+                    if (e.keyCode == 27) {
+                        console.log("foi 27");
+                        clearInterval(filesAttachInterval);
+                        files = [];
+                    }
+                    else
+                        console.log("nao foi 27");
+                }, false);
+            }
+            else
+                console.log("nao existe as condições");
+        }, 2000);
+
+
+    }
     function activeEvents() {
 
         const documentListener = function (e) {
@@ -445,7 +506,7 @@
                     el.parentNode.querySelector('ul').setAttribute("aria-labelledby", "container-attach-shadow");
                     el = el.parentNode.querySelector('ul li');
                 }
-
+                setLabelOnAttachFiles();
             }
             else if (e.altKey && e.keyCode == 66) {
                 e.preventDefault();
