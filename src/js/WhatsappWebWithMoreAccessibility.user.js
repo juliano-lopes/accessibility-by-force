@@ -784,6 +784,8 @@
             return "en-us";
         } else if (isSpanish(myLanguage)) {
             return "es-es";
+        } else if (isIndonesian(myLanguage)) {
+            return "id";
         } else {
             return "pt-br";
         }
@@ -796,6 +798,10 @@
     };
     const isSpanish = function (language) {
         const languages = ["es", "es-es", "es-gt", "es-mx", "es-cr", "es-pa", "es-do", "es-ve", "es-co", "es-pe", "es-ar", "es-ec", "es-cl", "es-uy", "es-py", "es-bo", "es-sv", "es-hn", "es-ni", "es-pr"];
+        return languages.indexOf(language) != -1;
+    };
+    const isIndonesian = function (language) {
+        const languages = ["id", "id-it", "id-en", "id-my"];
         return languages.indexOf(language) != -1;
     };
 
@@ -888,6 +894,40 @@
 "REMOVE_ATTACHED_FILE":"Remove file ",
 "VIEW_ATTACHED_FILE":"View file ",
 "SEND_ATTACHED_FILE":"Send attached files"
+                        },
+                        {
+                        "language": "id",
+                        "description":"Indonesian (Bahasa Indonesia)",
+                        "SCRIPT_ACTIVATED": "Script aksesibilitas telah diaktifkan!",
+                        "LOADING_PAGE": "Dokumen masih memuat ...",
+                        "SCRIPT_DESACTIVATED": "Script aksesibilitas telah dinonaktifkan!",
+   "MAIN_PANE_HEADING": "Panel utama",
+   "CURRENT_CONVERSATION": "Obrolan aktif dengan ",
+   "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Obrolan aktif",
+   "BUTTON_SEND_TEXT_MESSAGE": "Kirim pesan teks",
+   "BUTTON_RECORD_VOICE_MESSAGE": "Rekam pesan suara",
+   "BUTTON_SEND_VOICE_MESSAGE": "Kirim pesan suara",
+   "BUTTON_CANCEL_RECORDING": "Batalkan perekaman",
+   "WRITE_MESSAGE": "Tulis pesan ke ",
+   "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Tulis pesan",
+   "ATTACH_CONTAINER_MESSAGE": "Silahkan pilih apa yang anda ingin lampirkan ...",
+   "SEARCH_LABEL": "Cari obrolan dan kontak ...",
+   "SELECT_LANGUAGE":"Pilih bahasa skrip: ",
+   "LANGUAGE_SELECTED":"Bahasa script telah berhasil diubah!",
+   "LABEL_NEW_CHAT_INPUT": "Masukan nomor yang anda ingin kirim pesan:",
+   "PLACEHOLDER_NEW_CHAT_INPUT":"Contoh.: 6281313134242",
+"NEW_CHAT_INPUT_INCORRECT": "Format nomor ini tidak valid. Harus menggunakan angka saja, kode negara dan kode kota sebelum nomor telepon.",
+"NEW_CHAT_INPUT_INVALID_NUMBER": "Nomor ini tidak valid, Mungkin tidak terdaftar di WhatsApp.",
+"DIALOG_HEADING_TO_RECORD_BUTTON": "Klik tombol di bawah untuk memulai merekam pesan suara anda:",
+"RECORDING_DIALOG_HEADING": "Sedang merekam pesan suara. Gunakan tombol panah untuk bernafigasi.",
+"REPLACE_CONTACT_PHONE_MESSAGE":"Pesan dari",
+"CLOSE": "Tutup",
+"SEND": "Kirim",
+"CHECKED": "Centang ",
+"UNCHECKED": "Tidak dicentang ",
+"CONTAINER_HEADING": "Pilih salah satu opsi dengan menekan tombol 'enter', atau tekan ALT + M untuk memilih pesan lainnya menggunakan tombol 'spasi'.",
+"SELECTED_MESSAGE":" pesan(s) dipilih.",
+"NEW_VERSION_MESSAGE": "Versi baru untuk 'Whatsapp Web With More Accessibility' script telah tersedia. Jika Anda ingin memperbarui, klik 'OK' maka script akan memperbaharui secara otomatis. Setelah itu muat ulang halaman Whatsapp dengan menekan tombol F5 dan aktifkan kembali script dengan ALT + S.. Versi baru: "
                         },
                         {
                             "language": "es-es",
