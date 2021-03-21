@@ -1,6 +1,5 @@
 const version = "3.0.3";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
-const scriptUrl = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js";
 var activeConversationTitle = "";
 var listeners = [];
 var activated = false;
@@ -46,30 +45,34 @@ function initial() {
 }
 
 function checkScriptUpdate() {
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: scriptUrl,
-        responseType: "text",
-        onload: function (res) {
-            let reg = /(\d[.]?)+/;
-            let newVersion = reg.exec(res.responseText);
-            if (newVersion) {
-                if (newVersion[0] && newVersion[0] > version) {
-                    if (confirm(phrases.NEW_VERSION_MESSAGE + newVersion[0])) {
-                        window.open(scriptUrl);
-                    }
-                    else {
-                        document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
-                    }
-                }
-                else
-                    document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
-            }
-            else
-                document.getElementById('pane-side').querySelector('[tabindex="-1"]').focus();
+    const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
+    console.log("Checking if new version exists..." + SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION);
+
+    if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION)) {
+        if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION) < version) {
+            console.log("new version");
+            localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
+            let updateInformationContainer = document.createElement("div");
+            updateInformationContainer.setAttribute("role", "dialog");
+            updateInformationContainer.setAttribute("tabindex", "-1");
+            updateInformationContainer.textContent = "O script WhatsappWebWithMoreAccessibility foi atualizado para versão " + version + ". Acompanhe o canal @Continue Desenvolvendo no Youtube para ficar por dentro do que mudou.";
+            updateInformationContainer.addEventListener("keydown", function (e) {
+                if (e.keyCode == 27)
+                    updateInformationContainer.parentNode.removeChild(updateInformationContainer);
+
+            }, false);
+            document.body.appendChild(updateInformationContainer);
+            updateInformationContainer.focus();
+        } else {
+            console.log("The same version, " + version);
         }
-    });
+    }
+    else {
+        console.log("The propriety do not exist yet " + SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION);
+        localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
+    }
 }
+
 
 function removeAccessibilityListenerEvents() {
     if (listeners && listeners.length > 0) {
