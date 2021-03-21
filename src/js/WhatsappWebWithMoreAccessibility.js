@@ -47,11 +47,10 @@ function initial() {
 function checkScriptUpdate() {
     const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
     const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
-    console.log("Checking if new version exists..." + SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION);
 
     if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION)) {
         if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION) < version) {
-            console.log("new version");
+
             localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
             let updateInformationContainer = document.createElement("div");
             let updateInformationHeading = document.createElement("h1");
@@ -95,11 +94,9 @@ function checkScriptUpdate() {
             document.body.appendChild(updateInformationContainer);
             updateInformationContainer.focus();
         } else {
-            console.log("The same version, " + version);
         }
     }
     else {
-        console.log("The propriety do not exist yet " + SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION);
         localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
     }
 }
