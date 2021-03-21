@@ -1,5 +1,7 @@
 const version = "4.9";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
+const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
+
 var activeConversationTitle = "";
 var listeners = [];
 var activated = false;
@@ -44,56 +46,64 @@ function initial() {
 
 }
 
+function scriptVersionInformation() {
+    if (document.getElementById("script-version-information")) {
+        document.getElementById("script-version-information").focus();
+    } else {
+
+        let updateInformationContainer = document.createElement("div");
+        let updateInformationHeading = document.createElement("h1");
+        let updateInformationBody = document.createElement("p");
+        let updateInformationOkButton = document.createElement("button");
+        let updateInformationCloseButton = document.createElement("button");
+        let updateInformationChanelLink = document.createElement("a");
+        updateInformationHeading.id = "update-information-heading";
+        updateInformationHeading.textContent = phrases.UPDATE_INFORMATION_HEADING;
+        updateInformationOkButton.textContent = phrases.UPDATE_INFORMATION_OK_BUTTON;
+        updateInformationOkButton.id = "uiokb";
+        updateInformationCloseButton.textContent = phrases.UPDATE_INFORMATION_CLOSE_BUTTON;
+        updateInformationCloseButton.id = "uicb";
+
+        let updateInformationBodyText = phrases.UPDATE_INFORMATION_BODY.split("#");
+        updateInformationBody.textContent = updateInformationBodyText[0] + version + updateInformationBodyText[1];
+        updateInformationChanelLink.href = CHANEL_URL;
+        updateInformationChanelLink.target = "_blank";
+        updateInformationChanelLink.textContent = phrases.UPDATE_INFORMATION_CHANEL_LINK;
+        updateInformationContainer.id = "script-version-information";
+        updateInformationContainer.setAttribute("role", "dialog");
+        updateInformationContainer.setAttribute("tabindex", "-1");
+        updateInformationContainer.setAttribute("aria-labelledby", updateInformationHeading.id);
+
+        updateInformationCloseButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
+        updateInformationOkButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
+        updateInformationContainer.addEventListener("keydown", function (e) {
+            let allowedKeys = [13, 38, 39, 40, 41];
+            if (allowedKeys.indexOf(e.keyCode) == -1) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            if (e.keyCode == 27)
+                updateInformationContainer.parentNode.removeChild(updateInformationContainer);
+        }, false);
+        updateInformationContainer.appendChild(updateInformationCloseButton);
+        updateInformationContainer.appendChild(updateInformationHeading);
+        updateInformationBody.appendChild(updateInformationChanelLink);
+        updateInformationContainer.appendChild(updateInformationBody);
+        updateInformationContainer.appendChild(updateInformationOkButton);
+        document.body.appendChild(updateInformationContainer);
+        updateInformationContainer.focus();
+    }
+}
+
 function checkScriptUpdate() {
     const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
-    const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
 
     if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION)) {
         if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION) < version) {
 
             localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
-            let updateInformationContainer = document.createElement("div");
-            let updateInformationHeading = document.createElement("h1");
-            let updateInformationBody = document.createElement("p");
-            let updateInformationOkButton = document.createElement("button");
-            let updateInformationCloseButton = document.createElement("button");
-            let updateInformationChanelLink = document.createElement("a");
-            updateInformationHeading.id = "update-information-heading";
-            updateInformationHeading.textContent = phrases.UPDATE_INFORMATION_HEADING;
-            updateInformationOkButton.textContent = phrases.UPDATE_INFORMATION_OK_BUTTON;
-            updateInformationOkButton.id = "uiokb";
-            updateInformationCloseButton.textContent = phrases.UPDATE_INFORMATION_CLOSE_BUTTON;
-            updateInformationCloseButton.id = "uicb";
-
-            let updateInformationBodyText = phrases.UPDATE_INFORMATION_BODY.split("#");
-            updateInformationBody.textContent = updateInformationBodyText[0] + version + updateInformationBodyText[1];
-            updateInformationChanelLink.href = CHANEL_URL;
-            updateInformationChanelLink.target = "_blank";
-            updateInformationChanelLink.textContent = phrases.UPDATE_INFORMATION_CHANEL_LINK;
-            updateInformationContainer.setAttribute("role", "dialog");
-            updateInformationContainer.setAttribute("tabindex", "-1");
-            updateInformationContainer.setAttribute("aria-labelledby", updateInformationHeading.id);
-
-            updateInformationCloseButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
-            updateInformationOkButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
-            updateInformationContainer.addEventListener("keydown", function (e) {
-                let allowedKeys = [13, 38, 39, 40, 41];
-                if (allowedKeys.indexOf(e.keyCode) == -1) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-
-                if (e.keyCode == 27)
-                    updateInformationContainer.parentNode.removeChild(updateInformationContainer);
-            }, false);
-            updateInformationContainer.appendChild(updateInformationCloseButton);
-            updateInformationContainer.appendChild(updateInformationHeading);
-            updateInformationBody.appendChild(updateInformationChanelLink);
-            updateInformationContainer.appendChild(updateInformationBody);
-            updateInformationContainer.appendChild(updateInformationOkButton);
-            document.body.appendChild(updateInformationContainer);
-            updateInformationContainer.focus();
-        } else {
+            scriptVersionInformation();
         }
     }
     else {
@@ -574,6 +584,11 @@ function activeEvents() {
                 selectedMessages();
                 document.querySelector('[data-dialog-sr-only]').focus();
             }
+        } else if (e.altKey && e.keyCode == 73) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            scriptVersionInformation();
         }
         el ? el.focus() : false;
 
