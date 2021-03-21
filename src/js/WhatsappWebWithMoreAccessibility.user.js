@@ -25,7 +25,6 @@
             url: baseScript,
             responseType: "text",
             onload: function (res) {
-                console.log(res.responseText);
                 let script = document.createElement("script");
                 script.textContent = res.responseText;
                 document.body.appendChild(script);
