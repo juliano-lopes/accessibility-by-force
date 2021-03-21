@@ -1,4 +1,4 @@
-const version = "4.2";
+const version = "4.3";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 var activeConversationTitle = "";
 var listeners = [];
