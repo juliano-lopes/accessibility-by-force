@@ -46,6 +46,7 @@ function initial() {
 
 function checkScriptUpdate() {
     const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
+    const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
     console.log("Checking if new version exists..." + SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION);
 
     if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION)) {
@@ -53,14 +54,44 @@ function checkScriptUpdate() {
             console.log("new version");
             localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
             let updateInformationContainer = document.createElement("div");
+            let updateInformationHeading = document.createElement("h1");
+            let updateInformationBody = document.createElement("p");
+            let updateInformationOkButton = document.createElement("button");
+            let updateInformationCloseButton = document.createElement("button");
+            let updateInformationChanelLink = document.createElement("a");
+            updateInformationHeading.id = "update-information-heading";
+            updateInformationHeading.textContent = phrases.UPDATE_INFORMATION_HEADING;
+            updateInformationOkButton.textContent = phrases.UPDATE_INFORMATION_OK_BUTTON;
+            updateInformationOkButton.id = "uiokb";
+            updateInformationCloseButton.textContent = phrases.UPDATE_INFORMATION_CLOSE_BUTTON;
+            updateInformationCloseButton.id = "uicb";
+
+            let updateInformationBodyText = phrases.UPDATE_INFORMATION_BODY.split("#");
+            updateInformationBody.textContent = updateInformationBodyText[0] + version + updateInformationBodyText[1];
+            updateInformationChanelLink.href = CHANEL_URL;
+            updateInformationChanelLink.target = "_blank";
+            updateInformationChanelLink.textContent = phrases.UPDATE_INFORMATION_CHANEL_LINK;
             updateInformationContainer.setAttribute("role", "dialog");
             updateInformationContainer.setAttribute("tabindex", "-1");
-            updateInformationContainer.textContent = "O script WhatsappWebWithMoreAccessibility foi atualizado para versão " + version + ". Acompanhe o canal @Continue Desenvolvendo no Youtube para ficar por dentro do que mudou.";
+            updateInformationContainer.setAttribute("aria-labelledby", updateInformationHeading.id);
+
+            updateInformationCloseButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
+            updateInformationOkButton.addEventListener("click", () => updateInformationContainer.parentNode.removeChild(updateInformationContainer));
             updateInformationContainer.addEventListener("keydown", function (e) {
+                let allowedKeys = [13, 38, 39, 40, 41];
+                if (allowedKeys.indexOf(e.keyCode) == -1) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
                 if (e.keyCode == 27)
                     updateInformationContainer.parentNode.removeChild(updateInformationContainer);
-
             }, false);
+            updateInformationContainer.appendChild(updateInformationCloseButton);
+            updateInformationContainer.appendChild(updateInformationHeading);
+            updateInformationBody.appendChild(updateInformationChanelLink);
+            updateInformationContainer.appendChild(updateInformationBody);
+            updateInformationContainer.appendChild(updateInformationOkButton);
             document.body.appendChild(updateInformationContainer);
             updateInformationContainer.focus();
         } else {
@@ -835,8 +866,12 @@ const PHRASES_JSON = `
 "CLOSE_ATTACHED_FILE_PREVIEW":"Fechar previsualização de arquivos",
 "REMOVE_ATTACHED_FILE":"Remover arquivo ",
 "VIEW_ATTACHED_FILE":"Visualizar arquivo ",
-"SEND_ATTACHED_FILE":"Enviar arquivos anexados"
-
+"SEND_ATTACHED_FILE":"Enviar arquivos anexados",
+"UPDATE_INFORMATION_HEADING":"Atualização para o ScriptWhatsappWebWithMoreAccessibility",
+"UPDATE_INFORMATION_OK_BUTTON":"Ok",
+"UPDATE_INFORMATION_CLOSE_BUTTON":"Fechar janela de informação sobre atualização",
+"UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
+"UPDATE_INFORMATION_CHANEL_LINK":"@Continue Desenvolvendo no Youtube. (Abrirá em uma nova aba)"
                     },
                     {
                         "language": "en-us",
@@ -874,7 +909,12 @@ const PHRASES_JSON = `
 "CLOSE_ATTACHED_FILE_PREVIEW":"Close file preview",
 "REMOVE_ATTACHED_FILE":"Remove file ",
 "VIEW_ATTACHED_FILE":"View file ",
-"SEND_ATTACHED_FILE":"Send attached files"
+"SEND_ATTACHED_FILE":"Send attached files",
+"UPDATE_INFORMATION_HEADING": "Update for ScriptWhatsappWebWithMoreAccessibility",
+"UPDATE_INFORMATION_OK_BUTTON": "Ok",
+"UPDATE_INFORMATION_CLOSE_BUTTON": "Close update information window",
+"UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. Subscribe and follow the channel to stay on top of what has changed. Access: ",
+"UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo on Youtube. (It will open in a new tab)"
                         },
                         {
                             "language": "es-es",
@@ -912,7 +952,12 @@ const PHRASES_JSON = `
 "CLOSE_ATTACHED_FILE_PREVIEW":"Cerrar vista previa del archivo",
 "REMOVE_ATTACHED_FILE":"Eliminar archivo ",
 "VIEW_ATTACHED_FILE":"Ver archivo ",
-"SEND_ATTACHED_FILE":"Enviar archivos adjuntos"
+"SEND_ATTACHED_FILE":"Enviar archivos adjuntos",
+"UPDATE_INFORMATION_HEADING": "Actualización de ScriptWhatsappWebWithMoreAccessibility",
+"UPDATE_INFORMATION_OK_BUTTON": "Ok",
+"UPDATE_INFORMATION_CLOSE_BUTTON": "Cerrar ventana de información de actualización",
+"UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
+"UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo en Youtube. (Se abrirá en una nueva pestaña)"
                             }
             ]
         `;
