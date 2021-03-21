@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name WhatsappWithMoreAccessibility
 // @namespace https://github.com/juliano-lopes/accessibility-by-force/
-// @version 4.6
+// @version 4.7
 // @description Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users. Script para una mejor accesibilidad y usabilidad en WhatsappWeb.
 // @author Juliano Lopes (https://github.com/juliano-lopes/)
 // @match https://web.whatsapp.com
@@ -18,24 +18,16 @@
     includeBaseScript();
 
     function includeBaseScript() {
-        const scriptUrl = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js";
-        let baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@master/src/js/WhatsappWebWithMoreAccessibility.js";
+        const baseScript = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.js";
 
         GM_xmlhttpRequest({
             method: "GET",
-            url: scriptUrl,
+            url: baseScript,
             responseType: "text",
             onload: function (res) {
-                let reg = /(\d[.]?)+/;
-                let newVersion = reg.exec(res.responseText);
-                if (newVersion) {
-                    if (newVersion[0]) {
-                        baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@v" + newVersion[0] + "/src/js/WhatsappWebWithMoreAccessibility.js";
-                    }
-                }
-
+                console.log(res.responseText);
                 let script = document.createElement("script");
-                script.src = baseScript;
+                script.textContent = res.responseText;
                 document.body.appendChild(script);
             }
         });
