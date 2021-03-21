@@ -14,7 +14,7 @@
 
 (function () {
     'use strict';
-    var version = "4.5";
+
     includeBaseScript();
 
     function includeBaseScript() {
@@ -30,8 +30,7 @@
                 let newVersion = reg.exec(res.responseText);
                 if (newVersion) {
                     if (newVersion[0]) {
-                        version = newVersion[0];
-                        baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@v" + version + "/src/js/WhatsappWebWithMoreAccessibility.js";
+                        baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@v" + newVersion[0] + "/src/js/WhatsappWebWithMoreAccessibility.js";
                     }
                 }
 
