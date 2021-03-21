@@ -15,10 +15,31 @@
 (function () {
     'use strict';
 
-    const baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@master/src/js/WhatsappWebWithMoreAccessibility.js";
+    includeBaseScript();
 
-    let script = document.createElement("script");
-    script.src = baseScript;
-    document.body.appendChild(script);
+    function includeBaseScript() {
+        const scriptUrl = "https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js";
+        let baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@master/src/js/WhatsappWebWithMoreAccessibility.js";
+
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: scriptUrl,
+            responseType: "text",
+            onload: function (res) {
+                let reg = /(\d[.]?)+/;
+                let newVersion = reg.exec(res.responseText);
+                if (newVersion) {
+                    if (newVersion[0]) {
+                        baseScript = "https://cdn.jsdelivr.net/gh/juliano-lopes/accessibility-by-force@v" + newVersion[0] + "/src/js/WhatsappWebWithMoreAccessibility.js";
+                    }
+                }
+
+                let script = document.createElement("script");
+                script.src = baseScript;
+                document.body.appendChild(script);
+                console.log("url foi " + baseScript);
+            }
+        });
+    }
 
 })()
