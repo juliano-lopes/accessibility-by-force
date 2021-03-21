@@ -21,5 +21,4 @@
     script.src = baseScript;
     document.body.appendChild(script);
 
-    console.log("inserido script");
 })()
