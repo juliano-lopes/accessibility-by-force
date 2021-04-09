@@ -596,6 +596,7 @@ function activeEvents() {
             updateMessage();
             addFooterButtonLabels();
             replaceContactPhone();
+            addClickOnElementsIntoMessage();
         }
 
     };
@@ -612,6 +613,47 @@ function addLabelVideoAndImage(element) {
         }, false);
     }
 }
+
+function addClickOnElementsIntoMessage() {
+
+    let main = document.getElementById("main");
+    if (main) {
+        main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
+            addClickOnAudioButton(msg);
+            downloadFile(msg);
+        });
+    }
+}
+
+function addClickOnAudioButton(msg) {
+
+    let audioButton = msg.querySelector('button span[data-icon="audio-play"]');
+    if (audioButton && !audioButton.parentNode.getAttribute("data-sr-only-audio")) {
+
+        msg.addEventListener("keydown", function (e) {
+
+            e.keyCode == 13 ? audioButton.parentNode.click() : false;
+        });
+        audioButton.parentNode.setAttribute("data-sr-only-audio", "data-sr-only-audio");
+    }
+
+}
+
+function downloadFile(msg) {
+    if (msg.querySelector('[class*="icon-doc"]')) {
+
+        if (!msg.querySelector('[sr-only-download-file]')) {
+            msg.querySelector("button") ? msg.querySelector("button").setAttribute("sr-only-download-file", "download-file") : false;
+
+            msg.addEventListener("keydown", function (ek) {
+                if (ek.keyCode == 13)
+                    msg.querySelector("button") ? msg.querySelector("button").click() : false;
+            }, false);
+        }
+    }
+
+}
+
 
 function replaceContactPhone() {
     if (document.getElementById("main")) {
