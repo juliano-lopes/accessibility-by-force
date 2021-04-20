@@ -1,14 +1,15 @@
 const version = "5.1";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
+const defaultPlaybackRate = 1;
 
 var activeConversationTitle = "";
 var listeners = [];
 var activated = false;
 var phrases = null;
-var intervalReplaceContactPhone = null;
 var files = [];
 var filesAttachInterval = null;
+var playbackRate = defaultPlaybackRate;
 initial();
 
 function initial() {
@@ -23,7 +24,7 @@ function initial() {
                     setMainPanelTitle();
                     activeEvents();
                     spanToAriaLive();
-                    replaceContactPhone();
+
                     alert(phrases.SCRIPT_ACTIVATED);
                     activated = true;
                     checkScriptUpdate();
@@ -36,7 +37,6 @@ function initial() {
             else {
                 removeAccessibilityElements();
                 removeAccessibilityListenerEvents();
-                clearInterval(intervalReplaceContactPhone);
                 alert(phrases.SCRIPT_DESACTIVATED);
                 activated = false;
 
@@ -595,7 +595,6 @@ function activeEvents() {
         if (document.getElementById('main')) {
             updateMessage();
             addFooterButtonLabels();
-            replaceContactPhone();
             addClickOnElementsIntoMessage();
         }
 
@@ -621,67 +620,187 @@ function addClickOnElementsIntoMessage() {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
             addClickOnAudioButton(msg);
             downloadFile(msg);
+            replaceContactPhone(msg);
+            addLabelVideoAndImage(msg);
         });
     }
 }
 
 function addClickOnAudioButton(msg) {
-
     let audioButton = msg.querySelector('button span[data-icon="audio-play"]');
+    downloadUnloadAudio(msg);
     if (audioButton && !audioButton.parentNode.getAttribute("data-sr-only-audio")) {
-
+        createNewElementAudio(msg);
         msg.addEventListener("keydown", function (e) {
-
-            e.keyCode == 13 ? audioButton.parentNode.click() : false;
+            playAndStopAudio(msg, e);
+            playerControl(msg, e);
         });
         audioButton.parentNode.setAttribute("data-sr-only-audio", "data-sr-only-audio");
     }
+}
 
+function downloadUnloadAudio(msg) {
+    let downloadAudioButton = msg.querySelector('button span[data-icon="audio-download"]');
+    if (downloadAudioButton && !msg.querySelector('[class*=doc-]')) {
+        downloadAudioButton.parentNode.click();
+    }
+}
+
+function pauseNewAudioElement() {
+    document.querySelectorAll('audio').forEach(function (audio) {
+        if (playing(audio))
+            audio.pause();
+    });
+}
+
+function createNewElementAudio(msg) {
+    let originalAudio = msg.querySelector('audio');
+    if (originalAudio && !msg.querySelector('[data-sr-new-element-audio]')) {
+        fetch(originalAudio.src).then((res) => res.blob()).then((res) => {
+            let reader = new FileReader();
+            reader.readAsDataURL(res);
+            reader.onload = function (e) {
+                let newAudioElement = document.createElement("audio");
+                newAudioElement.setAttribute("data-sr-new-element-audio", "data-sr-new-element-audio");
+                newAudioElement.setAttribute("style", "display: none;");
+                newAudioElement.src = e.target.result;
+                originalAudio.parentNode.appendChild(newAudioElement);
+                originalAudio.onplay = function () {
+                    playJustNewAudioElement(msg);
+                };
+                newAudioElement.ontimeupdate = function () {
+                    originalAudio.currentTime = parseInt(newAudioElement.currentTime) - 1;
+                };
+
+            };
+        });
+    }
+}
+
+function playing(audio) {
+    return ((audio.currentTime > 0) && (!audio.paused));
+}
+
+function playerControl(msg, event) {
+    let newAudioElement = msg.querySelector('[data-sr-new-element-audio]');
+    if (newAudioElement && playing(newAudioElement)) {
+        if (event.shiftKey && event.keyCode == 37) {
+            event.preventDefault();
+            event.stopPropagation();
+            playbackRate = defaultPlaybackRate;
+            newAudioElement.playbackRate = playbackRate;
+        }
+        else if (!event.ctrlKey && event.keyCode == 39) {
+            event.preventDefault();
+            event.stopPropagation();
+            newAudioElement.currentTime += 1;
+        }
+        else if (!event.ctrlKey && event.keyCode == 37) {
+            event.preventDefault();
+            event.stopPropagation();
+            newAudioElement.currentTime -= 1;
+        }
+        else if (event.ctrlKey && event.keyCode == 37) {
+            event.preventDefault();
+            event.stopPropagation();
+            playbackRate -= 0.2;
+            newAudioElement.playbackRate = playbackRate;
+        }
+        else if (event.ctrlKey && event.keyCode == 39) {
+            event.preventDefault();
+            event.stopPropagation();
+            playbackRate += 0.2;
+            newAudioElement.playbackRate = playbackRate;
+        }
+        else if (event.ctrlKey && event.keyCode == 38) {
+            event.preventDefault();
+            event.stopPropagation();
+            newAudioElement.volume += 0.1;
+        }
+        else if (event.ctrlKey && event.keyCode == 40) {
+            event.preventDefault();
+            event.stopPropagation();
+            newAudioElement.volume -= 0.1;
+        }
+    }
+}
+
+function playAndStopAudio(msg, e) {
+    let originalAudio = msg.querySelector('audio');
+    let newAudio = originalAudio.parentNode.querySelector('[data-sr-new-element-audio]');
+    if (e.keyCode == 13) {
+        if (newAudio) {
+            if (playing(newAudio)) {
+                originalAudio.pause();
+                newAudio.pause();
+            }
+            else {
+                pauseNewAudioElement();
+                originalAudio.volume = 0;
+                newAudio.play();
+                newAudio.playbackRate = playbackRate;
+                originalAudio.play();
+            }
+        }
+        else {
+            if (playing(originalAudio)) {
+                originalAudio.pause();
+            }
+            else {
+                pauseNewAudioElement();
+                originalAudio.play();
+            }
+        }
+    }
+}
+
+function playJustNewAudioElement(msg) {
+    let originalAudio = msg.querySelector('audio');
+    let newAudio = originalAudio.parentNode.querySelector('[data-sr-new-element-audio]');
+    msg.setAttribute("aria-label", "-");
+    msg.focus();
+    msg.onfocus = function () {
+        msg.removeAttribute("aria-label");
+    };
+    originalAudio.volume = 0;
+    newAudio.play();
+    newAudio.playbackRate = playbackRate;
 }
 
 function downloadFile(msg) {
     if (msg.querySelector('[class*="icon-doc"]')) {
-
         if (!msg.querySelector('[sr-only-download-file]')) {
             msg.querySelector("button") ? msg.querySelector("button").setAttribute("sr-only-download-file", "download-file") : false;
-
             msg.addEventListener("keydown", function (ek) {
                 if (ek.keyCode == 13)
                     msg.querySelector("button") ? msg.querySelector("button").click() : false;
             }, false);
         }
     }
-
 }
 
+function replaceContactPhone(msg) {
 
-function replaceContactPhone() {
-    if (document.getElementById("main")) {
-        intervalReplaceContactPhone = setInterval(function () {
-            document.querySelectorAll('[class*="message-in"]').forEach(function (el) {
-                let contactName = el.querySelector('span[dir="auto"]');
-                if (contactName && (contactName.textContent != "") && (contactName.textContent.indexOf(":") == -1) && contactName.previousSibling && (contactName.previousSibling.getAttribute("role") == "button")) {
+    let contactName = msg.querySelector('span[dir="auto"]');
+    if (contactName && (contactName.textContent != "") && (contactName.textContent.indexOf(":") == -1) && contactName.previousSibling && (contactName.previousSibling.getAttribute("role") == "button")) {
 
-                    let contactPhone = contactName.previousSibling;
+        let contactPhone = contactName.previousSibling;
 
-                    if (contactPhone.textContent.indexOf("+") == 0) {
+        if (contactPhone.textContent.indexOf("+") == 0) {
 
-                        if (!contactPhone.parentNode.querySelector('[data-sr-only="replace-contact-phone"]')) {
-                            let span = document.createElement("span");
-                            span.setAttribute("data-sr-only", "replace-contact-phone");
-                            span.textContent = phrases.REPLACE_CONTACT_PHONE_MESSAGE;
-                            contactPhone.parentNode.insertBefore(span, contactPhone.parentNode.firstChild);
-                            contactPhone.setAttribute("aria-hidden", "true");
-                        }
-                    }
+            if (!contactPhone.parentNode.querySelector('[data-sr-only="replace-contact-phone"]')) {
+                let span = document.createElement("span");
+                span.setAttribute("data-sr-only", "replace-contact-phone");
+                span.textContent = phrases.REPLACE_CONTACT_PHONE_MESSAGE;
+                contactPhone.parentNode.insertBefore(span, contactPhone.parentNode.firstChild);
+                contactPhone.setAttribute("aria-hidden", "true");
+            }
+        }
 
-                }
-
-                addLabelVideoAndImage(el);
-            });
-        }, 1000);
     }
+
 }
+
 function spanToAriaLive() {
     let spanToAriaLive = document.getElementById("span-to-aria-live");
     if (!spanToAriaLive) {
