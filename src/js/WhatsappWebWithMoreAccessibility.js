@@ -11,7 +11,9 @@ var files = [];
 var filesAttachInterval = null;
 var playbackRate = defaultPlaybackRate;
 initial();
-
+function isChrome() {
+    return navigator.userAgent.includes("Chrome");
+}
 function initial() {
 
     document.addEventListener("keydown", function (e) {
