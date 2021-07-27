@@ -620,7 +620,7 @@ function addClickOnElementsIntoMessage() {
     let main = document.getElementById("main");
     if (main) {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-            addClickOnAudioButton(msg);
+            !isChrome() ? addClickOnAudioButton(msg) : false;
             downloadFile(msg);
             replaceContactPhone(msg);
             addLabelVideoAndImage(msg);
