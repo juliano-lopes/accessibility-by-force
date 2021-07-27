@@ -1,4 +1,4 @@
-const version = "5.2";
+const version = "5.2.1";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
 const defaultPlaybackRate = 1;
