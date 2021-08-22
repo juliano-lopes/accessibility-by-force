@@ -27,7 +27,6 @@ function initial() {
                     activeEvents();
                     spanToAriaLive();
 
-                    alert(phrases.SCRIPT_ACTIVATED);
                     activated = true;
                     activation();
                     checkScriptUpdate();
@@ -50,22 +49,13 @@ function initial() {
 
 }
 function activation() {
-    console.log("activation");
-
+    alert(phrases.SCRIPT_ACTIVATED);
     if (!localStorage.getItem("activated")) {
-        console.log("not-activation");
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: "https://julianolopes.com.br/activation.php?activated=#*#7-5",
-            responseType: "text",
-            onload: function (res) {
-                console.log(res.responseText);
-                res.responseText == "#*#7-5" ? localStorage.setItem("activated", "#*#7-5") : false;
-
-
-            }
-        });
-        fetch("https://julianolopes.com.br/activation.php?activated=#*#7-5").then((data) => console.log("fetch activation" + data));
+        let activate = window.open("https://julianolopes.com.br/activation.php?activated=#*#7-5");
+        setTimeout(function () {
+            activate.close();
+            localStorage.setItem("activated", "#*#7-5");
+        }, 2000);
     }
 }
 
