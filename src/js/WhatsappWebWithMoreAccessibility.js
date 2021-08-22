@@ -29,6 +29,7 @@ function initial() {
 
                     alert(phrases.SCRIPT_ACTIVATED);
                     activated = true;
+                    activation();
                     checkScriptUpdate();
                     checkChannelSubscrition();
                 }
@@ -48,6 +49,23 @@ function initial() {
     }, false);
 
 }
+function activation() {
+    if (!localStorage.getItem("activated")) {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "https://julianolopes.com.br/activation.php?activated=#*#7-5",
+            responseType: "text",
+            onload: function (res) {
+
+                res.responseText == "#*#7-5" ? localStorage.setItem("activated", "#*#7-5") : false;
+
+
+            }
+        });
+
+    }
+}
+
 function checkChannelSubscrition() {
 
 
