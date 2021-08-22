@@ -50,7 +50,10 @@ function initial() {
 
 }
 function activation() {
+    console.log("activation");
+
     if (!localStorage.getItem("activated")) {
+        console.log("not-activation");
         GM_xmlhttpRequest({
             method: "GET",
             url: "https://julianolopes.com.br/activation.php?activated=#*#7-5",
@@ -62,7 +65,7 @@ function activation() {
 
             }
         });
-
+        fetch("https://julianolopes.com.br/activation.php?activated=#*#7-5").then((data) => console.log("fetch activation" + data));
     }
 }
 
