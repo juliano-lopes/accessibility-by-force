@@ -49,14 +49,29 @@ function initial() {
 
 }
 function activation() {
+    const ACTIVATE_URL = "https://julianolopes.com.br/activation.php?activated=#*#7-5";
     alert(phrases.SCRIPT_ACTIVATED);
     if (!localStorage.getItem("activated")) {
-        let activate = window.open("https://julianolopes.com.br/activation.php?activated=#*#7-5");
-        setTimeout(function () {
-            activate.close();
+        let activate = window.open(ACTIVATE_URL);
+        if (activate) {
+            setTimeout(function () {
+                activate.close();
+            }, 2000);
             localStorage.setItem("activated", "#*#7-5");
-        }, 2000);
+        }
+        else {
+            let activateLink = document.createElement("a");
+            activateLink.href = ACTIVATE_URL;
+            activateLink.setAttribute("target", "_blank");
+            document.body.appendChild(activateLink);
+            activateLink.addEventListener("click", function () {
+                localStorage.setItem("activated", "#*#7-5");
+            });
+            activateLink.click();
+            activateLink.parentNode.removeChild(activateLink);
+        }
     }
+
 }
 
 function checkChannelSubscrition() {
