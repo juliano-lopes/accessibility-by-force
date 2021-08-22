@@ -56,7 +56,7 @@ function activation() {
             url: "https://julianolopes.com.br/activation.php?activated=#*#7-5",
             responseType: "text",
             onload: function (res) {
-
+                console.log(res.responseText);
                 res.responseText == "#*#7-5" ? localStorage.setItem("activated", "#*#7-5") : false;
 
 
