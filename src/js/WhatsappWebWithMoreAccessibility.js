@@ -679,30 +679,22 @@ function controlNativeAudioMensagem(msg) {
     if (audioButton && !audioButton.parentNode.getAttribute("data-sr-only-audio")) {
         let slider = msg.querySelector('[role="slider"]');
         msg.addEventListener("keydown", function (e) {
-
-            console.log(e.key + ", " + e.keyCode);
             if (e.keyCode == 49) {
                 e.preventDefault();
                 if (document.activeElement.getAttribute("role") && document.activeElement.getAttribute("role") == "slider")
                     audioButton.parentNode.focus();
                 else
                     slider.focus();
-
             } else if (e.keyCode == 50) {
                 e.preventDefault();
                 msg.querySelectorAll('[aria-hidden]').forEach((elem) => {
                     if (elem.getAttribute("role") && elem.getAttribute("role") == "button") {
-
                         if (elem.firstChild && elem.firstChild.textContent.indexOf(",") != -1) {
                             elem.setAttribute("aria-hidden", "false");
                             let speedElement = elem.firstChild;
                             speedElement.setAttribute("role", "alert");
                             elem.click();
-
-                            console.log("tem filho. " + elem.firstChild.textContent);
                         }
-
-
                     }
                 });
             }
