@@ -1,4 +1,4 @@
-const version = "5.3";
+const version = "5.4";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
 const defaultPlaybackRate = 1;
@@ -666,14 +666,52 @@ function addClickOnElementsIntoMessage() {
     let main = document.getElementById("main");
     if (main) {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-            !isChrome() ? addClickOnAudioButton(msg) : false;
+            //!isChrome() ? addClickOnAudioButton(msg) : false;
+            controlNativeAudioMensagem(msg);
             downloadFile(msg);
             replaceContactPhone(msg);
             addLabelVideoAndImage(msg);
         });
     }
 }
+function controlNativeAudioMensagem(msg) {
+    let audioButton = msg.querySelector('button span[data-icon*="audio-p"]');
+    if (audioButton && !audioButton.parentNode.getAttribute("data-sr-only-audio")) {
+        let slider = msg.querySelector('[role="slider"]');
+        msg.addEventListener("keydown", function (e) {
 
+            console.log(e.key + ", " + e.keyCode);
+            if (e.keyCode == 49) {
+                e.preventDefault();
+                if (document.activeElement.getAttribute("role") && document.activeElement.getAttribute("role") == "slider")
+                    audioButton.parentNode.focus();
+                else
+                    slider.focus();
+
+            } else if (e.keyCode == 50) {
+                e.preventDefault();
+                msg.querySelectorAll('[aria-hidden]').forEach((elem) => {
+                    if (elem.getAttribute("role") && elem.getAttribute("role") == "button") {
+
+                        if (elem.firstChild && elem.firstChild.textContent.indexOf(",") != -1) {
+                            elem.setAttribute("aria-hidden", "false");
+                            let speedElement = elem.firstChild;
+                            speedElement.setAttribute("role", "alert");
+                            elem.click();
+
+                            console.log("tem filho. " + elem.firstChild.textContent);
+                        }
+
+
+                    }
+                });
+            }
+
+        });
+
+        audioButton.parentNode.setAttribute("data-sr-only-audio", "data-sr-only-audio");
+    }
+}
 function addClickOnAudioButton(msg) {
     let audioButton = msg.querySelector('button span[data-icon="audio-play"]');
     downloadUnloadAudio(msg);
