@@ -1,6 +1,6 @@
 const version = "5.4";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
-const CHANEL_URL = "https://www.youtube.com/channel/UCxWt9IBtZME208X-LFVSRZw";
+const CHANEL_URL = "https://youtu.be/Kxws4kpk_dY";
 const defaultPlaybackRate = 1;
 const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_SUBSCRIPTION = "script-whatsapp-web-with-more-accessibility-subscription";
 var activeConversationTitle = "";
