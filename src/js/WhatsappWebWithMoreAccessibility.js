@@ -1240,7 +1240,8 @@ const PHRASES_JSON = `
 "ABOUT":"sobre",
 "SAY":"dizendo",
 "HIDDEN_TEXT":"texto oculto",
-"SHOWED_TEXT":"texto exibido"
+"SHOWED_TEXT":"texto exibido",
+"SAY_S":"diz"
 
         },
         {
@@ -1292,7 +1293,8 @@ const PHRASES_JSON = `
 "ABOUT":"about",
 "SAY":"saying",
 "HIDDEN_TEXT":"the text was hidden",
-"SHOWED_TEXT":"the text is showed"
+"SHOWED_TEXT":"the text is showed",
+"SAY_S":"says"
 
             },
             {
@@ -1344,7 +1346,8 @@ const PHRASES_JSON = `
 "ABOUT":"sobre",
 "SAY":"diciendo",
 "HIDDEN_TEXT":"texto oculto",
-"SHOWED_TEXT":"texto mostrado"
+"SHOWED_TEXT":"texto mostrado",
+"SAY_S":"dice"
 
                 }
 ]
