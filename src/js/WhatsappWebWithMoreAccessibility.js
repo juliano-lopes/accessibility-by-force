@@ -720,6 +720,7 @@ function addClickOnElementsIntoMessage() {
             controlNativeAudioMensagem(msg);
             downloadFile(msg);
             replaceContactPhone(msg);
+            replaceContactPhoneInMention(msg);
             addLabelVideoAndImage(msg);
         });
     }
@@ -903,6 +904,58 @@ function downloadFile(msg) {
                 if (ek.keyCode == 13)
                     msg.querySelector("button") ? msg.querySelector("button").click() : false;
             }, false);
+        }
+    }
+}
+
+function replaceContactPhoneInMention(msg) {
+    let mention = msg.querySelector(".quoted-mention");
+    if (mention) {
+        if (!mention.getAttribute("data-sr-only")) {
+            let dataElement = mention.parentNode;
+            dataElement = dataElement ? dataElement.previousSibling : null;
+            if (dataElement) {
+                let phone = dataElement.firstChild;
+                let name = dataElement.lastChild;
+
+                if (dataElement.childElementCount == 2)
+                    phone ? phone.setAttribute("aria-hidden", "true") : false;
+
+                let posPhone = document.createElement("span");
+                posPhone.innerHTML = "<p> " + phrases.REPLAY + " &nbsp;&nbsp;</p>";
+                posPhone = setClassSROnly(posPhone);
+                dataElement.insertBefore(posPhone, name);
+
+                let posName = document.createElement("span");
+                posName.innerHTML = "<p> &nbsp; " + phrases.ABOUT + " &nbsp;</p>";
+                posName = setClassSROnly(posName);
+                dataElement.appendChild(posName);
+
+                let posMention = document.createElement("span");
+                posMention.innerHTML = "<p> " + phrases.SAY + ": </p>";
+                posMention = setClassSROnly(posMention);
+                mention.parentNode.appendChild(posMention);
+                mention.setAttribute("data-sr-only", "mention");
+                msg.addEventListener("keydown", (e) => {
+                    if (e.keyCode == 51) {
+                        e.preventDefault();
+                        if (mention.getAttribute("aria-hidden") && mention.getAttribute("aria-hidden") == "true") {
+                            mention.setAttribute("aria-hidden", "false");
+                            posName.setAttribute("aria-hidden", "false");
+                            document.getElementById("span-to-aria-live").textContent = document.getElementById("span-to-aria-live") ? phrases.SHOWED_TEXT : "";
+                        }
+                        else {
+                            mention.setAttribute("aria-hidden", "true");
+                            posName.setAttribute("aria-hidden", "true");
+                            document.getElementById("span-to-aria-live").textContent = document.getElementById("span-to-aria-live") ? phrases.HIDDEN_TEXT : "";
+                        }
+                        setTimeout(() => {
+                            document.getElementById("span-to-aria-live").textContent = "";
+                        }, 1000);
+                    }
+                });
+
+            }
         }
     }
 }
