@@ -963,8 +963,15 @@ function replaceContactPhoneInMention(msg) {
 function replaceContactPhone(msg) {
 
     let contactName = msg.querySelector('span[dir="auto"]');
-    if (contactName && (contactName.textContent != "") && (contactName.textContent.indexOf(":") == -1) && contactName.previousSibling && (contactName.previousSibling.getAttribute("role") == "button")) {
+    if (contactName && !contactName.parentNode.querySelector('[data-sr-only="pos-name"]') && !msg.querySelector('.quoted-mention') && contactName.textContent != "" && contactName.textContent.indexOf(":") == -1 && !contactName.querySelector('.matched-mention')) {
+        let span = document.createElement("span");
+        span.setAttribute("data-sr-only", "pos-name");
+        span.innerHTML = "&nbsp; " + phrases.SAY_S + ": &nbsp;";
+        span = setClassSROnly(span);
+        contactName.parentNode.appendChild(span);
+    }
 
+    if (contactName && (contactName.textContent != "") && (contactName.textContent.indexOf(":") == -1) && contactName.previousSibling && (contactName.previousSibling.getAttribute("role") == "button")) {
         let contactPhone = contactName.previousSibling;
 
         if (contactPhone.textContent.indexOf("+") == 0) {
@@ -972,7 +979,7 @@ function replaceContactPhone(msg) {
             if (!contactPhone.parentNode.querySelector('[data-sr-only="replace-contact-phone"]')) {
                 let span = document.createElement("span");
                 span.setAttribute("data-sr-only", "replace-contact-phone");
-                span.textContent = phrases.REPLACE_CONTACT_PHONE_MESSAGE;
+                //span.textContent = phrases.REPLACE_CONTACT_PHONE_MESSAGE;
                 contactPhone.parentNode.insertBefore(span, contactPhone.parentNode.firstChild);
                 contactPhone.setAttribute("aria-hidden", "true");
             }
