@@ -15,7 +15,7 @@ function isChrome() {
     return navigator.userAgent.includes("Chrome");
 }
 function initial() {
-
+    console.log("Script WhatsApp Web");
     document.addEventListener("keydown", function (e) {
         if (e.altKey && e.keyCode == 83) {
 
@@ -517,7 +517,7 @@ function activeEvents() {
     const documentListener = function (e) {
         let el;
 
-        if (e.altKey && e.key == "l" && e.keyCode == 76) {
+        if (e.altKey && e.keyCode == 76) {
             e.preventDefault();
             e.stopPropagation();
             selectLanguage();
@@ -525,14 +525,14 @@ function activeEvents() {
                 el = document.getElementById("select-language").focus();
             }, 100);
 
-        } else if (e.altKey && e.key == "c" && e.keyCode == 67) {
+        } else if (e.altKey && e.keyCode == 67) {
             e.preventDefault();
             e.stopPropagation();
             el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
             listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
         }
-        else if (e.altKey && e.key == "m" && e.keyCode == 77) {
+        else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
             e.stopPropagation();
             el = document.getElementById('main');
@@ -611,7 +611,7 @@ function activeEvents() {
             localStorage.setItem(getActiveConversationTitle() + "unread", "");
 
         }
-        else if (e.altKey && e.key == "e" && e.keyCode == 69) {
+        else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
             e.stopPropagation();
             el = document.querySelector('footer');
@@ -628,7 +628,7 @@ function activeEvents() {
                 listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
             }
         }
-        else if (e.altKey && e.key == "a" && e.keyCode == 65) {
+        else if (e.altKey && e.keyCode == 65) {
             e.preventDefault();
             e.stopPropagation();
             let attachShadow = document.querySelector('[data-icon="attach-shadow"]');
@@ -647,13 +647,13 @@ function activeEvents() {
             }
             setLabelOnAttachFiles();
         }
-        else if (e.altKey && e.key == "b" && e.keyCode == 66) {
+        else if (e.altKey && e.keyCode == 66) {
             e.preventDefault();
             e.stopPropagation();
             el = document.querySelector('[contenteditable="true"]');
             el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
         }
-        else if (e.altKey && e.key == "t" && e.keyCode == 84) {
+        else if (e.altKey && e.keyCode == 84) {
             e.preventDefault();
             e.stopPropagation();
             let spanAriaLive = document.getElementById("span-to-aria-live");
@@ -674,13 +674,13 @@ function activeEvents() {
             }
 
         }
-        else if (e.altKey && e.key == "n" && e.keyCode == 78) {
+        else if (e.altKey && e.keyCode == 78) {
             e.preventDefault();
             e.stopPropagation();
 
             newChatWithNumberNotSaved();
         }
-        else if (e.altKey && e.key == "g" && e.keyCode == 71) {
+        else if (e.altKey && e.keyCode == 71) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -700,7 +700,7 @@ function activeEvents() {
                 dialogButtonToRecord.focus();
             }
         }
-        else if (e.altKey && e.key == "d" && e.keyCode == 68) {
+        else if (e.altKey && e.keyCode == 68) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -708,29 +708,29 @@ function activeEvents() {
                 selectedMessages();
                 document.querySelector('[data-dialog-sr-only]').focus();
             }
-        } else if (e.altKey && e.key == "i" && e.keyCode == 73) {
+        } else if (e.altKey && e.keyCode == 73) {
             e.preventDefault();
             e.stopPropagation();
 
             scriptVersionInformation();
         }
-        else if (e.altKey && e.key == "ArrowDown") {
+        else if (e.altKey && e.keyCode == 40) {
             e.preventDefault();
             e.stopPropagation();
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: '}', keyCode: 220, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.key == '}' && e.ctrlKey && e.altKey && e.shiftKey) {
+            document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 220, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+        } else if (e.keyCode == 220 && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, key: "e", altKey: true }));
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
             }, 200);
 
-        } else if (e.altKey && e.key == "ArrowUp") {
+        } else if (e.altKey && e.keyCode == 38) {
             e.preventDefault();
             e.stopPropagation();
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: '{', keyCode: 221, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.key == '{' && e.ctrlKey && e.altKey && e.shiftKey) {
+            document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 221, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+        } else if (e.keyCode == 221 && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, key: "e", altKey: true }));
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
             }, 200);
 
