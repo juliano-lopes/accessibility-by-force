@@ -718,7 +718,7 @@ function activeEvents() {
             e.preventDefault();
             e.stopPropagation();
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "}", keyCode: 220, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.keyCode == 220 && e.ctrlKey && e.altKey && e.shiftKey) {
+        } else if (e.key == "}" && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
@@ -728,7 +728,7 @@ function activeEvents() {
             e.preventDefault();
             e.stopPropagation();
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "{", keyCode: 221, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.keyCode == 221 && e.ctrlKey && e.altKey && e.shiftKey) {
+        } else if (e.key == "{" && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
