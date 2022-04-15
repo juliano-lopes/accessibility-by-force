@@ -714,20 +714,20 @@ function activeEvents() {
 
             scriptVersionInformation();
         }
-        else if (e.altKey && e.keyCode == 40) {
+        else if (e.altKey && (e.keyCode == 40 || e.key == "ArrowDown")) {
             e.preventDefault();
             e.stopPropagation();
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: "}", keyCode: 220, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: "}", keyCode: 220, code: "Backslash", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
         } else if (e.key == "}" && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
             }, 200);
 
-        } else if (e.altKey && e.keyCode == 38) {
+        } else if (e.altKey && (e.keyCode == 38 || e.key == "ArrowUp")) {
             e.preventDefault();
             e.stopPropagation();
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: "{", keyCode: 221, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: "{", keyCode: 221, code: "BracketRight", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
         } else if (e.key == "{" && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
