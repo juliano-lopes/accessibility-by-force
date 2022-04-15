@@ -714,21 +714,21 @@ function activeEvents() {
 
             scriptVersionInformation();
         }
-        else if (e.altKey && (e.keyCode == 40 || e.key == "ArrowDown")) {
+        else if (e.altKey && (e.keyCode == 40 || e.key == "ArrowDown" || e.code == "ArrowDown")) {
             e.preventDefault();
             e.stopPropagation();
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "}", keyCode: 220, code: "Backslash", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.key == "}" && e.ctrlKey && e.altKey && e.shiftKey) {
+        } else if ((e.key == "}" || e.keyCode == 220 || e.code == "Backslash") && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
             }, 200);
 
-        } else if (e.altKey && (e.keyCode == 38 || e.key == "ArrowUp")) {
+        } else if (e.altKey && (e.keyCode == 38 || e.key == "ArrowUp" || e.code == "ArrowUp")) {
             e.preventDefault();
             e.stopPropagation();
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "{", keyCode: 221, code: "BracketRight", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
-        } else if (e.key == "{" && e.ctrlKey && e.altKey && e.shiftKey) {
+        } else if ((e.key == "{" || e.keyCode == 221 || e.code == "BracketRight") && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
