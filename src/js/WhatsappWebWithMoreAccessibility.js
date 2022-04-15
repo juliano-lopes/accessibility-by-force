@@ -1,6 +1,6 @@
-const version = "5.5";
+const version = "5.6";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
-const CHANEL_URL = "https://youtu.be/Kxws4kpk_dY";
+const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
 const defaultPlaybackRate = 1;
 const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_SUBSCRIPTION = "script-whatsapp-web-with-more-accessibility-subscription";
 var activeConversationTitle = "";
@@ -31,6 +31,14 @@ function initial() {
                     activation();
                     checkScriptUpdate();
                     checkChannelSubscrition();
+                    let listLabel = document.getElementById("pane-side").querySelector('[aria-label*="ist"]');
+                    if (listLabel) {
+                        listLabel.setAttribute("data-label", listLabel.getAttribute("aria-label"));
+                        listLabel.setAttribute("aria-label", "");
+
+                    }
+                    document.getElementById("pane-side").querySelector('[role*="grid"]') ? document.getElementById("pane-side").querySelector('[role*="grid"]').removeAttribute("role") : '';
+
                 }
                 else {
                     alert(phrases.LOADING_PAGE);
@@ -243,6 +251,19 @@ function removeAccessibilityElements() {
     document.querySelectorAll('[data-sr-only]').forEach(function (accessibilityElement) {
         accessibilityElement.parentNode.removeChild(accessibilityElement);
     });
+}
+function getActiveConversationTitle() {
+    let main = document.getElementById('main');
+    if (main) {
+        let conversationTitle = main.querySelector("header");
+        conversationTitle = conversationTitle ? conversationTitle.querySelector('[dir="auto"]') : "";
+
+        conversationTitle = conversationTitle ? conversationTitle.getAttribute("title") : "";
+
+        activeConversationTitle = conversationTitle ? conversationTitle : activeConversationTitle;
+
+    }
+    return activeConversationTitle;
 }
 
 function setConversationTitle() {
@@ -496,7 +517,7 @@ function activeEvents() {
     const documentListener = function (e) {
         let el;
 
-        if (e.altKey && e.keyCode == 76) {
+        if (e.altKey && e.key == "l" && e.keyCode == 76) {
             e.preventDefault();
             e.stopPropagation();
             selectLanguage();
@@ -504,12 +525,14 @@ function activeEvents() {
                 el = document.getElementById("select-language").focus();
             }, 100);
 
-        } else if (e.altKey && e.keyCode == 67) {
+        } else if (e.altKey && e.key == "c" && e.keyCode == 67) {
             e.preventDefault();
             e.stopPropagation();
             el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
+            let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
+            listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
         }
-        else if (e.altKey && e.keyCode == 77) {
+        else if (e.altKey && e.key == "m" && e.keyCode == 77) {
             e.preventDefault();
             e.stopPropagation();
             el = document.getElementById('main');
@@ -585,15 +608,18 @@ function activeEvents() {
                 }, false);
 
             }
+            localStorage.setItem(getActiveConversationTitle() + "unread", "");
 
         }
-        else if (e.altKey && e.keyCode == 69) {
+        else if (e.altKey && e.key == "e" && e.keyCode == 69) {
             e.preventDefault();
             e.stopPropagation();
             el = document.querySelector('footer');
+            el.setAttribute("role", "region");
+            el.setAttribute("aria-label", getActiveConversationTitle());
             el = el ? el.querySelector('[contenteditable="true"]') : null;
             if (el) {
-
+                activeConversationTitle = getActiveConversationTitle();
                 activeConversationTitle ? el.setAttribute("aria-label", phrases.WRITE_MESSAGE + activeConversationTitle) : el.setAttribute("aria-label", phrases.WRITE_MESSAGE_WITHOUT_CONTACT_NAME);
 
                 el.addEventListener("keyup", footerMessageBoxListener, false);
@@ -602,7 +628,7 @@ function activeEvents() {
                 listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
             }
         }
-        else if (e.altKey && e.keyCode == 65) {
+        else if (e.altKey && e.key == "a" && e.keyCode == 65) {
             e.preventDefault();
             e.stopPropagation();
             let attachShadow = document.querySelector('[data-icon="attach-shadow"]');
@@ -621,13 +647,13 @@ function activeEvents() {
             }
             setLabelOnAttachFiles();
         }
-        else if (e.altKey && e.keyCode == 66) {
+        else if (e.altKey && e.key == "b" && e.keyCode == 66) {
             e.preventDefault();
             e.stopPropagation();
             el = document.querySelector('[contenteditable="true"]');
             el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
         }
-        else if (e.altKey && e.keyCode == 84) {
+        else if (e.altKey && e.key == "t" && e.keyCode == 84) {
             e.preventDefault();
             e.stopPropagation();
             let spanAriaLive = document.getElementById("span-to-aria-live");
@@ -640,21 +666,21 @@ function activeEvents() {
                 conversationStatus = conversationStatus ? conversationStatus.querySelector('span[title]') : null;
                 conversationStatus = conversationStatus ? conversationStatus.getAttribute("title") : null;
                 conversationStatus = conversationStatus && conversationStatus.indexOf(",") == -1 ? conversationStatus : null;
-
-                spanAriaLive.textContent = conversationStatus ? activeConversationTitle + " (" + conversationStatus + ")" : activeConversationTitle;
+                let unreadMessages = localStorage.getItem(getActiveConversationTitle() + "unread") ? localStorage.getItem(getActiveConversationTitle() + "unread") + " " + phrases.UNREAD_MESSAGE : "";
+                spanAriaLive.textContent = conversationStatus ? activeConversationTitle + " (" + conversationStatus + ") " + unreadMessages : activeConversationTitle + " " + unreadMessages;
                 setTimeout(function () {
                     spanAriaLive.textContent = "";
                 }, 1000);
             }
 
         }
-        else if (e.altKey && e.keyCode == 78) {
+        else if (e.altKey && e.key == "n" && e.keyCode == 78) {
             e.preventDefault();
             e.stopPropagation();
 
             newChatWithNumberNotSaved();
         }
-        else if (e.altKey && e.keyCode == 71) {
+        else if (e.altKey && e.key == "g" && e.keyCode == 71) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -674,7 +700,7 @@ function activeEvents() {
                 dialogButtonToRecord.focus();
             }
         }
-        else if (e.altKey && e.keyCode == 68) {
+        else if (e.altKey && e.key == "d" && e.keyCode == 68) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -682,12 +708,35 @@ function activeEvents() {
                 selectedMessages();
                 document.querySelector('[data-dialog-sr-only]').focus();
             }
-        } else if (e.altKey && e.keyCode == 73) {
+        } else if (e.altKey && e.key == "i" && e.keyCode == 73) {
             e.preventDefault();
             e.stopPropagation();
 
             scriptVersionInformation();
         }
+        else if (e.altKey && e.key == "ArrowDown") {
+            e.preventDefault();
+            e.stopPropagation();
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: '}', keyCode: 220, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+        } else if (e.key == '}' && e.ctrlKey && e.altKey && e.shiftKey) {
+            setTimeout(() => {
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, key: "e", altKey: true }));
+                getUnreadMessages();
+            }, 200);
+
+        } else if (e.altKey && e.key == "ArrowUp") {
+            e.preventDefault();
+            e.stopPropagation();
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: '{', keyCode: 221, altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
+        } else if (e.key == '{' && e.ctrlKey && e.altKey && e.shiftKey) {
+            setTimeout(() => {
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, key: "e", altKey: true }));
+                getUnreadMessages();
+            }, 200);
+
+        }
+
+
         el ? el.focus() : false;
 
         if (document.getElementById('main')) {
@@ -699,6 +748,27 @@ function activeEvents() {
     };
     document.addEventListener("keydown", documentListener, false);
     listeners.push({ element: document, listener: documentListener, listenerType: "keydown" });
+}
+function getUnreadMessages() {
+    if (document.getElementById("main")) {
+        let span = document.getElementById("main").querySelector('div[role="option"] span[aria-live="polite"]');
+        if (span && !span.getAttribute("data-sr-only")) {
+
+            span.setAttribute("data-sr-only", "qt-unread-message");
+
+            let n = span.textContent.trim().split(" ");
+            n = n[0];
+            let ns = localStorage.getItem(getActiveConversationTitle() + "unread");
+            if (ns) {
+
+                n = parseInt(n) + parseInt(ns);
+            }
+
+            localStorage.setItem(getActiveConversationTitle() + "unread", n);
+
+        }
+    }
+
 }
 function addLabelVideoAndImage(element) {
     element.querySelector('img') && element.querySelector('img').parentNode.parentNode.parentNode.getAttribute("role") == "button" ? element.querySelector('img').setAttribute("alt", "Image") : false;
@@ -1119,17 +1189,17 @@ function newChatWithNumberNotSaved() {
 const getClassSROnly = function () {
 
     return (`
-        border: 0;
-        clip: rect(1px, 1px, 1px, 1px);
-        clip-path: inset(50%);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-        word-wrap: normal !important;
-        `);
+            border: 0;
+            clip: rect(1px, 1px, 1px, 1px);
+            clip-path: inset(50%);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+            word-wrap: normal !important;
+            `);
 };
 
 const setClassSROnly = function (element, label = "") {
@@ -1190,165 +1260,168 @@ const getPhrases = function (myLanguage) {
 };
 
 const PHRASES_JSON = `
-[
-    {
-        "language":"pt-br",
-        "description":"Português (Portuguese)",
-        "SCRIPT_ACTIVATED":"Script de acessibilidade ativado com sucesso!",
-        "LOADING_PAGE":"Documento ainda sendo carregado...", 
-        "SCRIPT_DESACTIVATED":"Script de acessibilidade desativado!",
-"MAIN_PANE_HEADING":"Painel principal",
-"CURRENT_CONVERSATION":"Conversa ativa com ",
-"CONVERSATION_TITLE_WITHOUT_CONTACT_NAME":"Conversa ativa",
-"BUTTON_SEND_TEXT_MESSAGE":"Enviar mensagem de texto",
-"BUTTON_RECORD_VOICE_MESSAGE":"Gravar mensagem de voz",
-"BUTTON_SEND_VOICE_MESSAGE":"Enviar mensagem de voz",
-"BUTTON_CANCEL_RECORDING":"Cancelar gravação",
-"WRITE_MESSAGE":"Escreva uma mensagem para ",
-"WRITE_MESSAGE_WITHOUT_CONTACT_NAME":"Escreva uma mensagem",
-"ATTACH_CONTAINER_MESSAGE":"Selecione o que deseja anexar...",
-"SEARCH_LABEL":"Buscar nas conversas e nos contatos...",
-"SELECT_LANGUAGE":"Selecione o idioma do script: ",
-"LANGUAGE_SELECTED":"O idioma do script foi alterado com sucesso!",
-"LABEL_NEW_CHAT_INPUT":"Digite o número para o qual deseja enviar mensagem",
-"PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
-"NEW_CHAT_INPUT_INCORRECT":"Esse número está num formato inválido. Deve conter somente números, o código do país (Brasil = 55), o DDD da cidade (Belo Horizonte = 31) e o 9 antes do número.",
-"NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
-"DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
-"RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Mensagem de",
-"CLOSE":"Fechar",
-"SEND":"Enviar",
-"CHECKED":"Marcado ",
-"UNCHECKED":"Não marcado ",
-"CONTAINER_HEADING":"Selecione uma opção apertando a tecla 'enter', ou precione ALT + M para selecionar outras mensagens utilizando a 'barra de espaço'.",
-"SELECTED_MESSAGE":" mensagem(ens) selecionada(s).",
-"NEW_VERSION_MESSAGE":"Uma nova versão para o script 'Whatsapp Web With More Accessibility' está disponível. Caso queira atualizar, clique em 'OK' e depois em atualizar. Após isso recarregue a página do Whatsapp apertando a tecla F5 e reative o script com ALT + S. Nova versão: ",
-"CLOSE_ATTACHED_FILE_PREVIEW":"Fechar previsualização de arquivos",
-"REMOVE_ATTACHED_FILE":"Remover arquivo ",
-"VIEW_ATTACHED_FILE":"Visualizar arquivo ",
-"SEND_ATTACHED_FILE":"Enviar arquivos anexados",
-"UPDATE_INFORMATION_HEADING":"Atualização para o ScriptWhatsappWebWithMoreAccessibility",
-"UPDATE_INFORMATION_OK_BUTTON":"Ok",
-"UPDATE_INFORMATION_CLOSE_BUTTON":"Fechar janela de informação",
-"UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
-"UPDATE_INFORMATION_CHANEL_LINK":"@Continue Desenvolvendo no Youtube. (Abrirá em uma nova aba)",
-"SUBSCRIPTION_HEADING":"Um momento de sua atenção",
-"SUBSCRIPTION_BODY":"Espero que você esteja gostando do script para o WhatsApp Web! Esse é um trabalho que tenho feito com muito carinho, na esperança de que lhe seja útil. Por favor, gostaria de seu apoio para que eu consiga continuar com as atualizações e novidades do script. Para isso gostaria de pedir para que você se inscreva no canal @Continue Desenvolvendo clicando no link a seguir que irá abrir uma nova página, e então você precisará clicar no botão 'Inscrever-se' para confirmar. Obrigado, isso é de grande ajuda para mim!",
-"SUBSCRIPTION_LINK_TEXT":"Se inscrever no canal @Continue Desenvolvendo (abrirá em outra aba)",
-"REPLAY":"responde",
-"ABOUT":"sobre",
-"SAY":"dizendo",
-"HIDDEN_TEXT":"texto oculto",
-"SHOWED_TEXT":"texto exibido",
-"SAY_S":"diz"
-
-        },
+    [
         {
-            "language": "en-us",
-            "description":"Inglês (English)",
-            "SCRIPT_ACTIVATED": "Accessibility script activated successfully!",
-            "LOADING_PAGE": "Document is still being loaded ...",
-            "SCRIPT_DESACTIVATED": "Accessibility script disabled!",
-"MAIN_PANE_HEADING": "Main panel",
-"CURRENT_CONVERSATION": "Active chat with ",
-"CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Active chat",
-"BUTTON_SEND_TEXT_MESSAGE": "Send text message",
-"BUTTON_RECORD_VOICE_MESSAGE": "Record voice message",
-"BUTTON_SEND_VOICE_MESSAGE": "Send voice message",
-"BUTTON_CANCEL_RECORDING": "Cancel recording",
-"WRITE_MESSAGE": "Write a message to ",
-"WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Write a message",
-"ATTACH_CONTAINER_MESSAGE": "Select what you want to attach ...",
-"SEARCH_LABEL": "Search chats and contacts ...",
-"SELECT_LANGUAGE":"Select the script language: ",
-"LANGUAGE_SELECTED":"The script language has been successfully changed!",
-"LABEL_NEW_CHAT_INPUT": "Enter the number you want to send a message to:",
-"PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
-"NEW_CHAT_INPUT_INCORRECT": "This number is in an invalid format. It must contain only numbers, the country code and the city code before the phone number.",
-"NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
-"DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
-"RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Message from",
-"CLOSE": "Close",
-"SEND": "Send",
-"CHECKED": "Checked ",
-"UNCHECKED": "Not checked ",
-"CONTAINER_HEADING": "Select an option by pressing the 'enter' key, or press ALT + M to select other messages using the 'space bar'.",
-"SELECTED_MESSAGE":" message(s) selected.",
-"NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: ",
-"CLOSE_ATTACHED_FILE_PREVIEW":"Close file preview",
-"REMOVE_ATTACHED_FILE":"Remove file ",
-"VIEW_ATTACHED_FILE":"View file ",
-"SEND_ATTACHED_FILE":"Send attached files",
-"UPDATE_INFORMATION_HEADING": "Update for ScriptWhatsappWebWithMoreAccessibility",
-"UPDATE_INFORMATION_OK_BUTTON": "Ok",
-"UPDATE_INFORMATION_CLOSE_BUTTON": "Close information window",
-"UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. Subscribe and follow the channel to stay on top of what has changed. Access: ",
-"UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo on Youtube. (It will open in a new tab)",
-"SUBSCRIPTION_HEADING":"A moment of your attention",
-"SUBSCRIPTION_BODY":"I hope you're enjoying the script for WhatsApp Web! This is a job I've been doing with a lot of love, hoping it will be useful to you. Please, I'd like your support so I can continue with the script updates and news. For this I would like to ask you to subscribe to the @Continue Desenvolvendo channel by clicking on the following link which will open a new page, and then you will need to click on the 'Subscribe' button to confirm it. Thank you, this is a great help for me!",
-"SUBSCRIPTION_LINK_TEXT":"Subscribe to @Continue Desenvolvendo channel (will open in another tab)",
-"REPLAY":"replays",
-"ABOUT":"about",
-"SAY":"saying",
-"HIDDEN_TEXT":"the text was hidden",
-"SHOWED_TEXT":"the text is showed",
-"SAY_S":"says"
-
+            "language":"pt-br",
+            "description":"Português (Portuguese)",
+            "SCRIPT_ACTIVATED":"Script de acessibilidade ativado com sucesso!",
+            "LOADING_PAGE":"Documento ainda sendo carregado...", 
+            "SCRIPT_DESACTIVATED":"Script de acessibilidade desativado!",
+    "MAIN_PANE_HEADING":"Painel principal",
+    "CURRENT_CONVERSATION":"Conversa ativa com ",
+    "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME":"Conversa ativa",
+    "BUTTON_SEND_TEXT_MESSAGE":"Enviar mensagem de texto",
+    "BUTTON_RECORD_VOICE_MESSAGE":"Gravar mensagem de voz",
+    "BUTTON_SEND_VOICE_MESSAGE":"Enviar mensagem de voz",
+    "BUTTON_CANCEL_RECORDING":"Cancelar gravação",
+    "WRITE_MESSAGE":"Escreva uma mensagem para ",
+    "WRITE_MESSAGE_WITHOUT_CONTACT_NAME":"Escreva uma mensagem",
+    "ATTACH_CONTAINER_MESSAGE":"Selecione o que deseja anexar...",
+    "SEARCH_LABEL":"Buscar nas conversas e nos contatos...",
+    "SELECT_LANGUAGE":"Selecione o idioma do script: ",
+    "LANGUAGE_SELECTED":"O idioma do script foi alterado com sucesso!",
+    "LABEL_NEW_CHAT_INPUT":"Digite o número para o qual deseja enviar mensagem",
+    "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
+    "NEW_CHAT_INPUT_INCORRECT":"Esse número está num formato inválido. Deve conter somente números, o código do país (Brasil = 55), o DDD da cidade (Belo Horizonte = 31) e o 9 antes do número.",
+    "NEW_CHAT_INPUT_INVALID_NUMBER":"Este número é inválido, talvez não esteja cadastrado no Whatsapp.",
+    "DIALOG_HEADING_TO_RECORD_BUTTON":"Clique no botão abaixo para iniciar a gravação da mensagem de voz:",
+    "RECORDING_DIALOG_HEADING":"Gravação de mensagem de voz. Utilize as setas para navegar.",
+    "REPLACE_CONTACT_PHONE_MESSAGE":"Mensagem de",
+    "CLOSE":"Fechar",
+    "SEND":"Enviar",
+    "CHECKED":"Marcado ",
+    "UNCHECKED":"Não marcado ",
+    "CONTAINER_HEADING":"Selecione uma opção apertando a tecla 'enter', ou precione ALT + M para selecionar outras mensagens utilizando a 'barra de espaço'.",
+    "SELECTED_MESSAGE":" mensagem(ens) selecionada(s).",
+    "NEW_VERSION_MESSAGE":"Uma nova versão para o script 'Whatsapp Web With More Accessibility' está disponível. Caso queira atualizar, clique em 'OK' e depois em atualizar. Após isso recarregue a página do Whatsapp apertando a tecla F5 e reative o script com ALT + S. Nova versão: ",
+    "CLOSE_ATTACHED_FILE_PREVIEW":"Fechar previsualização de arquivos",
+    "REMOVE_ATTACHED_FILE":"Remover arquivo ",
+    "VIEW_ATTACHED_FILE":"Visualizar arquivo ",
+    "SEND_ATTACHED_FILE":"Enviar arquivos anexados",
+    "UPDATE_INFORMATION_HEADING":"Atualização para o ScriptWhatsappWebWithMoreAccessibility",
+    "UPDATE_INFORMATION_OK_BUTTON":"Ok",
+    "UPDATE_INFORMATION_CLOSE_BUTTON":"Fechar janela de informação",
+    "UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
+    "UPDATE_INFORMATION_CHANEL_LINK":"@Continue Desenvolvendo no Youtube. (Abrirá em uma nova aba)",
+    "SUBSCRIPTION_HEADING":"Um momento de sua atenção",
+    "SUBSCRIPTION_BODY":"Espero que você esteja gostando do script para o WhatsApp Web! Esse é um trabalho que tenho feito com muito carinho, na esperança de que lhe seja útil. Por favor, gostaria de seu apoio para que eu consiga continuar com as atualizações e novidades do script. Para isso gostaria de pedir para que você se inscreva no canal @Continue Desenvolvendo clicando no link a seguir que irá abrir uma nova página, e então você precisará clicar no botão 'Inscrever-se' para confirmar. Obrigado, isso é de grande ajuda para mim!",
+    "SUBSCRIPTION_LINK_TEXT":"Se inscrever no canal @Continue Desenvolvendo (abrirá em outra aba)",
+    "REPLAY":"responde",
+    "ABOUT":"sobre",
+    "SAY":"dizendo",
+    "HIDDEN_TEXT":"texto oculto",
+    "SHOWED_TEXT":"texto exibido",
+    "SAY_S":"diz",
+    "UNREAD_MESSAGE":" mensagens não lidas"
+    
             },
             {
-                "language": "es-es",
-                "description":"Espanhol (Spanish)",
-                "SCRIPT_ACTIVATED": "¡El script de accesibilidad se activó correctamente!",
-                "LOADING_PAGE": "El documento aún se está cargando ...",
-                "SCRIPT_DESACTIVATED": "¡Secuencia de comandos de accesibilidad inhabilitada!",
-"MAIN_PANE_HEADING": "Panel principal",
-"CURRENT_CONVERSATION": "Conversación activa con ",
-"CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Conversación activa",
-"BUTTON_SEND_TEXT_MESSAGE": "Enviar mensaje de texto",
-"BUTTON_RECORD_VOICE_MESSAGE": "Grabar mensaje de voz",
-"BUTTON_SEND_VOICE_MESSAGE": "Enviar mensaje de voz",
-"BUTTON_CANCEL_RECORDING": "Cancelar grabación",
-"WRITE_MESSAGE": "Escribir un mensaje a ",
-"WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Escribe un mensaje",
-"ATTACH_CONTAINER_MESSAGE": "Seleccione lo que desea adjuntar ...",
-"SEARCH_LABEL": "Buscar conversaciones y contactos ...",
-"SELECT_LANGUAGE": "Seleccione el idioma del script:",
-"LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
-"LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
-"PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
-"NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
-"NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
-"DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
-"RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
-"REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de",
-"CLOSE":"Cerrar",
-"SEND": "Enviar",
-"CHECKED": "Marcado ",
-"UNCHECKED": "No marcado ",
-"CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
-"SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
-"NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: ",
-"CLOSE_ATTACHED_FILE_PREVIEW":"Cerrar vista previa del archivo",
-"REMOVE_ATTACHED_FILE":"Eliminar archivo ",
-"VIEW_ATTACHED_FILE":"Ver archivo ",
-"SEND_ATTACHED_FILE":"Enviar archivos adjuntos",
-"UPDATE_INFORMATION_HEADING": "Actualización de ScriptWhatsappWebWithMoreAccessibility",
-"UPDATE_INFORMATION_OK_BUTTON": "Ok",
-"UPDATE_INFORMATION_CLOSE_BUTTON": "Cerrar ventana de información",
-"UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
-"UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo en Youtube. (Se abrirá en una nueva pestaña)",
-"SUBSCRIPTION_HEADING": "Un momento de su atención",
-"SUBSCRIPTION_BODY": "¡Espero que estés disfrutando el script para WhatsApp Web! Este es un trabajo que he estado haciendo con mucho amor, esperando que te sea útil. Por favor, me gustaría tu apoyo, así que puede continuar con las actualizaciones del script y las noticias.Para ello, me gustaría pedirle que se suscriba al canal @Continue Desenvolvendo haciendo clic en el siguiente enlace que abrirá una nueva página, y luego deberá hacer clic en el botón 'Suscribe'. ¡Gracias, esto es de gran ayuda para mí!",
-"SUBSCRIPTION_LINK_TEXT": "Suscríbete a canal @Continue Desenvolvendo (se abrirá en otra pestaña)",
-"REPLAY":"responde",
-"ABOUT":"sobre",
-"SAY":"diciendo",
-"HIDDEN_TEXT":"texto oculto",
-"SHOWED_TEXT":"texto mostrado",
-"SAY_S":"dice"
-
-                }
-]
-`;
+                "language": "en-us",
+                "description":"Inglês (English)",
+                "SCRIPT_ACTIVATED": "Accessibility script activated successfully!",
+                "LOADING_PAGE": "Document is still being loaded ...",
+                "SCRIPT_DESACTIVATED": "Accessibility script disabled!",
+    "MAIN_PANE_HEADING": "Main panel",
+    "CURRENT_CONVERSATION": "Active chat with ",
+    "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Active chat",
+    "BUTTON_SEND_TEXT_MESSAGE": "Send text message",
+    "BUTTON_RECORD_VOICE_MESSAGE": "Record voice message",
+    "BUTTON_SEND_VOICE_MESSAGE": "Send voice message",
+    "BUTTON_CANCEL_RECORDING": "Cancel recording",
+    "WRITE_MESSAGE": "Write a message to ",
+    "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Write a message",
+    "ATTACH_CONTAINER_MESSAGE": "Select what you want to attach ...",
+    "SEARCH_LABEL": "Search chats and contacts ...",
+    "SELECT_LANGUAGE":"Select the script language: ",
+    "LANGUAGE_SELECTED":"The script language has been successfully changed!",
+    "LABEL_NEW_CHAT_INPUT": "Enter the number you want to send a message to:",
+    "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
+    "NEW_CHAT_INPUT_INCORRECT": "This number is in an invalid format. It must contain only numbers, the country code and the city code before the phone number.",
+    "NEW_CHAT_INPUT_INVALID_NUMBER": "This number is invalid, it may not be registered on Whatsapp.",
+    "DIALOG_HEADING_TO_RECORD_BUTTON": "Click the button below to start recording your voice message:",
+    "RECORDING_DIALOG_HEADING": "Voice message recording. Use the arrows to navigate.",
+    "REPLACE_CONTACT_PHONE_MESSAGE":"Message from",
+    "CLOSE": "Close",
+    "SEND": "Send",
+    "CHECKED": "Checked ",
+    "UNCHECKED": "Not checked ",
+    "CONTAINER_HEADING": "Select an option by pressing the 'enter' key, or press ALT + M to select other messages using the 'space bar'.",
+    "SELECTED_MESSAGE":" message(s) selected.",
+    "NEW_VERSION_MESSAGE": "A new version for the 'Whatsapp Web With More Accessibility' script is available. If you want to update, click on 'OK' and then on update. After that reload the Whatsapp page by pressing the F5 key and reactivate the script with ALT + S. New version: ",
+    "CLOSE_ATTACHED_FILE_PREVIEW":"Close file preview",
+    "REMOVE_ATTACHED_FILE":"Remove file ",
+    "VIEW_ATTACHED_FILE":"View file ",
+    "SEND_ATTACHED_FILE":"Send attached files",
+    "UPDATE_INFORMATION_HEADING": "Update for ScriptWhatsappWebWithMoreAccessibility",
+    "UPDATE_INFORMATION_OK_BUTTON": "Ok",
+    "UPDATE_INFORMATION_CLOSE_BUTTON": "Close information window",
+    "UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. Subscribe and follow the channel to stay on top of what has changed. Access: ",
+    "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo on Youtube. (It will open in a new tab)",
+    "SUBSCRIPTION_HEADING":"A moment of your attention",
+    "SUBSCRIPTION_BODY":"I hope you're enjoying the script for WhatsApp Web! This is a job I've been doing with a lot of love, hoping it will be useful to you. Please, I'd like your support so I can continue with the script updates and news. For this I would like to ask you to subscribe to the @Continue Desenvolvendo channel by clicking on the following link which will open a new page, and then you will need to click on the 'Subscribe' button to confirm it. Thank you, this is a great help for me!",
+    "SUBSCRIPTION_LINK_TEXT":"Subscribe to @Continue Desenvolvendo channel (will open in another tab)",
+    "REPLAY":"replays",
+    "ABOUT":"about",
+    "SAY":"saying",
+    "HIDDEN_TEXT":"the text was hidden",
+    "SHOWED_TEXT":"the text is showed",
+    "SAY_S":"says",
+    "UNREAD_MESSAGE":" unread messages"
+    
+                },
+                {
+                    "language": "es-es",
+                    "description":"Espanhol (Spanish)",
+                    "SCRIPT_ACTIVATED": "¡El script de accesibilidad se activó correctamente!",
+                    "LOADING_PAGE": "El documento aún se está cargando ...",
+                    "SCRIPT_DESACTIVATED": "¡Secuencia de comandos de accesibilidad inhabilitada!",
+    "MAIN_PANE_HEADING": "Panel principal",
+    "CURRENT_CONVERSATION": "Conversación activa con ",
+    "CONVERSATION_TITLE_WITHOUT_CONTACT_NAME": "Conversación activa",
+    "BUTTON_SEND_TEXT_MESSAGE": "Enviar mensaje de texto",
+    "BUTTON_RECORD_VOICE_MESSAGE": "Grabar mensaje de voz",
+    "BUTTON_SEND_VOICE_MESSAGE": "Enviar mensaje de voz",
+    "BUTTON_CANCEL_RECORDING": "Cancelar grabación",
+    "WRITE_MESSAGE": "Escribir un mensaje a ",
+    "WRITE_MESSAGE_WITHOUT_CONTACT_NAME": "Escribe un mensaje",
+    "ATTACH_CONTAINER_MESSAGE": "Seleccione lo que desea adjuntar ...",
+    "SEARCH_LABEL": "Buscar conversaciones y contactos ...",
+    "SELECT_LANGUAGE": "Seleccione el idioma del script:",
+    "LANGUAGE_SELECTED":"¡El idioma se ha cambiado correctamente!",
+    "LABEL_NEW_CHAT_INPUT": "Ingresa el número al que deseas enviar un mensaje: ",
+    "PLACEHOLDER_NEW_CHAT_INPUT":"EX.: 5531999999999",
+    "NEW_CHAT_INPUT_INCORRECT": "Este número tiene un formato no válido. Debe contener solo números, el código del país y el código de la ciudad antes del número.",
+    "NEW_CHAT_INPUT_INVALID_NUMBER": "Este número no es válido, puede que no esté registrado en Whatsapp.",
+    "DIALOG_HEADING_TO_RECORD_BUTTON": "Haga clic en el botón de abajo para comenzar a grabar su mensaje de voz:",
+    "RECORDING_DIALOG_HEADING": "Grabación de notas de voz. Usa las flechas para navegar.",
+    "REPLACE_CONTACT_PHONE_MESSAGE":"Mensaje de",
+    "CLOSE":"Cerrar",
+    "SEND": "Enviar",
+    "CHECKED": "Marcado ",
+    "UNCHECKED": "No marcado ",
+    "CONTAINER_HEADING": "Seleccione una opción presionando la tecla 'enter', o presione ALT + M para seleccionar otros mensajes usando la 'barra espaciadora'.",
+    "SELECTED_MESSAGE":" mensaje(s) seleccionada(s).",
+    "NEW_VERSION_MESSAGE": "Hay disponible una nueva versión del script 'Whatsapp Web With More Accessibility'. Si desea actualizar, haga clic en 'OK' y luego en actualizar. Después de eso, vuelva a cargar la página de Whatsapp presionando la tecla F5 y reactive el script con ALT + S. Nueva versión: ",
+    "CLOSE_ATTACHED_FILE_PREVIEW":"Cerrar vista previa del archivo",
+    "REMOVE_ATTACHED_FILE":"Eliminar archivo ",
+    "VIEW_ATTACHED_FILE":"Ver archivo ",
+    "SEND_ATTACHED_FILE":"Enviar archivos adjuntos",
+    "UPDATE_INFORMATION_HEADING": "Actualización de ScriptWhatsappWebWithMoreAccessibility",
+    "UPDATE_INFORMATION_OK_BUTTON": "Ok",
+    "UPDATE_INFORMATION_CLOSE_BUTTON": "Cerrar ventana de información",
+    "UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
+    "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo en Youtube. (Se abrirá en una nueva pestaña)",
+    "SUBSCRIPTION_HEADING": "Un momento de su atención",
+    "SUBSCRIPTION_BODY": "¡Espero que estés disfrutando el script para WhatsApp Web! Este es un trabajo que he estado haciendo con mucho amor, esperando que te sea útil. Por favor, me gustaría tu apoyo, así que puede continuar con las actualizaciones del script y las noticias.Para ello, me gustaría pedirle que se suscriba al canal @Continue Desenvolvendo haciendo clic en el siguiente enlace que abrirá una nueva página, y luego deberá hacer clic en el botón 'Suscribe'. ¡Gracias, esto es de gran ayuda para mí!",
+    "SUBSCRIPTION_LINK_TEXT": "Suscríbete a canal @Continue Desenvolvendo (se abrirá en otra pestaña)",
+    "REPLAY":"responde",
+    "ABOUT":"sobre",
+    "SAY":"diciendo",
+    "HIDDEN_TEXT":"texto oculto",
+    "SHOWED_TEXT":"texto mostrado",
+    "SAY_S":"dice",
+    "UNREAD_MESSAGE":" mensajes no leídos"
+    
+                    }
+    ]
+    `;
