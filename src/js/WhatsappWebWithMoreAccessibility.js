@@ -1,6 +1,7 @@
 const version = "5.6";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
+const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
 const defaultPlaybackRate = 1;
 const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_SUBSCRIPTION = "script-whatsapp-web-with-more-accessibility-subscription";
 var activeConversationTitle = "";
@@ -1303,6 +1304,8 @@ const PHRASES_JSON = `
     "UPDATE_INFORMATION_CLOSE_BUTTON":"Fechar janela de informação",
     "UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
     "UPDATE_INFORMATION_CHANEL_LINK":"@Continue Desenvolvendo no Youtube. (Abrirá em uma nova aba)",
+    "UPDATE_INFORMATION_SITE_LINK":"JULIANOLOPES.COM.BR (Abrirá em uma nova aba)",
+    "UPDATE_INFORMATION_SITE_LINK_END":"#script-pt-heading",
     "SUBSCRIPTION_HEADING":"Um momento de sua atenção",
     "SUBSCRIPTION_BODY":"Espero que você esteja gostando do script para o WhatsApp Web! Esse é um trabalho que tenho feito com muito carinho, na esperança de que lhe seja útil. Por favor, gostaria de seu apoio para que eu consiga continuar com as atualizações e novidades do script. Para isso gostaria de pedir para que você se inscreva no canal @Continue Desenvolvendo clicando no link a seguir que irá abrir uma nova página, e então você precisará clicar no botão 'Inscrever-se' para confirmar. Obrigado, isso é de grande ajuda para mim!",
     "SUBSCRIPTION_LINK_TEXT":"Se inscrever no canal @Continue Desenvolvendo (abrirá em outra aba)",
@@ -1357,6 +1360,8 @@ const PHRASES_JSON = `
     "UPDATE_INFORMATION_CLOSE_BUTTON": "Close information window",
     "UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. Subscribe and follow the channel to stay on top of what has changed. Access: ",
     "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo on Youtube. (It will open in a new tab)",
+    "UPDATE_INFORMATION_SITE_LINK": "JULIANOLOPES.COM.BR (It will open in a new tab)",
+    "UPDATE_INFORMATION_SITE_LINK_END":"#scriptenheading",
     "SUBSCRIPTION_HEADING":"A moment of your attention",
     "SUBSCRIPTION_BODY":"I hope you're enjoying the script for WhatsApp Web! This is a job I've been doing with a lot of love, hoping it will be useful to you. Please, I'd like your support so I can continue with the script updates and news. For this I would like to ask you to subscribe to the @Continue Desenvolvendo channel by clicking on the following link which will open a new page, and then you will need to click on the 'Subscribe' button to confirm it. Thank you, this is a great help for me!",
     "SUBSCRIPTION_LINK_TEXT":"Subscribe to @Continue Desenvolvendo channel (will open in another tab)",
@@ -1411,6 +1416,8 @@ const PHRASES_JSON = `
     "UPDATE_INFORMATION_CLOSE_BUTTON": "Cerrar ventana de información",
     "UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
     "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo en Youtube. (Se abrirá en una nueva pestaña)",
+    "UPDATE_INFORMATION_SITE_LINK": "JULIANOLOPES.COM.BR (Se abrirá en una nueva pestaña)",
+    "UPDATE_INFORMATION_SITE_LINK_END":"#script-es-heading",
     "SUBSCRIPTION_HEADING": "Un momento de su atención",
     "SUBSCRIPTION_BODY": "¡Espero que estés disfrutando el script para WhatsApp Web! Este es un trabajo que he estado haciendo con mucho amor, esperando que te sea útil. Por favor, me gustaría tu apoyo, así que puede continuar con las actualizaciones del script y las noticias.Para ello, me gustaría pedirle que se suscriba al canal @Continue Desenvolvendo haciendo clic en el siguiente enlace que abrirá una nueva página, y luego deberá hacer clic en el botón 'Suscribe'. ¡Gracias, esto es de gran ayuda para mí!",
     "SUBSCRIPTION_LINK_TEXT": "Suscríbete a canal @Continue Desenvolvendo (se abrirá en otra pestaña)",
