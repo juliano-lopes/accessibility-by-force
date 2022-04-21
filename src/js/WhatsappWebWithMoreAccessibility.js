@@ -164,6 +164,8 @@ function scriptVersionInformation() {
         let updateInformationOkButton = document.createElement("button");
         let updateInformationCloseButton = document.createElement("button");
         let updateInformationChanelLink = document.createElement("a");
+        let updateInformationSiteLink = document.createElement("a");
+
         updateInformationHeading.id = "update-information-heading";
         updateInformationHeading.textContent = phrases.UPDATE_INFORMATION_HEADING;
         updateInformationOkButton.textContent = phrases.UPDATE_INFORMATION_OK_BUTTON;
@@ -176,6 +178,9 @@ function scriptVersionInformation() {
         updateInformationChanelLink.href = CHANEL_URL;
         updateInformationChanelLink.target = "_blank";
         updateInformationChanelLink.textContent = phrases.UPDATE_INFORMATION_CHANEL_LINK;
+        updateInformationSiteLink.href = SITE_URL + phrases.UPDATE_INFORMATION_SITE_LINK_END;
+        updateInformationSiteLink.target = "_blank";
+        updateInformationSiteLink.textContent = phrases.UPDATE_INFORMATION_SITE_LINK;
         updateInformationContainer.id = "script-version-information";
         updateInformationContainer.setAttribute("role", "dialog");
         updateInformationContainer.setAttribute("tabindex", "-1");
@@ -195,14 +200,24 @@ function scriptVersionInformation() {
         }, false);
         updateInformationContainer.appendChild(updateInformationCloseButton);
         updateInformationContainer.appendChild(updateInformationHeading);
-        updateInformationBody.appendChild(updateInformationChanelLink);
+
+        updateInformationBody.appendChild(getLinkList([updateInformationChanelLink, updateInformationSiteLink]));
         updateInformationContainer.appendChild(updateInformationBody);
         updateInformationContainer.appendChild(updateInformationOkButton);
         document.body.appendChild(updateInformationContainer);
         updateInformationContainer.focus();
     }
 }
-
+function getLinkList(links) {
+    let linkList = document.createElement("ul");
+    linkList.setAttribute("style", "list-style: none;");
+    links.forEach((link) => {
+        let linkListItem = document.createElement("li");
+        linkListItem.appendChild(link);
+        linkList.appendChild(linkListItem);
+    });
+    return linkList;
+}
 function checkScriptUpdate() {
     const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
 
