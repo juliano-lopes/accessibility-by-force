@@ -16,7 +16,7 @@ function isChrome() {
     return navigator.userAgent.includes("Chrome");
 }
 function initial() {
-    console.log("Script WhatsApp Web");
+    console.log("Script WhatsApp Web " + version);
     document.addEventListener("keydown", function (e) {
         if (e.altKey && e.keyCode == 83) {
 
@@ -757,6 +757,7 @@ function activeEvents() {
 
         if (document.getElementById('main')) {
             updateMessage();
+            document.getElementById("pane-side").contains(e.target) ? getUnreadMessages() : false;
             addFooterButtonLabels();
             addClickOnElementsIntoMessage();
         }
