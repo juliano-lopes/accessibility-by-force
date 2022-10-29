@@ -628,6 +628,7 @@ function activeEvents() {
             el = document.getElementById('main');
             el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
             el = el && el.length > 0 ? el[el.length - 1] : null;
+            console.log("alt plus m pressed");
         }
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
