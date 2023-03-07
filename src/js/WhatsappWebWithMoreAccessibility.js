@@ -1,4 +1,4 @@
-const version = "5.6";
+const version = "6.0";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
 const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
@@ -16,7 +16,7 @@ function isChrome() {
     return navigator.userAgent.includes("Chrome");
 }
 function initial() {
-    console.log("Script WhatsApp Web " + version);
+    ""("Script WhatsApp Web " + version);
     document.addEventListener("keydown", function (e) {
         if (e.altKey && e.keyCode == 83) {
 
@@ -243,7 +243,7 @@ function removeAccessibilityListenerEvents() {
 }
 
 function updateMessage() {
-    setConversationTitle();
+    //setConversationTitle();
     setAccessibilityAttributeToFirefox();
 }
 
@@ -270,6 +270,14 @@ function removeAccessibilityElements() {
 }
 function getActiveConversationTitle() {
     let main = document.getElementById('main');
+    activeConversationTitle = main ? main.querySelector('[data-testid="conversation-info-header-chat-title"]') : "";
+    activeConversationTitle = activeConversationTitle ? activeConversationTitle.textContent : "";
+    return activeConversationTitle;
+
+}
+
+function oldGetActiveConversationTitle() {
+    let main = document.getElementById('main');
     if (main) {
         let conversationTitle = main.querySelector("header");
         conversationTitle = conversationTitle ? conversationTitle.querySelector('[dir="auto"]') : "";
@@ -283,6 +291,26 @@ function getActiveConversationTitle() {
 }
 
 function setConversationTitle() {
+    let main = document.getElementById('main');
+    if (main) {
+        let conversation = main.querySelector('[data-sr-only="conversation-title"]');
+
+        if (!conversation) {
+            activeConversationTitle = getActiveConversationTitle();
+
+            let conversationTitle = activeConversationTitle ? phrases.CURRENT_CONVERSATION + conversationTitle : phrases.CONVERSATION_TITLE_WITHOUT_CONTACT_NAME;
+
+            let heading = document.createElement("h2");
+            let headingText = document.createTextNode(conversationTitle);
+            heading.appendChild(headingText);
+            heading.setAttribute("data-sr-only", "conversation-title");
+            heading = setClassSROnly(heading);
+            main.insertBefore(heading, main.firstChild);
+        }
+    }
+}
+
+function oldSetConversationTitle() {
     let main = document.getElementById('main');
     if (main) {
         let conversation = main.querySelector('[data-sr-only="conversation-title"]');
@@ -551,6 +579,7 @@ function activeEvents() {
         else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
             e.stopPropagation();
+            ""("chamado mensagem");
             el = document.getElementById('main');
             if (el && el.querySelector('[data-icon]') && el.querySelector('[data-icon]').getAttribute("data-icon").indexOf("user") != -1) {
                 let statusContainer = el.querySelector('header');
@@ -561,74 +590,75 @@ function activeEvents() {
                 statusContainer ? statusContainer.setAttribute("aria-live", "polite") : null;
 
             }
-
-            el = el ? el.querySelector('[role="region"]') : null;
-            if (el) {
-                el.addEventListener("keydown", function (e) {
-
-                    if (e.keyCode == 39) {
-                        setTimeout(function () {
-                            if (document.querySelector('[data-animate-dropdown-item="true"]')) {
-                                let ul = document.querySelector('[data-animate-dropdown-item="true"]').parentNode;
-                                ul.querySelectorAll('li div[role="button"]').forEach(function (elem) {
-                                    elem.parentNode.addEventListener("keydown", function (e2) {
-                                        if (e2.keyCode == 13) {
-                                            setTimeout(function () {
-                                                dialogToDeleteMessage();
-                                                if (document.querySelector('[data-icon="star-btn"]')) {
-                                                    let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
-                                                    container.querySelector('[data-icon="x"]') ? container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE) : false;
-                                                    container.setAttribute("tabindex", "-1");
-                                                    container.setAttribute("role", "dialog");
-                                                    container.setAttribute("aria-label", phrases.CONTAINER_HEADING);
-                                                    container.setAttribute("data-dialog-sr-only", "dialog");
-                                                    let containerHeading = container.querySelector('[data-sr-only="container-heading"]');
-                                                    if (!containerHeading) {
-                                                        containerHeading = document.createElement("h3");
-                                                        containerHeading.textContent = phrases.CONTAINER_HEADING;
-                                                        containerHeading.setAttribute("data-sr-only", "container-heading");
-                                                        containerHeading = setClassSROnly(containerHeading);
-                                                        container.insertBefore(containerHeading, container.firstChild);
-                                                    }
-                                                    selectedMessages();
-                                                    container.addEventListener("keydown", function (evc) {
-                                                        if (evc.keyCode == 9) {
-                                                            evc.preventDefault();
-                                                            evc.stopPropagation();
+            /*
+                            el = el ? el.querySelector('[role="region"]') : null;
+                            if (el) {
+                                el.addEventListener("keydown", function (e) {
+            
+                                    if (e.keyCode == 39) {
+                                        setTimeout(function () {
+                                            if (document.querySelector('[data-animate-dropdown-item="true"]')) {
+                                                let ul = document.querySelector('[data-animate-dropdown-item="true"]').parentNode;
+                                                ul.querySelectorAll('li div[role="button"]').forEach(function (elem) {
+                                                    elem.parentNode.addEventListener("keydown", function (e2) {
+                                                        if (e2.keyCode == 13) {
+                                                            setTimeout(function () {
+                                                                dialogToDeleteMessage();
+                                                                if (document.querySelector('[data-icon="star-btn"]')) {
+                                                                    let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
+                                                                    container.querySelector('[data-icon="x"]') ? container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE) : false;
+                                                                    container.setAttribute("tabindex", "-1");
+                                                                    container.setAttribute("role", "dialog");
+                                                                    container.setAttribute("aria-label", phrases.CONTAINER_HEADING);
+                                                                    container.setAttribute("data-dialog-sr-only", "dialog");
+                                                                    let containerHeading = container.querySelector('[data-sr-only="container-heading"]');
+                                                                    if (!containerHeading) {
+                                                                        containerHeading = document.createElement("h3");
+                                                                        containerHeading.textContent = phrases.CONTAINER_HEADING;
+                                                                        containerHeading.setAttribute("data-sr-only", "container-heading");
+                                                                        containerHeading = setClassSROnly(containerHeading);
+                                                                        container.insertBefore(containerHeading, container.firstChild);
+                                                                    }
+                                                                    selectedMessages();
+                                                                    container.addEventListener("keydown", function (evc) {
+                                                                        if (evc.keyCode == 9) {
+                                                                            evc.preventDefault();
+                                                                            evc.stopPropagation();
+                                                                        }
+                                                                    }, false);
+                                                                    container.focus();
+                                                                    updateCheckedMessage();
+                                                                    document.getElementById("main") ? document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false) : false;
+                                                                    container.addEventListener("click", function (ec) {
+                                                                        setTimeout(function () {
+                                                                            document.addEventListener("keydown", updateCheckedContact, false);
+                                                                            dialogToDeleteMessage();
+                                                                            document.querySelector('button, [role="button"]').focus();
+                                                                        }, 1000);
+            
+                                                                    }, false);
+            
+            
+                                                                }
+                                                            }, 500);
                                                         }
                                                     }, false);
-                                                    container.focus();
-                                                    updateCheckedMessage();
-                                                    document.getElementById("main") ? document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false) : false;
-                                                    container.addEventListener("click", function (ec) {
-                                                        setTimeout(function () {
-                                                            document.addEventListener("keydown", updateCheckedContact, false);
-                                                            dialogToDeleteMessage();
-                                                            document.querySelector('button, [role="button"]').focus();
-                                                        }, 1000);
-
-                                                    }, false);
-
-
-                                                }
-                                            }, 500);
-                                        }
-                                    }, false);
-                                });
+                                                });
+                                            }
+                                        }, 200);
+            
+                                    }
+            
+                                    updateMessage();
+                                }, false);
+            
                             }
-                        }, 200);
-
-                    }
-
-                    updateMessage();
-                }, false);
-
-            }
+                            */
             localStorage.setItem(getActiveConversationTitle() + "unread", "");
             el = document.getElementById('main');
             el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
             el = el && el.length > 0 ? el[el.length - 1] : null;
-            
+            el = el && el.parentElement ? el.parentElement : null;
         }
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
@@ -754,20 +784,21 @@ function activeEvents() {
             }, 200);
 
         }
-
-
         el ? el.focus() : false;
 
         if (document.getElementById('main')) {
-            updateMessage();
+
             document.getElementById("pane-side").contains(e.target) ? getUnreadMessages() : false;
             addFooterButtonLabels();
-            addClickOnElementsIntoMessage();
+            addClickOnElementsIntoMessage(e);
+            updateMessage();
         }
 
     };
-    document.addEventListener("keydown", documentListener, false);
+    document.addEventListener("keydown", documentListener);
+
     listeners.push({ element: document, listener: documentListener, listenerType: "keydown" });
+
 }
 function getUnreadMessages() {
     if (document.getElementById("main")) {
@@ -801,16 +832,19 @@ function addLabelVideoAndImage(element) {
     }
 }
 
-function addClickOnElementsIntoMessage() {
+function addClickOnElementsIntoMessage(e) {
 
     let main = document.getElementById("main");
     if (main) {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
             //!isChrome() ? addClickOnAudioButton(msg) : false;
+            activateContextMenu(msg);
+            replaceContactPhone(msg);
+
             controlNativeAudioMensagem(msg);
             downloadFile(msg);
-            replaceContactPhone(msg);
-            replaceContactPhoneInMention(msg);
+            //replaceContactPhoneInMention(msg);
+
             addLabelVideoAndImage(msg);
         });
     }
@@ -1051,6 +1085,114 @@ function replaceContactPhoneInMention(msg) {
 }
 
 function replaceContactPhone(msg) {
+    document.getElementById("main").addEventListener("keyup", (e) => {
+        msg = msg.querySelector('[data-testid="msg-container"]');
+
+        let btns = msg.querySelectorAll('button, [role="button"]');
+        if (btns.length > 0) {
+            let btn1 = btns[0];
+            let btn2 = btns.length > 1 ? btns[1] : null;
+            let btn3 = btns.length > 2 ? btns[2] : null;
+            let abrir = btn1.getAttribute("data-testid") == "group-chat-profile-picture" && btn1.getAttribute("aria-label") != "" ? btn1 : null;
+            let numero = btn2.textContent.search(/^\+\d+/g) >= 0 ? btn2 : null;
+            let sbtn2 = btn2.previousSibling && btn2.previousSibling.getAttribute("dir") == "auto" ? btn2.previousSibling : null;
+            if (abrir && numero) {
+                //""("regra mensagem de voz certa");
+                if (msg.getAttribute("data-sr-only-new-name")) {
+                    //""("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
+                    abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
+                    abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
+                    numero.setAttribute("aria-hidden", true);
+                    sbtn2 ? sbtn2.setAttribute("aria-hidden", true) : null;
+
+                } else {
+                    //""("nao existe atributo");
+
+                    sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("aria-label", sbtn2.textContent) : abrir.setAttribute("aria-label", numero.textContent);
+                    sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + sbtn2.textContent) : abrir.setAttribute("title", phrases.OPEN_DATA_OF + numero.textContent);
+                    sbtn2 && sbtn2.textContent != "" ? msg.setAttribute("data-sr-only-new-name", sbtn2.textContent) : msg.setAttribute("data-sr-only-new-name", numero.textContent);
+                    numero.setAttribute("aria-hidden", true);
+                    sbtn2 ? sbtn2.setAttribute("aria-hidden", true) : null;
+
+                }
+            } else if (btns[0].textContent.search(/\+\d+/g) >= 0 && btns[0].previousSibling && btns[0].previousSibling.getAttribute("dir") == "auto"
+            ) {
+                btns[0].previousSibling.setAttribute("aria-label", btns[0].previousSibling.textContent);
+                btns[0].setAttribute("aria-hidden", true);
+
+            } else if (abrir && msg.querySelectorAll('span').length > 2 && msg.querySelectorAll('span')[2].getAttribute("dir") == "auto" && abrir.getAttribute("aria-label").indexOf(msg.querySelectorAll('span')[2].textContent) != -1) {
+
+                abrir.setAttribute("aria-label", msg.querySelectorAll('span')[2].textContent);
+                abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.querySelectorAll('span')[2].textContent);
+                msg.querySelectorAll('span')[2].setAttribute("aria-hidden", "true");
+            } else if (btns.length == 4) { // mensagem de texto sitando outra
+                //""("caiu mensagem sitando outra");
+                let numero = btns[0];
+                numero = numero.textContent[0] == '+' ? numero : null;
+                let btn3 = btns[2];
+
+                if (msg.getAttribute("data-sr-only-new-name")) {
+                    btn3.firstChild.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
+                    numero.setAttribute("aria-hidden", true);
+
+                } else {
+                    let nome = btn3.firstChild && btn3.firstChild.getAttribute("dir") == "auto" && btn3.firstChild.textContent != "" ? btn3.firstChild.textContent : "";
+                    //""("numero: ", btns[0], "nome: ", btn3);
+                    if (numero && nome) {
+                        //""("pegou numero e nome");
+                        btn3.firstChild.setAttribute("aria-label", nome);
+                        numero.setAttribute("aria-hidden", true);
+                        msg.setAttribute("data-sr-only-new-name", nome);
+                    }
+                }
+            } else if (btns.length == 6) { // 6 botões em uma mensagem de texto,talvez seja a primeira mensagem,  sita alguma outra mensagem, número não salvo:
+                let btn1 = btns[0];
+                let spans = msg.querySelectorAll('span');
+                let fbtn4 = spans.length > 2 ? spans[2] : null;
+                let numero = spans.length > 3 ? spans[3] : null;
+                let abrir = btn1.getAttribute("data-testid") == "group-chat-profile-picture" && btn1.getAttribute("aria-label") != "" ? btn1 : null;
+                if (abrir && fbtn4) {
+                    //""("mensagem que sita com 6 botoes");
+                    if (msg.getAttribute("data-sr-only-new-name")) {
+                        //""("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
+                        abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
+                        abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
+                        fbtn4.setAttribute("aria-hidden", true);
+                        numero ? numero.setAttribute("aria-hidden", true) : false;
+                    } else {
+                        //""("nao existe atributo");
+
+                        fbtn4.textContent != "" ? abrir.setAttribute("aria-label", fbtn4.textContent) : false;
+                        fbtn4.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + fbtn4.textContent) : false;
+                        fbtn4.textContent != "" ? msg.setAttribute("data-sr-only-new-name", fbtn4.textContent) : false;
+                        fbtn4.setAttribute("aria-hidden", true);
+                        numero ? numero.setAttribute("aria-hidden", true) : false;
+                    }
+                }
+            } else if (abrir && !numero) {
+                if (msg.getAttribute("data-sr-only-new-name")) {
+                    abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
+                    abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
+                } else {
+
+                    msg.querySelectorAll("span").forEach((el) => {
+                        if (el && el.textContent != "" && abrir.getAttribute("aria-label").indexOf(el.textContent) != -1) {
+                            abrir.setAttribute("aria-label", el.textContent);
+                            abrir.setAttribute("title", phrases.OPEN_DATA_OF + el.textContent);
+                            msg.setAttribute("data-sr-only-new-name", el.textContent);
+                            el.setAttribute("aria-hidden", "true");
+                            return;
+
+                        }
+                    });
+                }
+            }
+
+        }
+    });
+}
+
+function oldReplaceContactPhone(msg) {
 
     let contactName = msg.querySelector('span[dir="auto"]');
     if (contactName && !contactName.parentNode.querySelector('[data-sr-only="pos-name"]') && !msg.querySelector('.quoted-mention') && contactName.textContent != "" && contactName.textContent.indexOf(":") == -1 && !contactName.querySelector('.matched-mention')) {
@@ -1278,7 +1420,72 @@ const getPhrases = function (myLanguage) {
     });
     return phrases;
 };
+const activateContextMenu = function (msg) {
+    msg.addEventListener("keydown", (e) => {
 
+        if (e.ctrlKey && e.key == "m") {
+            e.preventDefault();
+            e.stopPropagation();
+            ""("pressionou");
+            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+
+        }
+        if (e.altKey && e.key == "q") {
+            e.preventDefault();
+            e.stopPropagation();
+            ""("pressionou");
+            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+            setTimeout(() => {
+                document.querySelector('[data-testid="react-to-message"]') ? document.querySelector('[data-testid="react-to-message"]').click() : null;
+            }, 100);
+
+        }
+
+        if (e.key == "Delete") {
+            e.preventDefault();
+            e.stopPropagation();
+            ""("pressionou");
+            //data-testid="popup-contents"
+            //data-testid="content"
+            //data-testid="content"
+            //data-testid="content">Cancelar
+            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+
+            setTimeout(() => {
+                document.querySelector('[data-testid="mi-msg-delete"]') && document.querySelector('[data-testid="mi-msg-delete"]').querySelector('[role="button"]') ? document.querySelector('[data-testid="mi-msg-delete"]').querySelector('[role="button"]').click() : null;
+            }, 100);
+            setTimeout(() => {
+                document.querySelector('[data-testid="popup-contents"]') && document.querySelector('[data-testid="content"]') ? document.querySelector('[data-testid="popup-contents"]').setAttribute("tabindex", "-1") : null;
+                document.querySelector('[data-testid="popup-contents"]') && document.querySelector('[data-testid="content"]') ? document.querySelector('[data-testid="popup-contents"]').focus() : null;
+            }, 200);
+
+        }
+
+        if (e.altKey && e.key == "r") {
+            e.preventDefault();
+            e.stopPropagation();
+            ""("pressionou");
+            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+            setTimeout(() => {
+                document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[0].click() : null;
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
+            }, 100);
+
+        }
+        if (e.altKey && e.key == "p") {
+            e.preventDefault();
+            e.stopPropagation();
+            ""("pressionou");
+            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+            setTimeout(() => {
+                document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[1].click() : null;
+            }, 100);
+            setTimeout(() => {
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
+            }, 400);
+        }
+    });
+};
 const PHRASES_JSON = `
     [
         {
@@ -1334,8 +1541,9 @@ const PHRASES_JSON = `
     "HIDDEN_TEXT":"texto oculto",
     "SHOWED_TEXT":"texto exibido",
     "SAY_S":"diz",
-    "UNREAD_MESSAGE":" mensagens não lidas"
-    
+    "UNREAD_MESSAGE":" mensagens não lidas",
+    "OPEN_DATA_OF":" Abrir os dados de "
+
             },
             {
                 "language": "en-us",
@@ -1390,7 +1598,9 @@ const PHRASES_JSON = `
     "HIDDEN_TEXT":"the text was hidden",
     "SHOWED_TEXT":"the text is showed",
     "SAY_S":"says",
-    "UNREAD_MESSAGE":" unread messages"
+    "UNREAD_MESSAGE":" unread messages",
+    "OPEN_DATA_OF":" open the data of "
+
     
                 },
                 {
@@ -1446,7 +1656,9 @@ const PHRASES_JSON = `
     "HIDDEN_TEXT":"texto oculto",
     "SHOWED_TEXT":"texto mostrado",
     "SAY_S":"dice",
-    "UNREAD_MESSAGE":" mensajes no leídos"
+    "UNREAD_MESSAGE":" mensajes no leídos",
+    "OPEN_DATA_OF":" abrir los datos de "
+    
     
                     }
     ]
