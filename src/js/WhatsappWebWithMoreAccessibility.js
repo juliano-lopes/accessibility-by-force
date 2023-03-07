@@ -16,7 +16,7 @@ function isChrome() {
     return navigator.userAgent.includes("Chrome");
 }
 function initial() {
-    ""("Script WhatsApp Web " + version);
+    ("Script WhatsApp Web " + version);
     document.addEventListener("keydown", function (e) {
         if (e.altKey && e.keyCode == 83) {
 
@@ -579,7 +579,7 @@ function activeEvents() {
         else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
             e.stopPropagation();
-            ""("chamado mensagem");
+            ("chamado mensagem");
             el = document.getElementById('main');
             if (el && el.querySelector('[data-icon]') && el.querySelector('[data-icon]').getAttribute("data-icon").indexOf("user") != -1) {
                 let statusContainer = el.querySelector('header');
@@ -1097,16 +1097,16 @@ function replaceContactPhone(msg) {
             let numero = btn2.textContent.search(/^\+\d+/g) >= 0 ? btn2 : null;
             let sbtn2 = btn2.previousSibling && btn2.previousSibling.getAttribute("dir") == "auto" ? btn2.previousSibling : null;
             if (abrir && numero) {
-                //""("regra mensagem de voz certa");
+                // ("regra mensagem de voz certa");
                 if (msg.getAttribute("data-sr-only-new-name")) {
-                    //""("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
+                    // ("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
                     abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
                     abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
                     numero.setAttribute("aria-hidden", true);
                     sbtn2 ? sbtn2.setAttribute("aria-hidden", true) : null;
 
                 } else {
-                    //""("nao existe atributo");
+                    // ("nao existe atributo");
 
                     sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("aria-label", sbtn2.textContent) : abrir.setAttribute("aria-label", numero.textContent);
                     sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + sbtn2.textContent) : abrir.setAttribute("title", phrases.OPEN_DATA_OF + numero.textContent);
@@ -1126,7 +1126,7 @@ function replaceContactPhone(msg) {
                 abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.querySelectorAll('span')[2].textContent);
                 msg.querySelectorAll('span')[2].setAttribute("aria-hidden", "true");
             } else if (btns.length == 4) { // mensagem de texto sitando outra
-                //""("caiu mensagem sitando outra");
+                // ("caiu mensagem sitando outra");
                 let numero = btns[0];
                 numero = numero.textContent[0] == '+' ? numero : null;
                 let btn3 = btns[2];
@@ -1137,9 +1137,9 @@ function replaceContactPhone(msg) {
 
                 } else {
                     let nome = btn3.firstChild && btn3.firstChild.getAttribute("dir") == "auto" && btn3.firstChild.textContent != "" ? btn3.firstChild.textContent : "";
-                    //""("numero: ", btns[0], "nome: ", btn3);
+                    // ("numero: ", btns[0], "nome: ", btn3);
                     if (numero && nome) {
-                        //""("pegou numero e nome");
+                        // ("pegou numero e nome");
                         btn3.firstChild.setAttribute("aria-label", nome);
                         numero.setAttribute("aria-hidden", true);
                         msg.setAttribute("data-sr-only-new-name", nome);
@@ -1152,15 +1152,15 @@ function replaceContactPhone(msg) {
                 let numero = spans.length > 3 ? spans[3] : null;
                 let abrir = btn1.getAttribute("data-testid") == "group-chat-profile-picture" && btn1.getAttribute("aria-label") != "" ? btn1 : null;
                 if (abrir && fbtn4) {
-                    //""("mensagem que sita com 6 botoes");
+                    // ("mensagem que sita com 6 botoes");
                     if (msg.getAttribute("data-sr-only-new-name")) {
-                        //""("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
+                        // ("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
                         abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
                         abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
                         fbtn4.setAttribute("aria-hidden", true);
                         numero ? numero.setAttribute("aria-hidden", true) : false;
                     } else {
-                        //""("nao existe atributo");
+                        // ("nao existe atributo");
 
                         fbtn4.textContent != "" ? abrir.setAttribute("aria-label", fbtn4.textContent) : false;
                         fbtn4.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + fbtn4.textContent) : false;
@@ -1426,14 +1426,14 @@ const activateContextMenu = function (msg) {
         if (e.ctrlKey && e.key == "m") {
             e.preventDefault();
             e.stopPropagation();
-            ""("pressionou");
+            ("pressionou");
             msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
 
         }
         if (e.altKey && e.key == "q") {
             e.preventDefault();
             e.stopPropagation();
-            ""("pressionou");
+            ("pressionou");
             msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
             setTimeout(() => {
                 document.querySelector('[data-testid="react-to-message"]') ? document.querySelector('[data-testid="react-to-message"]').click() : null;
@@ -1444,7 +1444,7 @@ const activateContextMenu = function (msg) {
         if (e.key == "Delete") {
             e.preventDefault();
             e.stopPropagation();
-            ""("pressionou");
+            ("pressionou");
             //data-testid="popup-contents"
             //data-testid="content"
             //data-testid="content"
@@ -1464,7 +1464,7 @@ const activateContextMenu = function (msg) {
         if (e.altKey && e.key == "r") {
             e.preventDefault();
             e.stopPropagation();
-            ""("pressionou");
+            ("pressionou");
             msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
             setTimeout(() => {
                 document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[0].click() : null;
@@ -1475,7 +1475,7 @@ const activateContextMenu = function (msg) {
         if (e.altKey && e.key == "p") {
             e.preventDefault();
             e.stopPropagation();
-            ""("pressionou");
+            ("pressionou");
             msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
             setTimeout(() => {
                 document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[1].click() : null;
