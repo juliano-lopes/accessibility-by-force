@@ -557,7 +557,9 @@ function setLabelOnAttachFiles() {
 }
 
 function activeEvents() {
+    const documentListenerKeyup = () => {
 
+    };
     const documentListener = function (e) {
         let el;
 
@@ -789,8 +791,9 @@ function activeEvents() {
         if (document.getElementById('main')) {
 
             document.getElementById("pane-side").contains(e.target) ? getUnreadMessages() : false;
-            addFooterButtonLabels();
             addClickOnElementsIntoMessage(e);
+            replaceContactPhone();
+            addFooterButtonLabels();
             updateMessage();
         }
 
@@ -837,14 +840,10 @@ function addClickOnElementsIntoMessage(e) {
     let main = document.getElementById("main");
     if (main) {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-            //!isChrome() ? addClickOnAudioButton(msg) : false;
+            addClickOnAudioButton(msg);
             activateContextMenu(msg);
-            replaceContactPhone(msg);
-
             controlNativeAudioMensagem(msg);
             downloadFile(msg);
-            //replaceContactPhoneInMention(msg);
-
             addLabelVideoAndImage(msg);
         });
     }
@@ -880,6 +879,21 @@ function controlNativeAudioMensagem(msg) {
     }
 }
 function addClickOnAudioButton(msg) {
+    msg.addEventListener("keydown", (e) => {
+        if (e.key == "Enter") {
+            let audioButtonPlay = msg.querySelector('button span[data-icon="audio-play"]');
+            let audioButtonPause = msg.querySelector('button span[data-icon="audio-pause"]');
+            if (audioButtonPause)
+                audioButtonPause.parentNode.click();
+            if (audioButtonPlay)
+                audioButtonPlay.parentNode.click();
+        }
+
+    });
+
+}
+
+function oldAddClickOnAudioButton(msg) {
     let audioButton = msg.querySelector('button span[data-icon="audio-play"]');
     downloadUnloadAudio(msg);
     if (audioButton && !audioButton.parentNode.getAttribute("data-sr-only-audio")) {
@@ -1084,9 +1098,10 @@ function replaceContactPhoneInMention(msg) {
     }
 }
 
-function replaceContactPhone(msg) {
-    document.getElementById("main").addEventListener("keyup", (e) => {
-        msg = msg.querySelector('[data-testid="msg-container"]');
+function replaceContactPhone() {
+
+    document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
+        //msg = msg.querySelector('[data-testid="msg-container"]');
 
         let btns = msg.querySelectorAll('button, [role="button"]');
         if (btns.length > 0) {
@@ -1190,6 +1205,7 @@ function replaceContactPhone(msg) {
 
         }
     });
+
 }
 
 function oldReplaceContactPhone(msg) {
