@@ -244,7 +244,7 @@ function removeAccessibilityListenerEvents() {
 
 function updateMessage() {
     //setConversationTitle();
-    setAccessibilityAttributeToFirefox();
+    //setAccessibilityAttributeToFirefox();
 }
 
 function setMainPanelTitle() {
@@ -840,6 +840,7 @@ function addClickOnElementsIntoMessage(e) {
     let main = document.getElementById("main");
     if (main) {
         main.querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
+            setAccessibilityAttributeToFirefox(msg);
             addClickOnAudioButton(msg);
             activateContextMenu(msg);
             controlNativeAudioMensagem(msg);
@@ -1386,20 +1387,9 @@ const setClassSROnly = function (element, label = "") {
     return element;
 };
 
-const setAccessibilityAttributeToFirefox = function () {
-    let main = document.getElementById("main");
-    if (main) {
-        let messageRegion = main.querySelector('[role="region"]');
-        if (messageRegion) {
-            let messageContainers = messageRegion.querySelectorAll('[class*="focusable-list-item"]');
-
-            if (messageContainers.length > 0) {
-                messageContainers.forEach(function (messageContainer) {
-                    messageContainer.setAttribute("role", "option");
-                });
-            }
-        }
-    }
+const setAccessibilityAttributeToFirefox = function (msg = null) {
+    if (msg != null)
+        msg.setAttribute("role", "option");
 };
 
 const getPhrasesWithCorrectLanguage = function () {
@@ -1500,6 +1490,7 @@ const activateContextMenu = function (msg) {
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
             }, 400);
         }
+
     });
 };
 const PHRASES_JSON = `
