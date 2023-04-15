@@ -718,9 +718,11 @@ function activeEvents() {
                 conversationStatus = conversationStatus ? conversationStatus.getAttribute("title") : null;
                 conversationStatus = conversationStatus && conversationStatus.indexOf(",") == -1 ? conversationStatus : null;
                 let unreadMessages = localStorage.getItem(getActiveConversationTitle() + "unread") ? localStorage.getItem(getActiveConversationTitle() + "unread") + " " + phrases.UNREAD_MESSAGE : "";
+                //spanAriaLive.setAttribute("role","alert");
                 spanAriaLive.textContent = conversationStatus ? activeConversationTitle + " (" + conversationStatus + ") " + unreadMessages : activeConversationTitle + " " + unreadMessages;
                 setTimeout(function () {
                     spanAriaLive.textContent = "";
+                    //spanAriaLive.removeAttribute("role");
                 }, 1000);
             }
 
@@ -771,19 +773,24 @@ function activeEvents() {
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "}", keyCode: 220, code: "Backslash", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
         } else if ((e.key == "}" || e.keyCode == 220 || e.code == "Backslash") && e.ctrlKey && e.altKey && e.shiftKey) {
             setTimeout(() => {
+                //document.getElementById("main").querySelector('footer').setAttribute("role", "text");
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 84, altKey: true }));
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
-            }, 200);
+            }, 260);
 
         } else if (e.altKey && (e.keyCode == 38 || e.key == "ArrowUp" || e.code == "ArrowUp")) {
             e.preventDefault();
             e.stopPropagation();
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "{", keyCode: 221, code: "BracketRight", altKey: true, shiftKey: true, ctrlKey: true, bubbles: true }));
         } else if ((e.key == "{" || e.keyCode == 221 || e.code == "BracketRight") && e.ctrlKey && e.altKey && e.shiftKey) {
+
             setTimeout(() => {
+                //document.getElementById("main").querySelector('footer').setAttribute("role", "text");
+                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 84, altKey: true }));
                 document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                 getUnreadMessages();
-            }, 200);
+            }, 260);
 
         }
         el ? el.focus() : false;
@@ -805,7 +812,7 @@ function activeEvents() {
 }
 function getUnreadMessages() {
     if (document.getElementById("main")) {
-        let span = document.getElementById("main").querySelector('div[role="option"] span[aria-live="polite"]');
+        let span = document.getElementById("main").querySelector('span[aria-live="polite"]');
         if (span && !span.getAttribute("data-sr-only")) {
 
             span.setAttribute("data-sr-only", "qt-unread-message");
@@ -1242,7 +1249,7 @@ function spanToAriaLive() {
     let spanToAriaLive = document.getElementById("span-to-aria-live");
     if (!spanToAriaLive) {
         spanToAriaLive = document.createElement("span");
-        spanToAriaLive.setAttribute("aria-live", "polite");
+        spanToAriaLive.setAttribute("aria-live", "assertive");
         spanToAriaLive.setAttribute("id", "span-to-aria-live");
         document.body.appendChild(spanToAriaLive);
     }
