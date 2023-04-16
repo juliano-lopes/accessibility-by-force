@@ -719,7 +719,7 @@ function activeEvents() {
                 conversationStatus = conversationStatus && conversationStatus.indexOf(",") == -1 ? conversationStatus : null;
                 let unreadMessages = localStorage.getItem(getActiveConversationTitle() + "unread") ? localStorage.getItem(getActiveConversationTitle() + "unread") + " " + phrases.UNREAD_MESSAGE : "";
                 //spanAriaLive.setAttribute("role","alert");
-                spanAriaLive.textContent = conversationStatus ? activeConversationTitle + " (" + conversationStatus + ") " + unreadMessages : activeConversationTitle + " " + unreadMessages;
+                spanAriaLive.textContent = conversationStatus ? unreadMessages + " " + activeConversationTitle + " (" + conversationStatus + ") " : unreadMessages + " " + activeConversationTitle;
                 setTimeout(function () {
                     spanAriaLive.textContent = "";
                     //spanAriaLive.removeAttribute("role");
