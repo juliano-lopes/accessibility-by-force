@@ -717,6 +717,7 @@ function activeEvents() {
                 conversationStatus = conversationStatus ? conversationStatus.querySelector('span[title]') : null;
                 conversationStatus = conversationStatus ? conversationStatus.getAttribute("title") : null;
                 conversationStatus = conversationStatus && conversationStatus.indexOf(",") == -1 ? conversationStatus : null;
+                conversationStatus = conversationStatus && conversationStatus.indexOf("cli") != -1 ? null : conversationStatus;
                 let unreadMessages = localStorage.getItem(getActiveConversationTitle() + "unread") ? localStorage.getItem(getActiveConversationTitle() + "unread") + " " + phrases.UNREAD_MESSAGE : "";
                 //spanAriaLive.setAttribute("role","alert");
                 spanAriaLive.textContent = conversationStatus ? unreadMessages + " " + activeConversationTitle + " (" + conversationStatus + ") " : unreadMessages + " " + activeConversationTitle;
