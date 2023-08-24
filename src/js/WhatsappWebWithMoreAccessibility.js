@@ -1455,10 +1455,9 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            setTimeout(() => {
-                document.querySelector('[aria-label="Reagir"]') ? document.querySelector('[aria-label="Reagir"]').click() : null;
-            }, 100);
+            let btnOptions = msg.querySelectorAll('[role="button"]')
+            let btnReagir = btnOptions[btnOptions.length-1];
+            btnReagir ? btnReagir.click() : null;
 
         }
 
@@ -1470,14 +1469,13 @@ const activateContextMenu = function (msg) {
             //data-testid="content"
             //data-testid="content"
             //data-testid="content">Cancelar
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            let contextMenuButton = document.querySelector('[aria-label="Menu de contexto"]');
-
-            
+            let btnOptions = msg.querySelectorAll('[role="button"]');
+            let contextMenuButton = btnOptions[btnOptions.length-2];
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
-                    document.querySelector('[aria-label="Apagar"]').click();
+                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                    contextMenu.querySelectorAll('[role="button"]')[5].click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
@@ -1487,29 +1485,27 @@ const activateContextMenu = function (msg) {
                             dialogContent.setAttribute("tabindex", "-1");
                             dialogContent.focus();
                         }
-                    }, 500);
-                }, 500);
+                    }, 200);
+                }, 200);
             }
-            
-
         }
 
         if (e.altKey && e.key == "r") {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            setTimeout(() => {
-                let contextMenuButton = document.querySelector('[aria-label="Menu de contexto"]');
-
-                if (contextMenuButton) {
-                    contextMenuButton.click();
-                    setTimeout(function () {
-                        document.querySelector('[aria-label="Responder"]').click();
-                    }, 500);
-                }
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
-            }, 100);
+            let btnOptions = msg.querySelectorAll('[role="button"]');
+            let contextMenuButton = btnOptions[btnOptions.length-2];
+            if (contextMenuButton) {
+                contextMenuButton.click();
+                setTimeout(function () {
+                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                    msg.classList.contains("message-in") ?
+                        contextMenu.querySelectorAll('[role="button"]')[0].click()
+                        : contextMenu.querySelectorAll('[role="button"]')[1].click();
+                }, 200);
+            }
+            document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
 
         }
         if (e.altKey && e.key == "p") {
