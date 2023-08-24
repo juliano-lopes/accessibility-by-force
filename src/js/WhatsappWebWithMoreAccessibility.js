@@ -270,7 +270,7 @@ function removeAccessibilityElements() {
 }
 function getActiveConversationTitle() {
     let main = document.getElementById('main');
-    activeConversationTitle = main ? main.querySelector('[data-testid="conversation-info-header-chat-title"]') : "";
+    activeConversationTitle = main ? main.querySelector("header").querySelector('[dir="auto"]') : "";
     activeConversationTitle = activeConversationTitle ? activeConversationTitle.textContent : "";
     return activeConversationTitle;
 
@@ -577,6 +577,7 @@ function activeEvents() {
             el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
             listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
+            
         }
         else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
@@ -678,6 +679,7 @@ function activeEvents() {
                 listeners.push({ element: el, listener: footerMessageBoxListener, listenerType: "keyup" });
                 listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
             }
+            
         }
         else if (e.altKey && e.keyCode == 65) {
             e.preventDefault();
@@ -686,6 +688,11 @@ function activeEvents() {
 
             if (!attachShadow) {
                 el = document.querySelector('[data-icon="clip"]');
+                el ? el.click() : false;
+            }
+
+            if (!attachShadow) {
+                el = document.querySelector('[data-icon="attach-menu-plus"]');
                 el ? el.click() : false;
             }
 
@@ -703,6 +710,7 @@ function activeEvents() {
             e.stopPropagation();
             el = document.querySelector('[contenteditable="true"]');
             el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
+            
         }
         else if (e.altKey && e.keyCode == 84) {
             e.preventDefault();
@@ -726,7 +734,6 @@ function activeEvents() {
                     //spanAriaLive.removeAttribute("role");
                 }, 1000);
             }
-
         }
         else if (e.altKey && e.keyCode == 78) {
             e.preventDefault();
@@ -1448,10 +1455,7 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            setTimeout(() => {
-                document.querySelector('[data-testid="react-to-message"]') ? document.querySelector('[data-testid="react-to-message"]').click() : null;
-            }, 100);
+            msg.querySelector('[aria-label="Reagir"]') ? msg.querySelector('[aria-label="Reagir"]').click() : null;
 
         }
 
@@ -1463,15 +1467,24 @@ const activateContextMenu = function (msg) {
             //data-testid="content"
             //data-testid="content"
             //data-testid="content">Cancelar
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-
-            setTimeout(() => {
-                document.querySelector('[data-testid="mi-msg-delete"]') && document.querySelector('[data-testid="mi-msg-delete"]').querySelector('[role="button"]') ? document.querySelector('[data-testid="mi-msg-delete"]').querySelector('[role="button"]').click() : null;
-            }, 100);
-            setTimeout(() => {
-                document.querySelector('[data-testid="popup-contents"]') && document.querySelector('[data-testid="content"]') ? document.querySelector('[data-testid="popup-contents"]').setAttribute("tabindex", "-1") : null;
-                document.querySelector('[data-testid="popup-contents"]') && document.querySelector('[data-testid="content"]') ? document.querySelector('[data-testid="popup-contents"]').focus() : null;
-            }, 200);
+            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
+            if (contextMenuButton) {
+                contextMenuButton.click();
+                setTimeout(function () {
+                    document.querySelector('[aria-label="Apagar"]').click();
+                    setTimeout(() => {
+                        let dialogContent = document.querySelector('[role="dialog"]');
+                        dialogContent = dialogContent ? dialogContent.firstChild : null;
+                        dialogContent = dialogContent ? dialogContent.firstChild : null;
+                        dialogContent = dialogContent ? dialogContent.firstChild : null;
+                        if(dialogContent) {
+                            dialogContent.setAttribute("tabindex", "-1");
+                            dialogContent.focus();
+                        }
+                    }, 500);
+                }, 500);
+            }
+            
 
         }
 
@@ -1479,11 +1492,14 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            setTimeout(() => {
-                document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[0].click() : null;
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
-            }, 100);
+            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
+            if (contextMenuButton) {
+                contextMenuButton.click();
+                setTimeout(function () {
+                    document.querySelector('[aria-label="Responder"]').click();
+                }, 200);
+            }
+            document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
 
         }
         if (e.altKey && e.key == "p") {
