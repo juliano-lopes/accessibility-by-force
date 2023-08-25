@@ -583,85 +583,17 @@ function activeEvents() {
             e.preventDefault();
             e.stopPropagation();
             ("chamado mensagem");
-            el = document.getElementById('main');
-            if (el && el.querySelector('[data-icon]') && el.querySelector('[data-icon]').getAttribute("data-icon").indexOf("user") != -1) {
-                let statusContainer = el.querySelector('header');
-                statusContainer = statusContainer ? statusContainer.querySelector('[dir="auto"]') : null;
-                statusContainer = statusContainer ? statusContainer.parentNode : null;
-                statusContainer = statusContainer ? statusContainer.parentNode : null;
-                statusContainer = statusContainer ? statusContainer.parentNode : null;
-                statusContainer ? statusContainer.setAttribute("aria-live", "polite") : null;
-
+            el = document.querySelector('[class*="message-in"], [class*="message-out"]');
+            el = el ? el.parentNode.parentNode.parentNode.querySelector('span[aria-live]') : null;
+            if(el) {
+                el = el.parentNode;
+            } else {
+                localStorage.setItem(getActiveConversationTitle() + "unread", "");
+                el = document.getElementById('main');
+                el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
+                el = el && el.length > 0 ? el[el.length - 1] : null;
+                el = el && el.parentElement ? el.parentElement : null;
             }
-            /*
-                            el = el ? el.querySelector('[role="region"]') : null;
-                            if (el) {
-                                el.addEventListener("keydown", function (e) {
-            
-                                    if (e.keyCode == 39) {
-                                        setTimeout(function () {
-                                            if (document.querySelector('[data-animate-dropdown-item="true"]')) {
-                                                let ul = document.querySelector('[data-animate-dropdown-item="true"]').parentNode;
-                                                ul.querySelectorAll('li div[role="button"]').forEach(function (elem) {
-                                                    elem.parentNode.addEventListener("keydown", function (e2) {
-                                                        if (e2.keyCode == 13) {
-                                                            setTimeout(function () {
-                                                                dialogToDeleteMessage();
-                                                                if (document.querySelector('[data-icon="star-btn"]')) {
-                                                                    let container = document.querySelector('[data-icon="star-btn"]').parentNode.parentNode;
-                                                                    container.querySelector('[data-icon="x"]') ? container.querySelector('[data-icon="x"]').setAttribute("aria-label", phrases.CLOSE) : false;
-                                                                    container.setAttribute("tabindex", "-1");
-                                                                    container.setAttribute("role", "dialog");
-                                                                    container.setAttribute("aria-label", phrases.CONTAINER_HEADING);
-                                                                    container.setAttribute("data-dialog-sr-only", "dialog");
-                                                                    let containerHeading = container.querySelector('[data-sr-only="container-heading"]');
-                                                                    if (!containerHeading) {
-                                                                        containerHeading = document.createElement("h3");
-                                                                        containerHeading.textContent = phrases.CONTAINER_HEADING;
-                                                                        containerHeading.setAttribute("data-sr-only", "container-heading");
-                                                                        containerHeading = setClassSROnly(containerHeading);
-                                                                        container.insertBefore(containerHeading, container.firstChild);
-                                                                    }
-                                                                    selectedMessages();
-                                                                    container.addEventListener("keydown", function (evc) {
-                                                                        if (evc.keyCode == 9) {
-                                                                            evc.preventDefault();
-                                                                            evc.stopPropagation();
-                                                                        }
-                                                                    }, false);
-                                                                    container.focus();
-                                                                    updateCheckedMessage();
-                                                                    document.getElementById("main") ? document.getElementById("main").addEventListener("keydown", updateCheckedMessage, false) : false;
-                                                                    container.addEventListener("click", function (ec) {
-                                                                        setTimeout(function () {
-                                                                            document.addEventListener("keydown", updateCheckedContact, false);
-                                                                            dialogToDeleteMessage();
-                                                                            document.querySelector('button, [role="button"]').focus();
-                                                                        }, 1000);
-            
-                                                                    }, false);
-            
-            
-                                                                }
-                                                            }, 500);
-                                                        }
-                                                    }, false);
-                                                });
-                                            }
-                                        }, 200);
-            
-                                    }
-            
-                                    updateMessage();
-                                }, false);
-            
-                            }
-                            */
-            localStorage.setItem(getActiveConversationTitle() + "unread", "");
-            el = document.getElementById('main');
-            el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
-            el = el && el.length > 0 ? el[el.length - 1] : null;
-            el = el && el.parentElement ? el.parentElement : null;
         }
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
@@ -1455,9 +1387,7 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let btnOptions = msg.querySelectorAll('[role="button"]')
-            let btnReagir = btnOptions[btnOptions.length-1];
-            btnReagir ? btnReagir.click() : null;
+            msg.querySelector('[aria-label="Reagir"]') ? msg.querySelector('[aria-label="Reagir"]').click() : null;
 
         }
 
@@ -1469,13 +1399,11 @@ const activateContextMenu = function (msg) {
             //data-testid="content"
             //data-testid="content"
             //data-testid="content">Cancelar
-            let btnOptions = msg.querySelectorAll('[role="button"]');
-            let contextMenuButton = btnOptions[btnOptions.length-2];
+            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
-                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
-                    contextMenu.querySelectorAll('[role="button"]')[5].click();
+                    document.querySelector('[aria-label="Apagar"]').click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
@@ -1485,24 +1413,22 @@ const activateContextMenu = function (msg) {
                             dialogContent.setAttribute("tabindex", "-1");
                             dialogContent.focus();
                         }
-                    }, 200);
-                }, 200);
+                    }, 500);
+                }, 500);
             }
+            
+
         }
 
         if (e.altKey && e.key == "r") {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let btnOptions = msg.querySelectorAll('[role="button"]');
-            let contextMenuButton = btnOptions[btnOptions.length-2];
+            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
-                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
-                    msg.classList.contains("message-in") ?
-                        contextMenu.querySelectorAll('[role="button"]')[0].click()
-                        : contextMenu.querySelectorAll('[role="button"]')[1].click();
+                    document.querySelector('[aria-label="Responder"]').click();
                 }, 200);
             }
             document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
