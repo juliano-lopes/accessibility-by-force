@@ -345,7 +345,7 @@ function addFooterButtonLabels() {
         document.querySelector('[data-icon="smiley"]') ? document.querySelector('[data-icon="smiley"]').setAttribute("aria-label", "Smiley") : false;
         document.querySelector('[data-icon="gif"]') ? document.querySelector('[data-icon="gif"]').setAttribute("aria-label", "GIF") : false;
         document.querySelector('[data-icon="sticker"]') ? document.querySelector('[data-icon="sticker"]').setAttribute("aria-label", "Sticker") : false;
-        activeButtonToRecordEvent();
+        //activeButtonToRecordEvent();
         let buttonToSendText = document.querySelector('[data-icon="send"]');
         buttonToSendText ? buttonToSendText.setAttribute("aria-label", phrases.BUTTON_SEND_TEXT_MESSAGE) : "";
     }
@@ -1051,6 +1051,19 @@ function replaceContactPhone() {
     document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
         //msg = msg.querySelector('[data-testid="msg-container"]');
 
+        msg.querySelectorAll('[role="button"]').forEach((aria) => {
+            let realText = aria.getAttribute('aria-label');
+            let plusCharPos = realText ? realText.indexOf('+') : -1;
+            if(plusCharPos > -1) {
+                aria.setAttribute('aria-label', realText.substring(0, plusCharPos));
+            }
+        });
+
+        msg.querySelectorAll('[testid="author"]').forEach((nTel) => {
+            nTel.setAttribute('aria-hidden', true);
+        });
+
+        /*
         let btns = msg.querySelectorAll('button, [role="button"]');
         if (btns.length > 0) {
             let btn1 = btns[0];
@@ -1152,6 +1165,7 @@ function replaceContactPhone() {
             }
 
         }
+        */
     });
 
 }
