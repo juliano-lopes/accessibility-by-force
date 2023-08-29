@@ -588,13 +588,13 @@ function activeEvents() {
             if(el) {
                 el = el.parentNode;
             } else {
-                localStorage.setItem(getActiveConversationTitle() + "unread", "");
-                el = document.getElementById('main');
-                el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
-                el = el && el.length > 0 ? el[el.length - 1] : null;
-                el = el && el.parentElement ? el.parentElement : null;
-            }
+            localStorage.setItem(getActiveConversationTitle() + "unread", "");
+            el = document.getElementById('main');
+            el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
+            el = el && el.length > 0 ? el[el.length - 1] : null;
+            el = el && el.parentElement ? el.parentElement : null;
         }
+}
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
             e.stopPropagation();
@@ -1051,7 +1051,7 @@ function replaceContactPhone() {
     document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
         //msg = msg.querySelector('[data-testid="msg-container"]');
 
-        msg.querySelectorAll('[role="button"]').forEach((aria) => {
+msg.querySelectorAll('[role="button"]').forEach((aria) => {
             let realText = aria.getAttribute('aria-label');
             let plusCharPos = realText ? realText.indexOf('+') : -1;
             if(plusCharPos > -1) {
@@ -1165,7 +1165,7 @@ function replaceContactPhone() {
             }
 
         }
-        */
+*/
     });
 
 }
@@ -1401,7 +1401,9 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[aria-label="Reagir"]') ? msg.querySelector('[aria-label="Reagir"]').click() : null;
+            let btnOptions = msg.querySelectorAll('[role="button"]')
+            let btnReagir = btnOptions[btnOptions.length-1];
+            btnReagir ? btnReagir.click() : null;
 
         }
 
@@ -1413,11 +1415,13 @@ const activateContextMenu = function (msg) {
             //data-testid="content"
             //data-testid="content"
             //data-testid="content">Cancelar
-            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
+            let btnOptions = msg.querySelectorAll('[role="button"]');
+            let contextMenuButton = btnOptions[btnOptions.length-2];
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
-                    document.querySelector('[aria-label="Apagar"]').click();
+                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                    contextMenu.querySelectorAll('[role="button"]')[5].click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
@@ -1427,22 +1431,24 @@ const activateContextMenu = function (msg) {
                             dialogContent.setAttribute("tabindex", "-1");
                             dialogContent.focus();
                         }
-                    }, 500);
-                }, 500);
+                    }, 200);
+                }, 200);
             }
-            
-
         }
 
         if (e.altKey && e.key == "r") {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let contextMenuButton = msg.querySelector('[aria-label="Menu de contexto"]');
+            let btnOptions = msg.querySelectorAll('[role="button"]');
+            let contextMenuButton = btnOptions[btnOptions.length-2];
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
-                    document.querySelector('[aria-label="Responder"]').click();
+                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                    msg.classList.contains("message-in") ?
+                        contextMenu.querySelectorAll('[role="button"]')[0].click()
+                        : contextMenu.querySelectorAll('[role="button"]')[1].click();
                 }, 200);
             }
             document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
