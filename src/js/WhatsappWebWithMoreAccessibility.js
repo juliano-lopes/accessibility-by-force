@@ -1458,13 +1458,24 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
-            setTimeout(() => {
-                document.querySelectorAll('[data-testid="mi-msg-reply"]').length > 0 ? document.querySelectorAll('[data-testid="mi-msg-reply"]')[1].click() : null;
-            }, 100);
-            setTimeout(() => {
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
-            }, 400);
+            let btnOptions = msg.querySelectorAll('[role="button"]');
+            let contextMenuButton = btnOptions[btnOptions.length-2];
+            if (contextMenuButton) {
+                contextMenuButton.click();
+                setTimeout(function () {
+                    let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                    // se o menu tiver mais que 6 opções, provavelmente é uma mensagem no grupo.
+                    // e apenas a mensagem recebida tem a função
+                    let opts = contextMenu.querySelectorAll('[role="button"]');
+                    if(opts.length > 6 && msg.classList.contains("message-in")) {
+                        opts[1].click();
+                        setTimeout(() => {
+                            document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
+                        }, 200)
+                    }
+                }, 200);
+                
+            }
         }
 
     });
