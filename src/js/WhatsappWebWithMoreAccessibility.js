@@ -1049,9 +1049,9 @@ function replaceContactPhoneInMention(msg) {
 function replaceContactPhone() {
 
     document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-        //msg = msg.querySelector('[data-testid="msg-container"]');
+        
 
-msg.querySelectorAll('[role="button"]').forEach((aria) => {
+        msg.querySelectorAll('[role="button"]').forEach((aria) => {
             let realText = aria.getAttribute('aria-label');
             let plusCharPos = realText ? realText.indexOf('+') : -1;
             if(plusCharPos > -1) {
@@ -1062,110 +1062,6 @@ msg.querySelectorAll('[role="button"]').forEach((aria) => {
         msg.querySelectorAll('[testid="author"]').forEach((nTel) => {
             nTel.setAttribute('aria-hidden', true);
         });
-
-        /*
-        let btns = msg.querySelectorAll('button, [role="button"]');
-        if (btns.length > 0) {
-            let btn1 = btns[0];
-            let btn2 = btns.length > 1 ? btns[1] : null;
-            let btn3 = btns.length > 2 ? btns[2] : null;
-            let abrir = btn1.getAttribute("data-testid") == "group-chat-profile-picture" && btn1.getAttribute("aria-label") != "" ? btn1 : null;
-            let numero = btn2.textContent.search(/^\+\d+/g) >= 0 ? btn2 : null;
-            let sbtn2 = btn2.previousSibling && btn2.previousSibling.getAttribute("dir") == "auto" ? btn2.previousSibling : null;
-            if (abrir && numero) {
-                // ("regra mensagem de voz certa");
-                if (msg.getAttribute("data-sr-only-new-name")) {
-                    // ("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
-                    abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
-                    abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
-                    numero.setAttribute("aria-hidden", true);
-                    sbtn2 ? sbtn2.setAttribute("aria-hidden", true) : null;
-
-                } else {
-                    // ("nao existe atributo");
-
-                    sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("aria-label", sbtn2.textContent) : abrir.setAttribute("aria-label", numero.textContent);
-                    sbtn2 && sbtn2.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + sbtn2.textContent) : abrir.setAttribute("title", phrases.OPEN_DATA_OF + numero.textContent);
-                    sbtn2 && sbtn2.textContent != "" ? msg.setAttribute("data-sr-only-new-name", sbtn2.textContent) : msg.setAttribute("data-sr-only-new-name", numero.textContent);
-                    numero.setAttribute("aria-hidden", true);
-                    sbtn2 ? sbtn2.setAttribute("aria-hidden", true) : null;
-
-                }
-            } else if (btns[0].textContent.search(/\+\d+/g) >= 0 && btns[0].previousSibling && btns[0].previousSibling.getAttribute("dir") == "auto"
-            ) {
-                btns[0].previousSibling.setAttribute("aria-label", btns[0].previousSibling.textContent);
-                btns[0].setAttribute("aria-hidden", true);
-
-            } else if (abrir && msg.querySelectorAll('span').length > 2 && msg.querySelectorAll('span')[2].getAttribute("dir") == "auto" && abrir.getAttribute("aria-label").indexOf(msg.querySelectorAll('span')[2].textContent) != -1) {
-
-                abrir.setAttribute("aria-label", msg.querySelectorAll('span')[2].textContent);
-                abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.querySelectorAll('span')[2].textContent);
-                msg.querySelectorAll('span')[2].setAttribute("aria-hidden", "true");
-            } else if (btns.length == 4) { // mensagem de texto sitando outra
-                // ("caiu mensagem sitando outra");
-                let numero = btns[0];
-                numero = numero.textContent[0] == '+' ? numero : null;
-                let btn3 = btns[2];
-
-                if (msg.getAttribute("data-sr-only-new-name")) {
-                    btn3.firstChild.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
-                    numero.setAttribute("aria-hidden", true);
-
-                } else {
-                    let nome = btn3.firstChild && btn3.firstChild.getAttribute("dir") == "auto" && btn3.firstChild.textContent != "" ? btn3.firstChild.textContent : "";
-                    // ("numero: ", btns[0], "nome: ", btn3);
-                    if (numero && nome) {
-                        // ("pegou numero e nome");
-                        btn3.firstChild.setAttribute("aria-label", nome);
-                        numero.setAttribute("aria-hidden", true);
-                        msg.setAttribute("data-sr-only-new-name", nome);
-                    }
-                }
-            } else if (btns.length == 6) { // 6 botões em uma mensagem de texto,talvez seja a primeira mensagem,  sita alguma outra mensagem, número não salvo:
-                let btn1 = btns[0];
-                let spans = msg.querySelectorAll('span');
-                let fbtn4 = spans.length > 2 ? spans[2] : null;
-                let numero = spans.length > 3 ? spans[3] : null;
-                let abrir = btn1.getAttribute("data-testid") == "group-chat-profile-picture" && btn1.getAttribute("aria-label") != "" ? btn1 : null;
-                if (abrir && fbtn4) {
-                    // ("mensagem que sita com 6 botoes");
-                    if (msg.getAttribute("data-sr-only-new-name")) {
-                        // ("existe atributo, " + msg.getAttribute("data-sr-only-new-name"));
-                        abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
-                        abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
-                        fbtn4.setAttribute("aria-hidden", true);
-                        numero ? numero.setAttribute("aria-hidden", true) : false;
-                    } else {
-                        // ("nao existe atributo");
-
-                        fbtn4.textContent != "" ? abrir.setAttribute("aria-label", fbtn4.textContent) : false;
-                        fbtn4.textContent != "" ? abrir.setAttribute("title", phrases.OPEN_DATA_OF + fbtn4.textContent) : false;
-                        fbtn4.textContent != "" ? msg.setAttribute("data-sr-only-new-name", fbtn4.textContent) : false;
-                        fbtn4.setAttribute("aria-hidden", true);
-                        numero ? numero.setAttribute("aria-hidden", true) : false;
-                    }
-                }
-            } else if (abrir && !numero) {
-                if (msg.getAttribute("data-sr-only-new-name")) {
-                    abrir.setAttribute("aria-label", msg.getAttribute("data-sr-only-new-name"));
-                    abrir.setAttribute("title", phrases.OPEN_DATA_OF + msg.getAttribute("data-sr-only-new-name"));
-                } else {
-
-                    msg.querySelectorAll("span").forEach((el) => {
-                        if (el && el.textContent != "" && abrir.getAttribute("aria-label").indexOf(el.textContent) != -1) {
-                            abrir.setAttribute("aria-label", el.textContent);
-                            abrir.setAttribute("title", phrases.OPEN_DATA_OF + el.textContent);
-                            msg.setAttribute("data-sr-only-new-name", el.textContent);
-                            el.setAttribute("aria-hidden", "true");
-                            return;
-
-                        }
-                    });
-                }
-            }
-
-        }
-*/
     });
 
 }
@@ -1401,8 +1297,8 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let btnOptions = msg.querySelectorAll('[role="button"]')
-            let btnReagir = btnOptions[btnOptions.length-1];
+            let btnReagir = msg.querySelector('[role="button"] > [data-icon="react"]')
+            btnReagir = btnReagir ? btnReagir.parentNode : null;
             btnReagir ? btnReagir.click() : null;
 
         }
@@ -1415,13 +1311,15 @@ const activateContextMenu = function (msg) {
             //data-testid="content"
             //data-testid="content"
             //data-testid="content">Cancelar
-            let btnOptions = msg.querySelectorAll('[role="button"]');
-            let contextMenuButton = btnOptions[btnOptions.length-2];
+            let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
+            contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
                     let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
-                    contextMenu.querySelectorAll('[role="button"]')[5].click();
+                    // presupoe que apagar sempre será a ultima opcao
+                    let opcoes = contextMenu.querySelectorAll('[role="button"]');
+                    opcoes[opcoes.length-1].click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
@@ -1440,8 +1338,8 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let btnOptions = msg.querySelectorAll('[role="button"]');
-            let contextMenuButton = btnOptions[btnOptions.length-2];
+            let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
+            contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
@@ -1458,8 +1356,8 @@ const activateContextMenu = function (msg) {
             e.preventDefault();
             e.stopPropagation();
             ("pressionou");
-            let btnOptions = msg.querySelectorAll('[role="button"]');
-            let contextMenuButton = btnOptions[btnOptions.length-2];
+            let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
+            contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
             if (contextMenuButton) {
                 contextMenuButton.click();
                 setTimeout(function () {
