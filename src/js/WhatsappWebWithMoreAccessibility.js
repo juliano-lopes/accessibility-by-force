@@ -1,4 +1,4 @@
-const version = "6.0";
+const version = "6.1";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
 const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
@@ -577,7 +577,7 @@ function activeEvents() {
             el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
             listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
-            
+
         }
         else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
@@ -585,16 +585,16 @@ function activeEvents() {
             ("chamado mensagem");
             el = document.querySelector('[class*="message-in"], [class*="message-out"]');
             el = el ? el.parentNode.parentNode.parentNode.querySelector('span[aria-live]') : null;
-            if(el) {
+            if (el) {
                 el = el.parentNode;
             } else {
-            localStorage.setItem(getActiveConversationTitle() + "unread", "");
-            el = document.getElementById('main');
-            el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
-            el = el && el.length > 0 ? el[el.length - 1] : null;
-            el = el && el.parentElement ? el.parentElement : null;
+                localStorage.setItem(getActiveConversationTitle() + "unread", "");
+                el = document.getElementById('main');
+                el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
+                el = el && el.length > 0 ? el[el.length - 1] : null;
+                el = el && el.parentElement ? el.parentElement : null;
+            }
         }
-}
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
             e.stopPropagation();
@@ -611,7 +611,7 @@ function activeEvents() {
                 listeners.push({ element: el, listener: footerMessageBoxListener, listenerType: "keyup" });
                 listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
             }
-            
+
         }
         else if (e.altKey && e.keyCode == 65) {
             e.preventDefault();
@@ -642,7 +642,7 @@ function activeEvents() {
             e.stopPropagation();
             el = document.querySelector('[contenteditable="true"]');
             el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
-            
+
         }
         else if (e.altKey && e.keyCode == 84) {
             e.preventDefault();
@@ -1069,6 +1069,7 @@ function replaceContactPhone() {
                 }
             } else if(aria.getAttribute('testid') == 'author') {
                 aria.setAttribute('aria-hidden', true);
+
             }
         });
     })
@@ -1328,13 +1329,13 @@ const activateContextMenu = function (msg) {
                     let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
                     // presupoe que apagar sempre será a ultima opcao
                     let opcoes = contextMenu.querySelectorAll('[role="button"]');
-                    opcoes[opcoes.length-1].click();
+                    opcoes[opcoes.length - 1].click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
-                        if(dialogContent) {
+                        if (dialogContent) {
                             dialogContent.setAttribute("tabindex", "-1");
                             dialogContent.focus();
                         }
@@ -1416,14 +1417,14 @@ const activateContextMenu = function (msg) {
                     // se o menu tiver mais que 6 opções, provavelmente é uma mensagem no grupo.
                     // e apenas a mensagem recebida tem a função
                     let opts = contextMenu.querySelectorAll('[role="button"]');
-                    if(opts.length > 6 && msg.classList.contains("message-in")) {
+                    if (opts.length > 6 && msg.classList.contains("message-in")) {
                         opts[1].click();
                         setTimeout(() => {
                             document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                         }, 200)
                     }
                 }, 200);
-                
+
             }
         }
 
