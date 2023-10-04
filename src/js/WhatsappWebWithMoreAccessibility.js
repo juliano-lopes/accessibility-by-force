@@ -1049,20 +1049,29 @@ function replaceContactPhoneInMention(msg) {
 function replaceContactPhone() {
 
     document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-        
-
         msg.querySelectorAll('[role="button"]').forEach((aria) => {
-            let realText = aria.getAttribute('aria-label');
-            let plusCharPos = realText ? realText.indexOf('+') : -1;
-            if(plusCharPos > -1) {
-                aria.setAttribute('aria-label', realText.substring(0, plusCharPos));
+            // se tiver mais de 3 classes com certeza é pra abrir dados.
+            // a quantidade de 3 foi escolhido pra ter uma folga pra pequenas variações
+            if(aria.classList.length > 3) {  
+                let realText = aria.getAttribute('aria-label');
+                let plusCharPos = realText ? realText.indexOf('+') : -1;
+                let dummy = msg.querySelector('span[id]');
+                if(plusCharPos > -1 && !dummy) {
+                    
+                    idDummy = "msg" + Math.round(Math.random()*1000);
+                    dummy = document.createElement("span");
+                    dummy.setAttribute("id", idDummy);
+                    dummy.id = idDummy;
+                    dummy.style.display = 'none';
+                    dummy.ariaLabel = realText.substring(0, plusCharPos);
+                    msg.append(dummy);
+                    aria.setAttribute('aria-labelledby', idDummy);
+                }
+            } else if(aria.getAttribute('testid') == 'author') {
+                aria.setAttribute('aria-hidden', true);
             }
         });
-
-        msg.querySelectorAll('[testid="author"]').forEach((nTel) => {
-            nTel.setAttribute('aria-hidden', true);
-        });
-    });
+    })
 
 }
 
@@ -1362,6 +1371,17 @@ const activateContextMenu = function (msg) {
                 e.preventDefault();
                 e.stopPropagation();
                 ("pressionou");
+                
+                const observer = new MutationObserver(function(mutations_list) {
+                    mutations_list.forEach(function(mutation) {
+                        mutation.removedNodes.forEach(function(removed_node) {
+                            if(removed_node.getAttribute("role") == 'dialog') {
+                                msg.focus()
+                                observer.disconnect();
+                            }
+                        });
+                    });
+                });
                 let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
                 contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
                 if (contextMenuButton) {
@@ -1372,15 +1392,14 @@ const activateContextMenu = function (msg) {
                         opcoes[opcoes.length-2].click();
                         setTimeout(() => {
                             let dialogContent = document.querySelector('[role="dialog"]');
+                            observer.observe(dialogContent.parentNode, { subtree: false, childList: true });
                             dialogContent = dialogContent.querySelector("[contenteditable='true']")
                             if(dialogContent) {
-                                dialogContent.setAttribute("tabindex", "-1");
                                 dialogContent.focus();
                             }
                         }, 200);
                     }, 200);
                 }
-                document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
             }
 
         }
