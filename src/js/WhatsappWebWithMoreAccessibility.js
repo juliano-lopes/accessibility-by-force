@@ -1,4 +1,4 @@
-const version = "6.1";
+const version = "6.0";
 const WPPAPI = "https://api.whatsapp.com/send?phone=";
 const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
 const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
@@ -577,7 +577,7 @@ function activeEvents() {
             el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
             let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
             listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
-
+            
         }
         else if (e.altKey && e.keyCode == 77) {
             e.preventDefault();
@@ -585,16 +585,16 @@ function activeEvents() {
             ("chamado mensagem");
             el = document.querySelector('[class*="message-in"], [class*="message-out"]');
             el = el ? el.parentNode.parentNode.parentNode.querySelector('span[aria-live]') : null;
-            if (el) {
+            if(el) {
                 el = el.parentNode;
             } else {
-                localStorage.setItem(getActiveConversationTitle() + "unread", "");
-                el = document.getElementById('main');
-                el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
-                el = el && el.length > 0 ? el[el.length - 1] : null;
-                el = el && el.parentElement ? el.parentElement : null;
-            }
+            localStorage.setItem(getActiveConversationTitle() + "unread", "");
+            el = document.getElementById('main');
+            el = el ? el.querySelectorAll('[class*="message-in"], [class*="message-out"]') : null;
+            el = el && el.length > 0 ? el[el.length - 1] : null;
+            el = el && el.parentElement ? el.parentElement : null;
         }
+}
         else if (e.altKey && e.keyCode == 69) {
             e.preventDefault();
             e.stopPropagation();
@@ -611,7 +611,7 @@ function activeEvents() {
                 listeners.push({ element: el, listener: footerMessageBoxListener, listenerType: "keyup" });
                 listeners.push({ element: el, listener: activeButtonToRecordEvent, listenerType: "focus" });
             }
-
+            
         }
         else if (e.altKey && e.keyCode == 65) {
             e.preventDefault();
@@ -642,7 +642,7 @@ function activeEvents() {
             e.stopPropagation();
             el = document.querySelector('[contenteditable="true"]');
             el ? el.setAttribute("aria-label", phrases.SEARCH_LABEL) : false;
-
+            
         }
         else if (e.altKey && e.keyCode == 84) {
             e.preventDefault();
@@ -651,8 +651,12 @@ function activeEvents() {
             if (spanAriaLive) {
                 let conversationStatus = document.getElementById("main") ? document.getElementById("main").querySelector("header") : null;
                 conversationStatus = conversationStatus ? conversationStatus.querySelector('[dir="auto"]') : null;
-                conversationStatus = conversationStatus ? conversationStatus.parentNode : null;
-                conversationStatus = conversationStatus ? conversationStatus.parentNode : null;
+                let pai = conversationStatus.parentNode;
+                while(pai.getAttribute("role") != "button"){
+                    conversationStatus = pai;
+                    pai = conversationStatus.parentNode;
+                }
+                
                 conversationStatus = conversationStatus ? conversationStatus.nextSibling : null;
                 conversationStatus = conversationStatus ? conversationStatus.querySelector('span[title]') : null;
                 conversationStatus = conversationStatus ? conversationStatus.getAttribute("title") : null;
@@ -1049,20 +1053,23 @@ function replaceContactPhoneInMention(msg) {
 function replaceContactPhone() {
 
     document.getElementById("main").querySelectorAll('[class*="message-in"], [class*="message-out"]').forEach(function (msg) {
-
-
-        msg.querySelectorAll('[role="button"]').forEach((aria) => {
-            let realText = aria.getAttribute('aria-label');
-            let plusCharPos = realText ? realText.indexOf('+') : -1;
-            if (plusCharPos > -1) {
-                aria.setAttribute('aria-label', realText.substring(0, plusCharPos));
-            }
-        });
-
-        msg.querySelectorAll('[testid="author"]').forEach((nTel) => {
-            nTel.setAttribute('aria-hidden', true);
-        });
-    });
+        let realText = msg.getAttribute('aria-label');
+        let plusCharPos = realText ? realText.indexOf('+') : -1;
+        let dummy = msg.querySelector('span[id]');
+        
+        // pré supõe que o formato do telefone desconhecido sempre será
+        // codigo do pais + DDD + numero de telefone
+        if(plusCharPos > -1 && !dummy) {
+            let idDummy = "msg" + Math.round(Math.random()*1000);
+            dummy = document.createElement("span");
+            dummy.id = idDummy;
+            dummy.style.display = 'none';
+            dummy.ariaLabel = realText.substring(0, plusCharPos) + realText.substring(realText.indexOf(' ', plusCharPos+10));
+            msg.append(dummy);
+            msg.setAttribute('aria-labelledby', idDummy);
+        }
+        
+    })
 
 }
 
@@ -1319,13 +1326,13 @@ const activateContextMenu = function (msg) {
                     let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
                     // presupoe que apagar sempre será a ultima opcao
                     let opcoes = contextMenu.querySelectorAll('[role="button"]');
-                    opcoes[opcoes.length - 1].click();
+                    opcoes[opcoes.length-1].click();
                     setTimeout(() => {
                         let dialogContent = document.querySelector('[role="dialog"]');
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
                         dialogContent = dialogContent ? dialogContent.firstChild : null;
-                        if (dialogContent) {
+                        if(dialogContent) {
                             dialogContent.setAttribute("tabindex", "-1");
                             dialogContent.focus();
                         }
@@ -1352,6 +1359,48 @@ const activateContextMenu = function (msg) {
             document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
 
         }
+
+        if (e.altKey && e.key == "d") {
+            // filtrar apenas os cenarios que a opção aparece
+            if (msg.classList.contains("message-out")
+                && !msg.querySelector("img")
+                && !msg.querySelector("[data-icon='audio-play']")
+                && !msg.querySelector("[data-icon='audio-download']")) {
+                e.preventDefault();
+                e.stopPropagation();
+                ("pressionou");
+                
+                const observer = new MutationObserver(function(mutations_list) {
+                    mutations_list.forEach(function(mutation) {
+                        mutation.removedNodes.forEach(function(removed_node) {
+                            if(removed_node.getAttribute("role") == 'dialog') {
+                                msg.focus()
+                                observer.disconnect();
+                            }
+                        });
+                    });
+                });
+                let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
+                contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
+                if (contextMenuButton) {
+                    contextMenuButton.click();
+                    setTimeout(function () {
+                        let contextMenu = document.querySelector('#app').querySelector('span > [role="application"]');
+                        let opcoes = contextMenu.querySelectorAll('[role="button"]');
+                        opcoes[opcoes.length-2].click();
+                        setTimeout(() => {
+                            let dialogContent = document.querySelector('[role="dialog"]');
+                            observer.observe(dialogContent.parentNode, { subtree: false, childList: true });
+                            dialogContent = dialogContent.querySelector("[contenteditable='true']")
+                            if(dialogContent) {
+                                dialogContent.focus();
+                            }
+                        }, 200);
+                    }, 200);
+                }
+            }
+
+        }
         if (e.altKey && e.key == "p") {
             e.preventDefault();
             e.stopPropagation();
@@ -1365,14 +1414,14 @@ const activateContextMenu = function (msg) {
                     // se o menu tiver mais que 6 opções, provavelmente é uma mensagem no grupo.
                     // e apenas a mensagem recebida tem a função
                     let opts = contextMenu.querySelectorAll('[role="button"]');
-                    if (opts.length > 6 && msg.classList.contains("message-in")) {
+                    if(opts.length > 6 && msg.classList.contains("message-in")) {
                         opts[1].click();
                         setTimeout(() => {
                             document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 69, altKey: true }));
                         }, 200)
                     }
                 }, 200);
-
+                
             }
         }
 
