@@ -191,7 +191,7 @@
             updateInformationCloseButton.id = "uicb";
 
             let updateInformationBodyText = phrases.UPDATE_INFORMATION_BODY.split("#");
-            updateInformationBody.textContent = updateInformationBodyText[0] + version + updateInformationBodyText[1];
+            updateInformationBody.innerHTML = updateInformationBodyText[0] + version + updateInformationBodyText[1];
             updateInformationChanelLink.href = CHANEL_URL;
             updateInformationChanelLink.target = "_blank";
             updateInformationChanelLink.textContent = phrases.UPDATE_INFORMATION_CHANEL_LINK;
@@ -235,13 +235,16 @@
         });
         return linkList;
     }
+    function updateVersionNumber() {
+        localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
+    }
     function checkScriptUpdate() {
         const SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION = "script-whatsapp-web-with-more-accessibility-version";
 
         if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION)) {
             if (localStorage.getItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION) < version) {
 
-                localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
+                //localStorage.setItem(SCRIPT_WHATSAPP_WEB_WITH_MORE_ACCESSIBILITY_VERSION, version);
                 scriptVersionInformation();
             }
         }
@@ -1437,7 +1440,7 @@
         "UPDATE_INFORMATION_HEADING":"Atualização para o ScriptWhatsappWebWithMoreAccessibility",
         "UPDATE_INFORMATION_OK_BUTTON":"Ok",
         "UPDATE_INFORMATION_CLOSE_BUTTON":"Fechar janela de informação",
-        "UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
+        "UPDATE_INFORMATION_BODY":"O script WhatsappWebWithMoreAccessibility foi atualizado para versão #. <ul style='list-style: none;'> <li>Acesse o link do script para atualizá-lo;</li> <li>Clique no botão 'reinstalar'; </li> <li>A tela pode ficar em branco, sem nenhuma informação ou feedback do leitor de telas, mas isso é um comportamento normal da extensão TamperMonkey.  O script provavelmente foi reinstalado;</li> <li>Após isso atualize a página do WhatsAppWeb e ative novamente o script com o atalho 'Alt + s';</li> <li><a onclick='updateVersionNumber();' href='https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js' target='_blank'>Acesse este link e execute os passos anteriores para atualizar o script para o WhatsApp Web.</a></li> </ul> <br> Se inscreva e acompanhe o canal para ficar por dentro do que mudou. Acesse: ",
         "UPDATE_INFORMATION_CHANEL_LINK":"@Continue Desenvolvendo no Youtube. (Abrirá em uma nova aba)",
         "UPDATE_INFORMATION_SITE_LINK":"JULIANOLOPES.COM.BR (Abrirá em uma nova aba)",
         "UPDATE_INFORMATION_SITE_LINK_END":"#script-pt-heading",
@@ -1494,7 +1497,7 @@
         "UPDATE_INFORMATION_HEADING": "Update for ScriptWhatsappWebWithMoreAccessibility",
         "UPDATE_INFORMATION_OK_BUTTON": "Ok",
         "UPDATE_INFORMATION_CLOSE_BUTTON": "Close information window",
-        "UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. Subscribe and follow the channel to stay on top of what has changed. Access: ",
+        "UPDATE_INFORMATION_BODY": "The WhatsappWebWithMoreAccessibility script has been updated to # version. <ul style='list-style: none;'> <li>Go to the script link to update it;</li> <li>Press the 'reinstall' button; </li> <li> After clicking the 'reinstall' button, the screen may go blank and you may not receive any feedback from your screen reader. This is normal behavior for the TamperMonkey extension. The script has probably been reinstalled; </li> <li>Then simply refresh the WhatsApp Web page and press the 'Alt + s' shortcut to reactivate the script; </li> <li><a onclick='updateVersionNumber();' href='https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js' target='_blank'>Click on this link and follow the steps above to update the script for WhatsApp Web.  </a></li> </ul> <br> Subscribe and follow the channel to stay on top of what has changed. Access: ",
         "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo on Youtube. (It will open in a new tab)",
         "UPDATE_INFORMATION_SITE_LINK": "JULIANOLOPES.COM.BR (It will open in a new tab)",
         "UPDATE_INFORMATION_SITE_LINK_END":"#scriptenheading",
@@ -1552,7 +1555,7 @@
         "UPDATE_INFORMATION_HEADING": "Actualización de ScriptWhatsappWebWithMoreAccessibility",
         "UPDATE_INFORMATION_OK_BUTTON": "Ok",
         "UPDATE_INFORMATION_CLOSE_BUTTON": "Cerrar ventana de información",
-        "UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
+        "UPDATE_INFORMATION_BODY": "El script WhatsappWebWithMoreAccessibility se ha actualizado a la versión #. <ul style='list-style: none;'> <li> Dirígete al enlace del script para actualizarlo; </li> <li> Presiona el botón "Reinstalar"; </li> <li> Después de hacer clic en el botón "Reinstalar", la pantalla puede quedarse en blanco y es posible que no recibas ningún mensaje de tu lector de pantalla. Este es un comportamiento normal de la extensión TamperMonkey. El script probablemente se haya reinstalado; </li> <li> Luego, simplemente actualiza la página web de WhatsApp Web y presiona el atajo 'Alt + s' para reactivar el script; </li> <li><a onclick='updateVersionNumber();' href='https://github.com/juliano-lopes/accessibility-by-force/raw/master/src/js/WhatsappWebWithMoreAccessibility.user.js' target='_blank'> Haz clic en este enlace y sigue los pasos anteriores para actualizar el script para WhatsApp Web. </a></li> </ul> <br> Suscríbete y sigue el canal para estar al tanto de lo que ha cambiado. Acceso: ",
         "UPDATE_INFORMATION_CHANEL_LINK": "@Continue Desenvolvendo en Youtube. (Se abrirá en una nueva pestaña)",
         "UPDATE_INFORMATION_SITE_LINK": "JULIANOLOPES.COM.BR (Se abrirá en una nueva pestaña)",
         "UPDATE_INFORMATION_SITE_LINK_END":"#script-es-heading",
