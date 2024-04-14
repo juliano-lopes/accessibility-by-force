@@ -1309,8 +1309,11 @@
             if (e.ctrlKey && e.key == "m") {
                 e.preventDefault();
                 e.stopPropagation();
-                ("pressionou");
-                msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+                //msg.querySelector('[data-testid="down-context"]') ? msg.querySelector('[data-testid="down-context"]').click() : null;
+                let contextMenuButton = msg.querySelector('[role="button"] > [data-icon="down-context"]');
+                contextMenuButton = contextMenuButton ? contextMenuButton.parentNode : null;
+                contextMenuButton ? contextMenuButton.click() : null;
+
 
             }
             if (e.altKey && e.key == "q") {
