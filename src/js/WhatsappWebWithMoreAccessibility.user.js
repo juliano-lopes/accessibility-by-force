@@ -15,7 +15,7 @@
 (function () {
     'use strict';
 
-    const version = "6.1";
+    const version = "6.2";
     const WPPAPI = "https://api.whatsapp.com/send?phone=";
     const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
     const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
