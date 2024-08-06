@@ -55,7 +55,7 @@
                             listLabel.setAttribute("aria-label", "");
 
                         }
-                        document.getElementById("pane-side").querySelector('[role*="grid"]') ? document.getElementById("pane-side").querySelector('[role*="grid"]').removeAttribute("role") : '';
+                        //document.getElementById("pane-side").querySelector('[role*="grid"]') ? document.getElementById("pane-side").querySelector('[role*="grid"]').removeAttribute("role") : '';
 
                     }
                     else {
