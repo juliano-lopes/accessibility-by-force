@@ -594,7 +594,8 @@
             } else if (e.altKey && e.keyCode == 67) {
                 e.preventDefault();
                 e.stopPropagation();
-                el = document.getElementById('pane-side').querySelector('[tabindex="-1"]');
+                el = document.querySelector('#pane-side [aria-selected="true"]') ? document.querySelector('#pane-side [aria-selected="true"]') : document.querySelector('#pane-side [aria-selected="false"]');
+                el ? el.focus() : null;
                 let listLabel = document.getElementById("pane-side").querySelector('[data-label]');
                 listLabel.setAttribute("aria-label", listLabel.getAttribute("data-label"));
 
