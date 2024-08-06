@@ -49,13 +49,6 @@
                         activation();
                         checkScriptUpdate();
                         checkChannelSubscrition();
-                        let listLabel = document.getElementById("pane-side").querySelector('[aria-label*="ist"]');
-                        if (listLabel) {
-                            listLabel.setAttribute("data-label", listLabel.getAttribute("aria-label"));
-                            listLabel.setAttribute("aria-label", "");
-
-                        }
-                        //document.getElementById("pane-side").querySelector('[role*="grid"]') ? document.getElementById("pane-side").querySelector('[role*="grid"]').removeAttribute("role") : '';
 
                     }
                     else {
