@@ -49,14 +49,8 @@
                         activation();
                         checkScriptUpdate();
                         checkChannelSubscrition();
-                        if (isChrome()) {
-                            document.querySelectorAll('#pane-side [aria-selected]').forEach((el) => {
-                                if (el.hasAttribute("role") && (el.getAttribute("role") == "row")) {
-                                    el.removeAttribute("role");
-                                }
-
-                            });
-                        }
+                        document.getElementById("pane-side").addEventListener("keydown", updateConversationListNames, false);
+                        listeners.push({ element: document.getElementById("pane-side"), listener: updateConversationListNames, listenerType: "keydown" });
                     }
                     else {
                         alert(phrases.LOADING_PAGE);
@@ -74,6 +68,7 @@
         }, false);
 
     }
+
     function activation() {
         const ACTIVATE_URL = "https://julianolopes.com.br/activation.php?activated=#*#7-5";
         alert(phrases.SCRIPT_ACTIVATED);
@@ -99,7 +94,16 @@
         }
 
     }
+    function updateConversationListNames() {
+        if (isChrome()) {
+            document.querySelectorAll('#pane-side [aria-selected]').forEach((el) => {
+                if (el.hasAttribute("role") && (el.getAttribute("role") == "row")) {
+                    el.removeAttribute("role");
+                }
 
+            });
+        }
+    }
     function checkChannelSubscrition() {
 
 
