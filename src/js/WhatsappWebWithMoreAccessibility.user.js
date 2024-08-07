@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name WhatsappWithMoreAccessibility
 // @namespace https://github.com/juliano-lopes/accessibility-by-force/
-// @version 6.2
+// @version 6.3
 // @description Este script faz com que o WhatsappWeb se torne mais acessível e tenha uma melhor usabilidade para deficientes visuais usuários de leitores de telas. It puts a better accessibility on WhatsappWeb to screen reader users. Script para una mejor accesibilidad y usabilidad en WhatsappWeb.
 // @author Juliano Lopes (https://github.com/juliano-lopes/)
 // @match https://web.whatsapp.com
@@ -15,7 +15,7 @@
 (function () {
     'use strict';
 
-    const version = "6.2";
+    const version = "6.3";
     const WPPAPI = "https://api.whatsapp.com/send?phone=";
     const CHANEL_URL = "https://youtu.be/1t-NCZ8Oonc";
     const SITE_URL = "https://julianolopes.com.br/script-whatsapp-web/";
