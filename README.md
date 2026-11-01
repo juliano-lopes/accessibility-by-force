@@ -1,4 +1,4 @@
-### accessibility-by-force
+# Accessibility by Force
 Scripts para colocar melhor acessibilidade e usabilidade em algumas páginas WEB.
 
 ### Scripts disponíveis: 
@@ -13,7 +13,7 @@ Depois de instalar o script para o Whatsapp Web (WhatsappWebWithMoreAccessibilit
 Caso o script esteja desativado, será exibida a mmensagem:  "Script ativado com sucesso"; se o script já estiver ativado, será dado um alerta com a mensagem "Script desativado".
 Ao desativá-lo, todos os elementos e atalhos criados por ele serão removidos, exceto o atalho de ativação e desativação.
 
-#### Elementos e rótulos adicionados
+## Elementos e rótulos adicionados
 Com o WhatsappWebWithMoreAccessibility ativado, serão aplicadas as seguintes modificações:
 
 * Antes do painel com a listagem de conversas haverá um cabeçalho de nível 1 (H1) para facilitar a navegação via screen reader, ao precionar a tecla 'h' ou o número '1' no modo de navegação;
@@ -24,7 +24,7 @@ Com o WhatsappWebWithMoreAccessibility ativado, serão aplicadas as seguintes mo
 * O número de telefone dos contatos não salvos serão substituídos por "Mensagem de" nas conversas em grupo para facilitar a leitura das mensagens;
 * As mensagens com imagem ou vídeo serão anunciadas.
 
-#### Teclas de atalho
+## Teclas de atalho
 Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atalho estarão disponíveis:
 
 * ALT + a: coloca o foco nas opções para escolher o tipo de anexo a ser enviado na conversa ativa;
@@ -42,7 +42,7 @@ Depois de ativar o WhatsappWebWithMoreAccessibility, as seguintes teclas de atal
 
 OBS.: as vezes o NVDA não entra em modo de foco automaticamente ao utilizar os atalhos, Então talvez seja necessário colocá-lo em modo de foco com o atalho NVDA + barra de espaço. Outras teclas podem ser configuradas como tecla NVDA, mas por padrão é o 'Insert'.
 
-#### Passos para Favoritar, deletar, encaminhar ou baixar mensagens:
+## Passos para Favoritar, deletar, encaminhar ou baixar mensagens:
 
 A janela que o atalho ALT + D se refere, só será exibida depois que os seguintes passos forem realizados:
 1. Utilizar o atalho ALT + M para ir para lista de mensagens;
@@ -62,7 +62,7 @@ Caso não queira encaminhar, você pode clicar nos outros botões:
 * caso clique em 'deletar' outra janela entrará em foco, então você confirma se deseja realmente deletar ou cancelar;
 * ou se clicar em 'baixar' o download será realizado. Caso mais de uma mensagem esteja selecionada, o arquivo baixado estará no formato.zip, que você pode utilizar programas como WINRAR ou WINZIP para descompactá-lo.
 
-#### Atualização do script
+## Atualização do script
 Ao ser ativado, o script irá verificar se há uma nova versão. Caso haja, será exibido um diálogo de confirmação. Para atualizar basta clicar em 'OK' e depois em 'atualizar'. Para recusar a atualização é só clicar em 'Cancelar'.
 
 ### Contato
@@ -85,7 +85,7 @@ After installing the script for Whatsapp Web (WhatsappWebWithMoreAccessibility),
 If the script is deactivated, the message: "Script activated successfully" will be displayed; if the script is already activated, an alert will be given with the message "Script disabled".
 When you deactivate it, all elements and shortcuts created by it will be removed, except the activation and deactivation shortcut.
 
-#### Added elements and labels
+## Added elements and labels
 With WhatsappWebWithMoreAccessibility enabled, the following modifications will be applied:
 
 * Before the panel with the chat list there will be a level 1 header (H1) to facilitate navigation via the screen reader, by pressing the 'h' key or the number '1' in the navigation mode;
@@ -96,7 +96,7 @@ With WhatsappWebWithMoreAccessibility enabled, the following modifications will 
 * The phone number of unsaved contacts will be replaced by "Message from" in group conversations to make it easier to read the messages;
 * Messages with image or video will be announced.
 
-#### Hotkeys
+## Hotkeys
 After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are available:
 
 * ALT + a: focus on the options for choosing the type of attachment to be sent in the active chat;
@@ -114,7 +114,7 @@ After enabling WhatsappWebWithMoreAccessibility, the following shortcut keys are
 
 NOTE: sometimes NVDA does not go into focus mode automatically when using shortcuts, so you may need to put it in focus mode with the shortcut NVDA + space bar. Other keys can be configured as the NVDA key, but by default it is 'Insert'.
 
-#### Steps to Favorite, delete, forward or download messages:
+## Steps to Favorite, delete, forward or download messages:
 
 The window that the ALT + D shortcut refers to will only be displayed after the following steps are taken:
 1. Use the ALT + M shortcut to go to the message list;
@@ -134,7 +134,7 @@ If you don't want to forward, you can click on the other buttons:
 * if you click on 'delete' another window will come into focus, then you confirm if you really want to delete or cancel;
 * or if you click 'download' the download will be performed. If more than one message is selected, the downloaded file will be in the .zip format, which you can use programs like WINRAR or WINZIP to unzip it.
 
-#### Update the script
+## Update the script
 When activated, the script will check for a new version. If so, a confirmation dialog will be displayed. To update just click on 'OK' and then on 'update'. To refuse the update, just click on 'Cancel'.
 
 ### Contact
@@ -157,7 +157,7 @@ Luego de instalar el script para Whatsapp Web (WhatsappWebWithMoreAccessibility)
 Si el script está desactivado, aparecerá el mensaje: "Script activado correctamente"; si el script ya está activado, se dará una alerta con el mensaje "Script desactivado".
 Al desactivarlo, se eliminarán todos los elementos y accesos directos creados por él, excepto el acceso directo de activación y desactivación.
 
-#### Elementos y etiquetas agregados
+## Elementos y etiquetas agregados
 Con WhatsappWebWithMoreAccessibility habilitado, se aplicarán las siguientes modificaciones:
 
 * Antes del panel con la lista de conversaciones habrá un encabezado de nivel 1 (H1) para facilitar la navegación a través del lector de pantalla, presionando la tecla 'h' o el número '1' en el modo de navegación;
@@ -167,7 +167,7 @@ Con WhatsappWebWithMoreAccessibility habilitado, se aplicarán las siguientes mo
 * Al hacer clic en el botón "Grabar mensaje de voz", aparecerá un botón "Cancelar grabación", el tiempo de grabación y otro botón con la etiqueta "Enviar mensaje de voz" debajo del campo del mensaje;
 * El número de teléfono de los contactos no guardados será reemplazado por "Mensaje de" en las conversaciones grupales para que sea más fácil leer los mensajes;
 * Se anunciarán mensajes con imagen o video.
-#### Teclas de acceso rápido
+## Teclas de acceso rápido
 Después de habilitar WhatsappWebWithMoreAccessibility, están disponibles las siguientes teclas de acceso directo:
 
 * ALT + a: centrarse en las opciones para elegir el tipo de archivo adjunto que se enviará en la conversación activa;
@@ -185,7 +185,7 @@ Después de habilitar WhatsappWebWithMoreAccessibility, están disponibles las s
 
 NOTA: a veces NVDA no entra en modo de enfoque automáticamente cuando se utilizan atajos, por lo que es posible que debas ponerlo en modo de enfoque con el atajo NVDA + barra espaciadora. Se pueden configurar otras claves como la clave de NVDA, pero por defecto es 'Insertar'.
 
-#### Pasos para marcar como favorito, eliminar, reenviar o descargar mensajes:
+## Pasos para marcar como favorito, eliminar, reenviar o descargar mensajes:
 
 La ventana a la que se refiere el atajo ALT + D solo se mostrará después de que se sigan los siguientes pasos:
 1. Use el atajo ALT + M para ir a la lista de mensajes;
@@ -205,7 +205,7 @@ Si no desea reenviar, puede hacer clic en los otros botones:
 * si hace clic en 'eliminar', otra ventana se activará, luego confirme si realmente desea eliminar o cancelar;
 * o si hace clic en 'descargar' se realizará la descarga. Si se selecciona más de un mensaje, el archivo descargado estará en formato .zip, que puede usar programas como WINRAR o WINZIP para descomprimirlo.
 
-#### Actualiza el script
+## Actualiza el script
 Cuando se activa, el script buscará una nueva versión. Si es así, se mostrará un cuadro de diálogo de confirmación. Para actualizar simplemente haga clic en 'Aceptar' y luego en 'actualizar'. Para rechazar la actualización, simplemente haga clic en "Cancelar".
 
 ### Contacto
